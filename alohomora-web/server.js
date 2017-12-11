@@ -46,11 +46,15 @@ app.use(helmet());
 var httpServer = http.createServer(app);
 httpServer.listen(8080,() => console.log('Example https server at localhost: 8080'));
 
+
+
+/* HTTPS SERVER */
+/*
 var sslOptions = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
 };
 
-/* HTTPS SERVER */
 var httpsServer = https.createServer(sslOptions, app);
 httpsServer.listen(8443, () => console.log('Example https server at localhost: 8443'));
+*/

@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~https://fonts.googleapis.com/icon?family=Material+Icons';
+/* CHOOSE ONE OF THESE TO THEME MATERIAL
+    @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+    @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+    @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+    @import "~@angular/material/prebuilt-themes/purple-green.css";
+*/
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+    margin: 0;
+    font-family: Roboto, sans-serif;
+}
+
+.spacer {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+/*
+mat-card {
+    max-width: 80%;
+    margin: 2em auto;
+    text-align: center;
+}
+*/
+
+/*
+mat-toolbar-row {
+    justify-content: space-between;
+}
+*/
