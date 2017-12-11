@@ -49,7 +49,7 @@ httpServer.listen(8080,() => console.log('Example https server at localhost: 808
 
 
 /* HTTPS SERVER */
-/*
+
 var sslOptions = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
@@ -57,4 +57,3 @@ var sslOptions = {
 
 var httpsServer = https.createServer(sslOptions, app);
 httpsServer.listen(8443, () => console.log('Example https server at localhost: 8443'));
-*/
