@@ -16,9 +16,23 @@ mongoose.connect('mongodb://localhost/alohomora-db', { useMongoClient: true, pro
     .then(() =>  console.log('Connection to alohomora-db was succesful.'))
     .catch((err) => console.error(err));
 
+
 /* ROUTES */
-app.use(express.static(path.join(__dirname, 'dist'))); // Angular app
-app.use('/api/admin', adminRoute); // Admin API
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Admin API
+app.use('/api/admin', adminRoute); 
+
+// Middleware to catch errors
+var urlAux;
+app.use(function (req, res, next) {
+    urlAux = req.originalUrl.split("/");
+    if(urlAux[1] === 'api') {res.status(400).send('Bad request.');}
+    else {next()};
+    
+});
+  
+app.use('/*', (req,res) => {res.sendFile(path.join(__dirname, './dist/index.html'));})
 
 /* SECURITY */
 app.use(helmet());
