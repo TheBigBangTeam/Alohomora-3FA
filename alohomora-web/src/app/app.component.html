@@ -1,16 +1,23 @@
-<mat-toolbar class="fixed-toolbar" color="primary">
-    <span><button mat-icon-button target="_blank"> <mat-icon>menu</mat-icon></button></span>
-    <span><button mat-button target="_blank">A L O H O M O R A</button></span>
-    <!-- <span><button mat-button routerLink="/users">Users</button></span> -->
-    <!-- <span><button mat-button routerLink="/">Home</button></span> -->
-    <span class="spacer"></span>    
-    <button mat-icon-button [mat-menu-trigger-for]="appMenu">
-        <mat-icon>more_vert</mat-icon>
-    </button>
-</mat-toolbar>
-<mat-menu x-position="after" #appMenu="matMenu">
-    <button mat-menu-item>Option 1</button>
-    <button mat-menu-item>Option 2</button>
-</mat-menu>
-
-<router-outlet></router-outlet>
+<div class="main-container">
+    <mat-toolbar class="fixed-toolbar" color="primary">
+        <span><button mat-icon-button (click)="sidenav.toggle()"> <mat-icon>menu</mat-icon></button></span>
+        <span><button mat-button target="_blank">A L O H O M O R A</button></span>
+        <!-- <span><button mat-button routerLink="/users">Users</button></span> -->
+        <!-- <span><button mat-button routerLink="/">Home</button></span> -->
+        <span class="spacer"></span>    
+        <button mat-icon-button [mat-menu-trigger-for]="appMenu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+    </mat-toolbar>
+    <mat-menu x-position="after" #appMenu="matMenu">
+        <button mat-menu-item>Option 1</button>
+        <button mat-menu-item>Option 2</button>
+    </mat-menu>
+    <mat-sidenav-container class="main-sidenav-container">
+        <mat-sidenav #sidenav mode="side">   
+            <br><br><br><br> <!-- Hack to make space on the top -->
+            Side Content
+        </mat-sidenav>
+        <mat-sidenav-content><router-outlet></router-outlet></mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
