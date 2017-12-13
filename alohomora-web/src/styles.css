@@ -7,12 +7,12 @@
 */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-/*
+
 body {
     margin: 0;
-    font-family: Roboto, sans-serif;
+    font-family: Roboto, Arial, sans-serif;
 }
-*/
+
 
 .main-container {
     display: flex;
@@ -28,9 +28,19 @@ body {
     flex: 1;
 }
 
+.main-sidenav{
+    padding: 20px;
+}
+
+.main-sidenav-content{
+    display: flex;
+}
+
 .spacer {
+    /*
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
+    */
     flex: 1 1 auto;
 }
 
