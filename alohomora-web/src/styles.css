@@ -13,7 +13,6 @@ body {
     font-family: Roboto, Arial, sans-serif;
 }
 
-
 .main-container {
     display: flex;
     flex-direction: column;
@@ -29,7 +28,13 @@ body {
 }
 
 .main-sidenav{
+    display: flex;
     padding: 20px;
+    
+    /*
+    width: 200px;
+    background: rgba(255, 0, 0, 0.5);
+    */
 }
 
 .main-sidenav-content{
@@ -46,6 +51,9 @@ body {
 
 .fixed-toolbar {
     position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     /* Make sure the toolbar will stay on top of the content as it scrolls past. */
     z-index: 2;
 }
