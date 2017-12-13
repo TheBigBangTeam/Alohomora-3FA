@@ -23,7 +23,7 @@ mongoose.connect('mongodb://localhost/alohomora-db', { useMongoClient: true, pro
 
 
 /* ROUTES */
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, '../dist')));
 
 // Admin API
 app.use('/api/admin', adminRoute); 
@@ -37,7 +37,7 @@ app.use(function (req, res, next) {
     
 });
   
-app.get('/*', (req,res) => { res.sendFile(path.join(__dirname, './dist/index.html')); });
+app.get('/*', (req,res) => { res.sendFile(path.join(__dirname, '../dist/index.html')); });
 
 /* SECURITY */
 app.use(helmet());
