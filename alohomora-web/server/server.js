@@ -9,6 +9,10 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+/* SERVER PARAMETERS */
+const port = process.env.PORT || 8080;
+const tls = process.env.TLS || false;
+
 const adminRoute = require('./api-routes/admin');
 
 /* MISCELLANEOUS */
@@ -17,7 +21,7 @@ app.use(bodyParser.urlencoded({'extended':true}));
 
 /* DATABASE */
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://localhost/alohomora-db', { useMongoClient: true, promiseLibrary: require('bluebird') })
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/alohomora-db', { useMongoClient: true, promiseLibrary: require('bluebird') })
     .then(() =>  console.log('Connection to alohomora-db was succesful.'))
     .catch((err) => console.error(err));
 
@@ -42,18 +46,24 @@ app.get('/*', (req,res) => { res.sendFile(path.join(__dirname, '../dist/index.ht
 /* SECURITY */
 app.use(helmet());
 
-/* HTTP SERVER */
-var httpServer = http.createServer(app);
-httpServer.listen(8080,() => console.log('Example https server at localhost: 8080'));
 
+// STARTUP SERVER
 
+if(tls){
+    /* HTTPS SERVER */
+    var sslOptions = {
+        key: fs.readFileSync(process.env.KEY_PATH || 'key.pem'),
+        cert: fs.readFileSync(process.env.CERT_PATH || 'cert.pem')
+    };
 
-/* HTTPS SERVER */
+    var httpsServer = https.createServer(sslOptions, app);
+    httpsServer.listen(port, () => console.log(`HTTPS server at localhost: ${port}`));
 
-var sslOptions = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-};
+} else {
 
-var httpsServer = https.createServer(sslOptions, app);
-httpsServer.listen(8443, () => console.log('Example https server at localhost: 8443'));
+    /* HTTP SERVER */
+    var httpServer = http.createServer(app);
+    httpServer.listen(port,() => console.log(`HTTP server at localhost: ${port}`));
+
+}
+
