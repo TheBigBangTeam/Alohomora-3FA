@@ -9,8 +9,8 @@ const bodyParser = require('body-parser');
 
 const {settings} = require('./settings');
 
+/* ENVIRONMENT */
 var env = process.env.NODE_ENV || 'development';
-
 
 if(env === 'development'){
     process.env.PORT = 8080;
@@ -30,9 +30,10 @@ if(env === 'development'){
 
 console.log(`Starting ${env} server....`);
 
-const app = express();
 
-/* SERVER PARAMETERS */
+
+/* SERVER & PARAMETERS */
+const app = express();
 const port = process.env.PORT || 8080;
 const tls = process.env.TLS || 'no';
 
@@ -58,8 +59,8 @@ app.use('/api/admin', adminRoute);
 // Middleware to catch errors
 var urlAux;
 app.use(function (req, res, next) {
-    urlAux = req.originalUrl.split("/");
-    if(urlAux[1] === 'api') {res.status(400).send('Bad request.');}
+    urlAux = req.originalUrl.split("/"); // Splits originating url route and saves first level.
+    if(urlAux[1] === 'api') {res.status(400).send('Bad request.');} // Checks if the first level is /api
     else {next()};
     
 });
