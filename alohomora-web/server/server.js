@@ -28,7 +28,10 @@ if(env === 'development'){
     return console.log('FATAL EXCEPTION: Invalid ENV, be sure to set one of these values: development, test, production.');
 }
 
-console.log(`Starting ${env} server....`);
+if(env !== 'test'){
+    
+    console.log(`Starting ${env} server....`);
+}
 
 
 
@@ -44,7 +47,11 @@ app.use(bodyParser.urlencoded({'extended':true}));
 /* DATABASE */
 mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/alohomora-db', { useMongoClient: true, promiseLibrary: require('bluebird') })
-    .then(() =>  console.log('Connection to alohomora-db was succesful.'))
+    .then(() =>  {
+        if(env !== 'test'){
+            console.log('Connection to alohomora-db was succesful.');
+        } 
+    })
     .catch((err) => console.error(err));
 
 
@@ -87,7 +94,13 @@ if(tls === 'yes'){
 
     /* HTTP SERVER */
     var httpServer = http.createServer(app);
-    httpServer.listen(port,() => console.log(`HTTP server at localhost: ${port}`));
+    httpServer.listen(port,() => {
+        if(env !== 'test'){
+            console.log(`HTTP server at localhost: ${port}`);
+
+        }
+    });
 
 }
 
+module.exports = {app};

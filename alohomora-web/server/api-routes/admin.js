@@ -19,10 +19,10 @@ router.get('/users', (req, res) => {
 
 /* GET a single user by ID */
 router.get('/users/:id', (req, res) => {
-  User.findById(req.params.id, (err, userRequested) => {
+  User.findById(req.params.id, (err, user) => {
     if(err) return res.sendStatus(400);
-    if(!userRequested) return res.sendStatus(404);
-    res.json(userRequested);
+    if(!user) return res.sendStatus(404);
+    res.json({user});
   });
 });
 
@@ -39,9 +39,9 @@ router.post('/users', (req, res) => {
                       //'rfidTag'
                       ]
                     );
-  User.create(body, (err, userCreated) => {
+  User.create(body, (err, user) => {
     if (err) return res.status(400).send(err);
-    res.json(userCreated);
+    res.json({user});
   });
 });
 
