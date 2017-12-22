@@ -40,3 +40,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Local TLS components
+key.pem
+cert.pem

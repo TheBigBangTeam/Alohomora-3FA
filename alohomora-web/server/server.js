@@ -7,13 +7,34 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+const {settings} = require('./settings');
+
+var env = process.env.NODE_ENV || 'development';
+
+
+if(env === 'development'){
+    process.env.PORT = 8080;
+    process.env.MONGODB_URI = 'mongodb://localhost/alohomora-db-devel';
+} else if (env === 'test'){
+    process.env.PORT = 8080;
+    process.env.MONGODB_URI = 'mongodb://localhost/alohomora-db-test';
+} else if(env === 'production'){
+    process.env.PORT = settings.port;
+    process.env.MONGODB_URI = settings.db;
+    process.env.TLS = settings.tls.set;
+    process.env.KEY_PATH = settings.tls.keyPath;
+    process.env.CERT_PATH = settings.tls.certPath; 
+} else {
+    return console.log('FATAL EXCEPTION: Invalid ENV, be sure to set one of these values: development, test, production.');
+}
+
+console.log(`Starting ${env} server....`);
+
 const app = express();
 
 /* SERVER PARAMETERS */
 const port = process.env.PORT || 8080;
-const tls = process.env.TLS || false;
-
-const adminRoute = require('./api-routes/admin');
+const tls = process.env.TLS || 'no';
 
 /* MISCELLANEOUS */
 app.use(bodyParser.json());
@@ -28,6 +49,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/alohomora-db', 
 
 /* ROUTES */
 app.use(express.static(path.join(__dirname, '../dist')));
+
+const adminRoute = require('./api-routes/admin');
 
 // Admin API
 app.use('/api/admin', adminRoute); 
@@ -49,7 +72,7 @@ app.use(helmet());
 
 // STARTUP SERVER
 
-if(tls){
+if(tls === 'yes'){
     /* HTTPS SERVER */
     var sslOptions = {
         key: fs.readFileSync(process.env.KEY_PATH || 'key.pem'),
