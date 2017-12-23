@@ -241,7 +241,15 @@ describe('ADMIN API TEST:', () => {
             .expect((res) => {
                 expect(res.body.user.username).to.equal(users[1].username);
             })
-            .end(done);
+            .end((err,res) => {
+                if(err) return done(err);
+                User.find({})
+                .then((users) => {
+                    expect(users.length).to.equal(1);
+                    done();
+                })
+                .catch((err) => done(err));
+            });
         });
 
         it('should NOT accept an invalid Id', (done) => {
