@@ -37,7 +37,7 @@ if(env !== 'test'){
 
 /* SERVER & PARAMETERS */
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT;
 const tls = process.env.TLS || 'no';
 
 /* MISCELLANEOUS */
@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({'extended':true}));
 
 /* DATABASE */
 mongoose.Promise = require('bluebird');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/alohomora-db', { useMongoClient: true, promiseLibrary: require('bluebird') })
+mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true, promiseLibrary: require('bluebird') })
     .then(() =>  {
         if(env !== 'test'){
             console.log('Connection to alohomora-db was succesful.');

@@ -31,13 +31,16 @@ const users = [{
     pin: '6578'
 }];
 
-beforeEach((done) => {
-    User.remove({}).then(() => {
-        return User.insertMany(users);
-    }).then(() => done())
-});
-
 describe('ADMIN API TEST:', () => {
+    // TODO: create an admin before
+    
+    beforeEach((done) => {
+        User.remove({}).then(() => {
+            return User.insertMany(users);
+        }).then(() => done())
+    });
+
+
     describe('GET /users', () => {
         it('should get all users',(done) => {
             request(app)
@@ -77,6 +80,15 @@ describe('ADMIN API TEST:', () => {
             request(app)
             .get(`${adminpath}/users/${newId.toHexString()}`)
             .expect(404)
+            .end(done);
+        });
+
+        it('should NOT accept an invalid Id', (done) => {
+            var badId = '1234'
+
+            request(app)
+            .get(`${adminpath}/users/${badId}`)
+            .expect(400)
             .end(done);
         });
     });
@@ -144,6 +156,45 @@ describe('ADMIN API TEST:', () => {
         });
 
     });
+
+    describe('PUT /users/:id', () => {
+        it('should update user1 email', (done) => {
+            var updated = {
+                username: 'user1',
+                name: 'user',
+                surname: 'one',
+                email: 'usernewemail@example.com',
+                password: 'passwordlunga',
+                workTask: 'technician',
+                pin: '1234'
+            }
+
+            request(app)
+            .put(`${adminpath}/users/${users[0]._id.toHexString()}`)
+            .send(updated)
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.user.email).to.equal(updated.email);
+            })
+            .end(done);
+        });
+
+        it('should NOT update a non existent user', (done) => {
+            var randomId = new ObjectId();
+            request(app)
+            .put(`${adminpath}/users/${randomId.toHexString()}`)
+            .expect(404)
+            .end(done);
+        });
+
+        it('should NOT update an invalid Id', (done) => {
+            request(app)
+            .put(`${adminpath}/users/1234`)
+            .expect(404)
+            .end(done);
+        });
+    });
+
 });
 
 

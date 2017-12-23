@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const _ = require('lodash');
+const { ObjectId } = require('mongodb');
 
 var User = require('../models/User.js');
 
@@ -19,17 +20,20 @@ router.get('/users', (req, res) => {
 
 /* GET a single user by ID */
 router.get('/users/:id', (req, res) => {
-  User.findById(req.params.id, (err, user) => {
-    if(err) return res.sendStatus(400);
-    if(!user) return res.sendStatus(404);
-    res.json({user});
-  });
+  User.findById(req.params.id)
+    .then((user) => {
+      if(!user) return res.sendStatus(404);
+      res.json({user});
+    })
+    .catch((err) => {
+      res.sendStatus(400);
+    });
 });
 
 /* SAVE user */
 router.post('/users', (req, res) => {
-  var body = _.pick(req.body, 
-                      ['username',
+  var body = _.pick(req.body,      // pick makes sure only correct values are validated
+                      ['username', // and not values that shouldn't be set
                       'name',
                       'surname',
                       'email',
@@ -39,18 +43,41 @@ router.post('/users', (req, res) => {
                       //'rfidTag'
                       ]
                     );
-  User.create(body, (err, user) => {
-    if (err) return res.status(400).send(err);
-    res.json({user});
-  });
+  User.create(body)
+    .then((user) => {
+      res.json({user});
+    }).catch((err) => {
+      res.status(400).send(err);
+    });
 });
 
 /* UPDATE user */
 router.put('/users/:id', (req, res) => {
-  User.findByIdAndUpdate(req.params.id, req.body, (err, userUpdated) => {
-    if (err) return res.sendStatus(400);
-    res.json(userUpdated);
-  });
+  var body = _.pick(req.body,      // pick makes sure only correct values are validated
+                    ['username', // and not values that shouldn't be set
+                    'name',
+                    'surname',
+                    'email',
+                    'password',
+                    'workTask',
+                    'pin',
+                    //'rfidTag'
+                    ]
+  );
+
+  if(!ObjectId.isValid(req.params.id)){
+    return res.sendStatus(404);
+  }
+
+  User.findByIdAndUpdate(req.params.id, body,{new: true})
+    .then((user) => {
+      if(!user){
+        return res.sendStatus(404);
+      } 
+      res.json({user});
+    }).catch((err) => {
+      res.sendStatus(400);
+    });
 });
 
 /* DELETE user */
