@@ -69,11 +69,9 @@ router.put('/users/:id', (req, res) => {
     return res.sendStatus(404);
   }
 
-  User.findByIdAndUpdate(req.params.id, body,{new: true})
+  User.findByIdAndUpdate(req.params.id, body,{new: true, runValidators: true})
     .then((user) => {
-      if(!user){
-        return res.sendStatus(404);
-      } 
+      if(!user) return res.sendStatus(404); 
       res.json({user});
     }).catch((err) => {
       res.sendStatus(400);
@@ -82,9 +80,17 @@ router.put('/users/:id', (req, res) => {
 
 /* DELETE user */
 router.delete('/users/:id', (req, res) => {
-  User.findByIdAndRemove(req.params.id, req.body, (err, userDeleted) => {
-    if (err) return res.sendStatus(400);
-    res.json(userDeleted);
+  if(!ObjectId.isValid(req.params.id)){
+    return res.sendStatus(404);
+  }
+
+  User.findByIdAndRemove(req.params.id, req.body)
+  .then((user) => {
+    if(!user) return res.sendStatus(404);
+    res.json({user});
+  })
+  .catch((err) => {
+    res.sendStatus(400);
   });
 });
 

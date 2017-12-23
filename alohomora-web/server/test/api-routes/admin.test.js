@@ -9,7 +9,7 @@ var chai = require('chai')
 const {app} = require('./../../../server/server');
 const User = require('./../../models/User');
 
-const adminpath = '/api/admin';
+const adminPath = '/api/admin';
 
 const users = [{
     _id: new ObjectId(),
@@ -44,7 +44,7 @@ describe('ADMIN API TEST:', () => {
     describe('GET /users', () => {
         it('should get all users',(done) => {
             request(app)
-            .get(`${adminpath}/users`)
+            .get(`${adminPath}/users`)
             .expect(200)
             .expect((res) => {
                 expect(res.body.users.length).to.equal(2);
@@ -54,19 +54,10 @@ describe('ADMIN API TEST:', () => {
     });
 
     describe('GET /users/:id', () => {
-        it('should get user1', (done) => {
-            request(app)
-            .get(`${adminpath}/users/${users[0]._id.toHexString()}`)
-            .expect(200)
-            .expect((res) => {
-                expect(res.body.user.username).to.equal(users[0].username);
-            })
-            .end(done);
-        });
 
-        it('should get user2', (done) => {
+        it('should get a valid user', (done) => {
             request(app)
-            .get(`${adminpath}/users/${users[1]._id.toHexString()}`)
+            .get(`${adminPath}/users/${users[1]._id.toHexString()}`)
             .expect(200)
             .expect((res) => {
                 expect(res.body.user.username).to.equal(users[1].username);
@@ -78,7 +69,7 @@ describe('ADMIN API TEST:', () => {
             var newId = new ObjectId();
 
             request(app)
-            .get(`${adminpath}/users/${newId.toHexString()}`)
+            .get(`${adminPath}/users/${newId.toHexString()}`)
             .expect(404)
             .end(done);
         });
@@ -87,7 +78,7 @@ describe('ADMIN API TEST:', () => {
             var badId = '1234'
 
             request(app)
-            .get(`${adminpath}/users/${badId}`)
+            .get(`${adminPath}/users/${badId}`)
             .expect(400)
             .end(done);
         });
@@ -106,7 +97,7 @@ describe('ADMIN API TEST:', () => {
             };
 
             request(app)
-            .post(`${adminpath}/users`)
+            .post(`${adminPath}/users`)
             .send(newuser)
             .expect(200)
             .expect((res) => {
@@ -119,9 +110,7 @@ describe('ADMIN API TEST:', () => {
                 expect(res.body.user.pin).to.equal(newuser.pin);
             })
             .end((err, res) => {
-                if(err){
-                    return done(err);
-                }
+                if(err) return done(err);
 
                 User.find({username: newuser.username}).then((users) => {
                     expect(users.length).to.equal(1);
@@ -149,47 +138,124 @@ describe('ADMIN API TEST:', () => {
             };
 
             request(app)
-            .post(`${adminpath}/users`)
+            .post(`${adminPath}/users`)
             .send(badEmailUser)
             .expect(400)
-            .end(done);
+            .end((err,res) => {
+                if(err) return done(err);
+                User.find({username: badEmailUser.username})
+                .then((users) => {
+                    expect(users.length).to.equal(0);
+                    done();
+                })
+                .catch((err) => done(err));
+            });
         });
 
     });
 
     describe('PUT /users/:id', () => {
-        it('should update user1 email', (done) => {
+        it('should update a valid user', (done) => {
+            var newEmail = 'usernewemail@example.com';
+            
             var updated = {
                 username: 'user1',
                 name: 'user',
                 surname: 'one',
-                email: 'usernewemail@example.com',
+                email: newEmail,
                 password: 'passwordlunga',
                 workTask: 'technician',
                 pin: '1234'
             }
 
+
             request(app)
-            .put(`${adminpath}/users/${users[0]._id.toHexString()}`)
+            .put(`${adminPath}/users/${users[0]._id.toHexString()}`)
             .send(updated)
             .expect(200)
             .expect((res) => {
                 expect(res.body.user.email).to.equal(updated.email);
             })
-            .end(done);
+            .end((err, res) => {
+                if(err) return done(err);
+
+                User.findById(users[0]._id)
+                .then((user) => {
+                    expect(user.email).to.equal(newEmail);
+                    done();
+                })
+                .catch((err) => done(err));
+            });
         });
 
         it('should NOT update a non existent user', (done) => {
             var randomId = new ObjectId();
             request(app)
-            .put(`${adminpath}/users/${randomId.toHexString()}`)
+            .put(`${adminPath}/users/${randomId.toHexString()}`)
             .expect(404)
             .end(done);
         });
 
         it('should NOT update an invalid Id', (done) => {
             request(app)
-            .put(`${adminpath}/users/1234`)
+            .put(`${adminPath}/users/1234`)
+            .expect(404)
+            .end(done);
+        });
+
+        it('should NOT update a user with an invalid email', (done)=> {
+            
+            var badEmail = '12345';
+            var badUpdated = {
+                username: 'user1',
+                name: 'user',
+                surname: 'one',
+                email: badEmail,
+                password: 'passwordlunga',
+                workTask: 'technician',
+                pin: '1234'
+            }
+
+            request(app)
+            .put(`${adminPath}/users/${users[0]._id.toHexString()}`)
+            .send(badUpdated)
+            .expect(400)
+            .end((err, res) => {
+                if(err) return done(err);
+
+                User.findById(users[0]._id)
+                .then((user) => {
+                    expect(user.email).to.equal(users[0].email);
+                    done();
+                })
+                .catch((err) => done(err));
+            });
+        });
+    });
+
+    describe('DELETE /users/:id', () => {
+        it('should delete an existing user', (done) => {
+            request(app)
+            .delete(`${adminPath}/users/${users[1]._id.toHexString()}`)
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.user.username).to.equal(users[1].username);
+            })
+            .end(done);
+        });
+
+        it('should NOT accept an invalid Id', (done) => {
+            request(app)
+            .delete(`${adminPath}/users/234`)
+            .expect(404)
+            .end(done);
+        });
+
+        it('should not delete an invalid Id', (done)=> {
+            var randId = new ObjectId();
+
+            request(app)
+            .delete(`${adminPath}/users/${randId.toHexString()}`)
             .expect(404)
             .end(done);
         });
