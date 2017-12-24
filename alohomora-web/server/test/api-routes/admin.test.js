@@ -60,7 +60,7 @@ describe('ADMIN API TEST:', () => {
             .get(`${adminPath}/users/${users[1]._id.toHexString()}`)
             .expect(200)
             .expect((res) => {
-                expect(res.body.user.username).to.equal(users[1].username);
+                expect(res.body.user._id).to.equal(users[1]._id.toHexString());
             })
             .end(done);
         });
@@ -86,6 +86,7 @@ describe('ADMIN API TEST:', () => {
 
     describe('POST /users', () => {
         it('should create a new user', (done) => {
+
             var newuser = {
                 username: 'newuser',
                 name: 'user',
@@ -101,13 +102,7 @@ describe('ADMIN API TEST:', () => {
             .send(newuser)
             .expect(200)
             .expect((res) => {
-                expect(res.body.user.username).to.equal(newuser.username);
-                expect(res.body.user.name).to.equal(newuser.name);
-                expect(res.body.user.surname).to.equal(newuser.surname);
                 expect(res.body.user.email).to.equal(newuser.email);
-                expect(res.body.user.password).to.equal(newuser.password);
-                expect(res.body.user.workTask).to.equal(newuser.workTask);
-                expect(res.body.user.pin).to.equal(newuser.pin);
             })
             .end((err, res) => {
                 if(err) return done(err);
@@ -239,7 +234,7 @@ describe('ADMIN API TEST:', () => {
             .delete(`${adminPath}/users/${users[1]._id.toHexString()}`)
             .expect(200)
             .expect((res) => {
-                expect(res.body.user.username).to.equal(users[1].username);
+                expect(res.body.user.email).to.equal(users[1].email);
             })
             .end((err,res) => {
                 if(err) return done(err);
@@ -270,5 +265,3 @@ describe('ADMIN API TEST:', () => {
     });
 
 });
-
-

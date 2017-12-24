@@ -1,8 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const mongoose = require('mongoose');
 const _ = require('lodash');
 const { ObjectId } = require('mongodb');
+
+const router = express.Router();
 
 var User = require('../models/User.js');
 
