@@ -17,26 +17,15 @@ router.get('/', authenticate, (req,res) => {
 
 /* POST login user */
 router.post('/', (req,res) => {
-    var body = _.pick(req.body, ['username', 'password']);
-
-    User.findOne({username: body.username})
+    var body = _.pick(req.body, ['username', 'password']); // Additional protection from backdoors.
+    User.findByCredentials(body.username, body.password)
         .then((user) => {
-            if(!user) {
-                return Promise.reject();
-            }
-            if(user.password === body.password){
-              return user.generateAuthToken();
-            } else {
-                return Promise.reject();
-            }
-                
-        })
-        .then((token) => {
-            res.header('x-auth', token);
-            res.sendStatus(200);
+            return user.generateAuthToken().then((token) => {
+                res.header('x-auth', token).send(user);
+            })
         })
         .catch((err) => {
-            res.sendStatus(404);
+            res.sendStatus(400);
         });
 });
 

@@ -101,6 +101,27 @@ UserSchema.statics.findByToken = function (token){
     });
 };
 
+UserSchema.statics.findByCredentials = function (username, password){
+    var User = this;
+
+    return User.findOne({username})
+               .then((user) => {
+                   if(!user){
+                       return Promise.reject();
+                   }
+                   
+                   return new Promise((resolve, reject) => {
+                        argon2.verify(user.password, password)
+                        .then((match) => {
+                            if(!match) {
+                                reject();
+                            }
+                            resolve(user);
+                        });
+                   });
+               });
+};
+
 UserSchema.pre('save', function (next) {
     var user = this;
 

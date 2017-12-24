@@ -12,12 +12,12 @@ const {users, populateUsers} = require('./../seed/seed');
 
 const adminPath = '/api/admin';
 
-describe('ADMIN API TEST:', () => {
+describe('[*] ADMIN API TEST:', () => {
     
     beforeEach(populateUsers);
 
 
-    describe('GET /users', () => {
+    describe('- GET /users', () => {
         it('should get all users',(done) => {
             request(app)
             .get(`${adminPath}/users`)
@@ -29,7 +29,7 @@ describe('ADMIN API TEST:', () => {
         });
     });
 
-    describe('GET /users/:id', () => {
+    describe('- GET /users/:id', () => {
 
         it('should get a valid user', (done) => {
             request(app)
@@ -60,7 +60,7 @@ describe('ADMIN API TEST:', () => {
         });
     });
 
-    describe('POST /users', () => {
+    describe('- POST /users', () => {
         it('should create a new user', (done) => {
 
             var newuser = {
@@ -120,7 +120,7 @@ describe('ADMIN API TEST:', () => {
 
     });
 
-    describe('PUT /users/:id', () => {
+    describe('- PUT /users/:id', () => {
         it('should update a valid user', (done) => {
 
             var newEmail = 'usernewemail@example.com';
@@ -202,7 +202,7 @@ describe('ADMIN API TEST:', () => {
         });
     });
 
-    describe('DELETE /users/:id', () => {
+    describe('- DELETE /users/:id', () => {
         it('should delete an existing user', (done) => {
             request(app)
             .delete(`${adminPath}/users/${users[1]._id.toHexString()}`)

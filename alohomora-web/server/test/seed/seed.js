@@ -27,10 +27,9 @@ const users = [{
 const populateUsers = (done) => {
     User.remove({})
         .then(() => {
-            return User.create(users[0]);
-        })
-        .then(() => {
-            return User.create(users[1]);
+            var userOnePromise = User.create(users[0]);
+            var userTwoPromise = User.create(users[1]);
+            return Promise.all([userOnePromise, userTwoPromise]);
         })
         .then(() => done())
 };
