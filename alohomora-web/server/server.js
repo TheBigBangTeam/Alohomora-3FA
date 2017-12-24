@@ -56,19 +56,26 @@ mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true, promiseLibrary
 
 
 /* ROUTES */
+
+// Static files
 app.use(express.static(path.join(__dirname, '../dist')));
 
+// Routers
 const adminRoute = require('./api-routes/admin');
+const userRoute = require('./api-routes/user');
 
 // Admin API
 app.use('/api/admin', adminRoute); 
+
+// User API
+app.use('/api/user', userRoute);
 
 // Middleware to catch errors
 var urlAux;
 app.use(function (req, res, next) {
     urlAux = req.originalUrl.split("/"); // Splits originating url route and saves first level.
-    if(urlAux[1] === 'api') {res.status(400).send('Bad request.');} // Checks if the first level is /api
-    else {next()};
+    if(urlAux[1] === 'api') {res.sendStatus(400);} // Checks if the first level is /api
+    else {next()}; // otherwise it must be a angular route and it should be handled by frontend
     
 });
   

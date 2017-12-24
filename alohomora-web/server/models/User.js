@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const Promise = require("bluebird");
+
 
 var UserSchema = new mongoose.Schema({
     username: {
@@ -44,7 +46,7 @@ var UserSchema = new mongoose.Schema({
         type: String,
         required:true
     },
-    workTask: {
+    privilege: {
         type: String,
         required:true
     },
@@ -67,14 +69,32 @@ UserSchema.methods.toJSON = function() {
 };
 
 UserSchema.methods.generateAuthToken = function () {
-    var user = this;
+    var user = this; // Document
     var access  = 'auth';
-    var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
+    var token = jwt.sign({_id: user._id.toHexString(), access, privilege: user.privilege}, 'abc123').toString();
 
     user.tokens.push({access,token});
 
-    user.save().then(() => {
+    return user.save()
+    .then(() => {
         return token;
+    });
+};
+
+UserSchema.statics.findByToken = function (token){
+    var User = this; // Model
+    var decoded;
+
+    try {
+        decoded = jwt.verify(token, 'abc123');
+    } catch (e) {
+        return Promise.reject();
+    }
+
+    return User.findOne({
+        '_id': decoded._id,
+        'tokens.token': token,
+        'tokens.access': 'auth'
     });
 };
 

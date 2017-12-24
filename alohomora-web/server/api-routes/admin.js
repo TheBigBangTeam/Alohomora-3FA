@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Promise = require('bluebird');
+
 const _ = require('lodash');
 const { ObjectId } = require('mongodb');
 
@@ -10,6 +12,25 @@ var User = require('../models/User.js');
 /*
   ADMIN API: route '/api/admin'
 */
+
+
+/* MIDDLEWARE FOR AUTHENTICATION */
+var authenticate = (req, res ,next) => {
+  var token = req.header('x-auth');
+
+    User.findByToken(token)
+    .then((user) => {
+        if(!user) {
+            return res.sendStatus(401);
+        }
+
+        // TODO Admin logic
+        next();
+    })
+    .catch((e) => {
+        return res.sendStatus(401);
+    });
+};
 
 /* GET All users*/
 router.get('/users', (req, res) => {
@@ -39,7 +60,7 @@ router.post('/users', (req, res) => {
                       'surname',
                       'email',
                       'password',
-                      'workTask',
+                      'privilege',
                       'pin',
                       //'rfidTag'
                       ]
@@ -60,7 +81,7 @@ router.put('/users/:id', (req, res) => {
                     'surname',
                     'email',
                     'password',
-                    'workTask',
+                    'privilege',
                     'pin',
                     //'rfidTag'
                     ]

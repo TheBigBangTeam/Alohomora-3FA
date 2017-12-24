@@ -18,7 +18,7 @@ const users = [{
     surname: 'one',
     email: 'user1@example.com',
     password: 'passwordlunga',
-    workTask: 'technician',
+    privilege: 'admin',
     pin: '1234'
 },{
     _id: new ObjectId(),
@@ -27,7 +27,7 @@ const users = [{
     surname: 'due',
     email: 'user2@example.com',
     password: 'passwordlunghissima',
-    workTask: 'technician',
+    privilege: 'hr',
     pin: '6578'
 }];
 
@@ -93,7 +93,7 @@ describe('ADMIN API TEST:', () => {
                 surname: 'new',
                 email: 'newuser@example.com',
                 password: 'passwordlunghissima',
-                workTask: 'technician',
+                privilege: 'technician',
                 pin: '5678'
             };
 
@@ -114,7 +114,7 @@ describe('ADMIN API TEST:', () => {
                     expect(users[0].surname).to.equal(newuser.surname);
                     expect(users[0].email).to.equal(newuser.email);
                     expect(users[0].password).to.equal(newuser.password);
-                    expect(users[0].workTask).to.equal(newuser.workTask);
+                    expect(users[0].privilege).to.equal(newuser.privilege);
                     expect(users[0].pin).to.equal(newuser.pin);
                     done();
                 }).catch((err)=> done(err));
@@ -128,7 +128,7 @@ describe('ADMIN API TEST:', () => {
                 surname: 'new',
                 email: 'imwrong',
                 password: 'passwordlunghissima',
-                workTask: 'technician',
+                privilege: 'technician',
                 pin: '5678'
             };
 
@@ -159,7 +159,7 @@ describe('ADMIN API TEST:', () => {
                 surname: 'one',
                 email: newEmail,
                 password: 'passwordlunga',
-                workTask: 'technician',
+                privilege: 'technician',
                 pin: '1234'
             }
 
@@ -207,7 +207,7 @@ describe('ADMIN API TEST:', () => {
                 surname: 'one',
                 email: badEmail,
                 password: 'passwordlunga',
-                workTask: 'technician',
+                privilege: 'technician',
                 pin: '1234'
             }
 
