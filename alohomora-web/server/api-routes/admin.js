@@ -61,7 +61,7 @@ router.post('/users', (req, res) => {
                       'password',
                       'privilege',
                       'pin',
-                      //'rfidTag'
+                      'rfidTag'
                       ]
                     );
   User.create(body)
@@ -82,7 +82,7 @@ router.put('/users/:id', (req, res) => {
                     'password',
                     'privilege',
                     'pin',
-                    //'rfidTag'
+                    'rfidTag'
                     ]
   );
 

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const argon2 = require('argon2');
 
 const {settings} = require('./../settings');
 
@@ -48,16 +49,18 @@ var UserSchema = new mongoose.Schema({
     },
     privilege: {
         type: String,
+        enum: ['admin', 'technician', 'hr', 'security'],
         required:true
     },
-    pin: {
+    pin: { // Access pin
         type: String,
         required: true
     },
-    // rfidTag:{
-    //     type: String,
-    //     required:true
-    // } 
+    rfidTag:{
+        type: String,
+        required:true,
+        unique: true
+    }
 });
 
 // OVERRIDE .toJSON
@@ -97,5 +100,19 @@ UserSchema.statics.findByToken = function (token){
         'tokens.access': 'auth'
     });
 };
+
+UserSchema.pre('save', function (next) {
+    var user = this;
+
+    if(user.isModified('password')){
+        argon2.hash(user.password, settings.argon2)
+              .then((hash) => {
+                    user.password = hash;
+                    next();
+              })
+    } else {
+        next();
+    }
+});
 
 module.exports = mongoose.model('User', UserSchema);

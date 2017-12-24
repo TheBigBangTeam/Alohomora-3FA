@@ -8,37 +8,13 @@ var chai = require('chai')
 
 const {app} = require('./../../../server/server');
 const User = require('./../../models/User');
+const {users, populateUsers} = require('./../seed/seed');
 
 const adminPath = '/api/admin';
 
-const users = [{
-    _id: new ObjectId(),
-    username: 'user1',
-    name: 'user',
-    surname: 'one',
-    email: 'user1@example.com',
-    password: 'passwordlunga',
-    privilege: 'admin',
-    pin: '1234'
-},{
-    _id: new ObjectId(),
-    username: 'user2',
-    name: 'user',
-    surname: 'due',
-    email: 'user2@example.com',
-    password: 'passwordlunghissima',
-    privilege: 'hr',
-    pin: '6578'
-}];
-
 describe('ADMIN API TEST:', () => {
-    // TODO: create an admin before
     
-    beforeEach((done) => {
-        User.remove({}).then(() => {
-            return User.insertMany(users);
-        }).then(() => done())
-    });
+    beforeEach(populateUsers);
 
 
     describe('GET /users', () => {
@@ -94,7 +70,8 @@ describe('ADMIN API TEST:', () => {
                 email: 'newuser@example.com',
                 password: 'passwordlunghissima',
                 privilege: 'technician',
-                pin: '5678'
+                pin: '5678',
+                rfidTag: '3'
             };
 
             request(app)
@@ -109,13 +86,6 @@ describe('ADMIN API TEST:', () => {
 
                 User.find({username: newuser.username}).then((users) => {
                     expect(users.length).to.equal(1);
-                    expect(users[0].username).to.equal(newuser.username);
-                    expect(users[0].name).to.equal(newuser.name);
-                    expect(users[0].surname).to.equal(newuser.surname);
-                    expect(users[0].email).to.equal(newuser.email);
-                    expect(users[0].password).to.equal(newuser.password);
-                    expect(users[0].privilege).to.equal(newuser.privilege);
-                    expect(users[0].pin).to.equal(newuser.pin);
                     done();
                 }).catch((err)=> done(err));
             });
@@ -129,7 +99,8 @@ describe('ADMIN API TEST:', () => {
                 email: 'imwrong',
                 password: 'passwordlunghissima',
                 privilege: 'technician',
-                pin: '5678'
+                pin: '5678',
+                rfidTag: '5'
             };
 
             request(app)
@@ -151,6 +122,7 @@ describe('ADMIN API TEST:', () => {
 
     describe('PUT /users/:id', () => {
         it('should update a valid user', (done) => {
+
             var newEmail = 'usernewemail@example.com';
             
             var updated = {
@@ -160,7 +132,8 @@ describe('ADMIN API TEST:', () => {
                 email: newEmail,
                 password: 'passwordlunga',
                 privilege: 'technician',
-                pin: '1234'
+                pin: '1234',
+                rfidTag: '1'
             }
 
 
@@ -208,7 +181,8 @@ describe('ADMIN API TEST:', () => {
                 email: badEmail,
                 password: 'passwordlunga',
                 privilege: 'technician',
-                pin: '1234'
+                pin: '1234',
+                rfidTag: '6'
             }
 
             request(app)
