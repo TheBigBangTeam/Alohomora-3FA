@@ -33,6 +33,7 @@
     "helmet": "^3.9.0",
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
+    "mathjs": "^3.18.0",
     "mongodb": "^3.0.0",
     "mongoose": "^4.13.7",
     "rxjs": "^5.5.6",
