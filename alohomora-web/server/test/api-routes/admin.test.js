@@ -16,14 +16,13 @@ describe('[*] ADMIN API TEST:', () => {
     
     beforeEach(populateUsers);
 
-
     describe('- GET /users', () => {
         it('should get all users',(done) => {
             request(app)
             .get(`${adminPath}/users`)
             .expect(200)
             .expect((res) => {
-                expect(res.body.users.length).to.equal(2);
+                expect(res.body.users.length).to.equal(users.length);
             })
             .end(done);
         });
@@ -213,8 +212,8 @@ describe('[*] ADMIN API TEST:', () => {
             .end((err,res) => {
                 if(err) return done(err);
                 User.find({})
-                .then((users) => {
-                    expect(users.length).to.equal(1);
+                .then((userList) => {
+                    expect(userList.length).to.equal(users.length - 1);
                     done();
                 })
                 .catch((err) => done(err));

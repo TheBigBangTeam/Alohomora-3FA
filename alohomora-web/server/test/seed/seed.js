@@ -2,14 +2,15 @@ const {ObjectId} = require('mongodb');
 
 const User = require('./../../models/User');
 
-const users = [{
+const users = [
+    {
     _id: new ObjectId(),
     username: 'user1',
     name: 'user',
     surname: 'one',
     email: 'user1@example.com',
-    password: 'passwordlunga',
-    privilege: 'admin',
+    password: 'longpassword',
+    privilege: 'hr',
     pin: '1234',
     rfidTag: '1'
 },{
@@ -18,10 +19,19 @@ const users = [{
     name: 'user',
     surname: 'due',
     email: 'user2@example.com',
-    password: 'passwordlunghissima',
+    password: 'longlongpassword',
     privilege: 'hr',
     pin: '6578',
     rfidTag: '2'
+},{
+    username: 'admin',
+    name: 'Adminio',
+    surname: 'Surminio',
+    email: 'admin@expample.com',
+    password: 'adminpasswordislongest',
+    privilege: 'admin',
+    pin: '1337',
+    rfidTag: '1377'
 }];
 
 const populateUsers = (done) => {
@@ -29,7 +39,8 @@ const populateUsers = (done) => {
         .then(() => {
             var userOnePromise = User.create(users[0]);
             var userTwoPromise = User.create(users[1]);
-            return Promise.all([userOnePromise, userTwoPromise]);
+            var adminUserPromise = User.create(users[2]);
+            return Promise.all([userOnePromise, userTwoPromise, adminUserPromise]);
         })
         .then(() => done())
 };
