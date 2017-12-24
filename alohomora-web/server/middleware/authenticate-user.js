@@ -1,4 +1,3 @@
-const Promise = require('bluebird');
 
 var User = require('./../models/User');
 

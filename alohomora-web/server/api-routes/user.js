@@ -1,5 +1,4 @@
 const express = require('express');
-const Promise = require('bluebird');
 const _ = require('lodash');
 
 var User = require('../models/User.js');
