@@ -25,6 +25,7 @@
     "@angular/platform-browser": "^5.1.2",
     "@angular/platform-browser-dynamic": "^5.1.2",
     "@angular/router": "^5.1.2",
+    "argon2": "^0.16.2",
     "body-parser": "^1.18.2",
     "core-js": "^2.5.3",
     "express": "^4.16.2",
