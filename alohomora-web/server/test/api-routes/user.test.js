@@ -122,15 +122,12 @@ describe('[*] USER API TEST:', () => {
         .set('x-auth', users[0].tokens[0].token)
         .expect(200)
         .end((err, res) => {
-            User.findByToken(users[0].tokens[0].token)
-            .then( (user) => {
-               if(!user) {
-                 return done();
-               }
-               console.log(user);
-               return done('Shouldn\'t have found a user');
-            }).catch((err) =>  done(err));
-        });
+            User.findById(users[0]._id)
+            .then((user) => {
+                expect(user.tokens.length).to.equal(0);
+                return done();
+            }).catch((err) => done(err));
+          });
       });
 
       it('Should NOT logout user with invalid request token', (done) => {
