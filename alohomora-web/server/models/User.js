@@ -74,7 +74,7 @@ UserSchema.methods.toJSON = function() {
 UserSchema.methods.generateAuthToken = function () {
     var user = this; // Document
     var access  = 'auth';
-    var token = jwt.sign({_id: user._id.toHexString(), access, privilege: user.privilege}, settings.jwtSecret).toString();
+    var token = jwt.sign({_id: user._id.toHexString(), access}, settings.jwtSecret).toString();
 
     user.tokens.push({access,token});
 
@@ -82,6 +82,11 @@ UserSchema.methods.generateAuthToken = function () {
     .then(() => {
         return token;
     });
+};
+
+UserSchema.methods.isAdmin = function () {
+    var user = this;
+    return user.privilege === 'admin' ? true : false;
 };
 
 UserSchema.statics.findByToken = function (token){
@@ -109,7 +114,7 @@ UserSchema.statics.findByCredentials = function (username, password){
                    if(!user){
                        return Promise.reject();
                    }
-                   
+
                    return new Promise((resolve, reject) => {
                         argon2.verify(user.password, password)
                         .then((match) => {

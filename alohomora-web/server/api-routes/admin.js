@@ -1,12 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
 const _ = require('lodash');
 const { ObjectId } = require('mongodb');
 
 const router = express.Router();
 
-var User = require('../models/User.js');
+var User = require('./../models/User');
+var {authenticate} = require('./../middleware/authenticate-admin');
 
 /*
   ADMIN API: route '/api/admin'
@@ -14,22 +14,7 @@ var User = require('../models/User.js');
 
 
 /* MIDDLEWARE FOR AUTHENTICATION */
-var authenticate = (req, res ,next) => {
-  var token = req.header('x-auth');
-
-    User.findByToken(token)
-    .then((user) => {
-        if(!user) {
-            return res.sendStatus(401);
-        }
-
-        // TODO Admin logic
-        next();
-    })
-    .catch((e) => {
-        return res.sendStatus(401);
-    });
-};
+router.use(authenticate);
 
 /* GET All users*/
 router.get('/users', (req, res) => {

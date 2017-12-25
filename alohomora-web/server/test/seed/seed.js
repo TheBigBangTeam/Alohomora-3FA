@@ -1,34 +1,52 @@
 const {ObjectId} = require('mongodb');
+const jwt = require('jsonwebtoken');
 
 const User = require('./../../models/User');
+const {settings} = require('./../../settings');
 
-const users = [
-    {
-    _id: new ObjectId(),
+var user0Id = new ObjectId();
+var user1Id = new ObjectId();
+var adminId = new ObjectId();
+
+const users = [{
+    _id: user0Id,
+    username: 'user0',
+    name: 'user',
+    surname: 'zero',
+    email: 'user0@example.com',
+    password: 'longpassword',
+    privilege: 'hr',
+    tokens: [{
+        access: 'auth',
+        token: jwt.sign({_id: user0Id, access: 'auth'}, settings.jwtSecret).toString()
+    }],
+    pin: '1234',
+    rfidTag: '1'
+},{
+    _id: user1Id,
     username: 'user1',
     name: 'user',
     surname: 'one',
     email: 'user1@example.com',
-    password: 'longpassword',
-    privilege: 'hr',
-    pin: '1234',
-    rfidTag: '1'
-},{
-    _id: new ObjectId(),
-    username: 'user2',
-    name: 'user',
-    surname: 'due',
-    email: 'user2@example.com',
     password: 'longlongpassword',
     privilege: 'hr',
+    tokens: [{
+        access: 'auth',
+        token: jwt.sign({_id: user1Id, access: 'auth'}, settings.jwtSecret).toString()
+    }],
     pin: '6578',
     rfidTag: '2'
 },{
+    _id: adminId,
     username: 'admin',
     name: 'Adminio',
     surname: 'Surminio',
     email: 'admin@expample.com',
     password: 'adminpasswordislongest',
+    tokens: [{
+        access: 'auth',
+        token: jwt.sign({_id: adminId, access: 'auth'}, settings.jwtSecret).toString()
+    }],
     privilege: 'admin',
     pin: '1337',
     rfidTag: '1377'

@@ -17,9 +17,19 @@ describe('[*] ADMIN API TEST:', () => {
     beforeEach(populateUsers);
 
     describe('- GET /users', () => {
-        it('should get all users',(done) => {
+        it('shouldn\'t authorize non-admin users', (done) => {
             request(app)
             .get(`${adminPath}/users`)
+            .set('x-auth', users[1].tokens[0].token)
+            .expect(401)
+            .end(done);
+        });
+
+        it('should get all users',(done) => {
+
+            request(app)
+            .get(`${adminPath}/users`)
+            .set('x-auth', users[2].tokens[0].token)
             .expect(200)
             .expect((res) => {
                 expect(res.body.users.length).to.equal(users.length);
@@ -33,6 +43,7 @@ describe('[*] ADMIN API TEST:', () => {
         it('should get a valid user', (done) => {
             request(app)
             .get(`${adminPath}/users/${users[1]._id.toHexString()}`)
+            .set('x-auth', users[2].tokens[0].token)
             .expect(200)
             .expect((res) => {
                 expect(res.body.user._id).to.equal(users[1]._id.toHexString());
@@ -45,6 +56,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .get(`${adminPath}/users/${newId.toHexString()}`)
+            .set('x-auth', users[2].tokens[0].token)
             .expect(404)
             .end(done);
         });
@@ -54,6 +66,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .get(`${adminPath}/users/${badId}`)
+            .set('x-auth', users[2].tokens[0].token)
             .expect(400)
             .end(done);
         });
@@ -75,6 +88,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .post(`${adminPath}/users`)
+            .set('x-auth', users[2].tokens[0].token)
             .send(newuser)
             .expect(200)
             .expect((res) => {
@@ -104,6 +118,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .post(`${adminPath}/users`)
+            .set('x-auth', users[2].tokens[0].token)
             .send(badEmailUser)
             .expect(400)
             .end((err,res) => {
@@ -124,24 +139,16 @@ describe('[*] ADMIN API TEST:', () => {
 
             var newEmail = 'usernewemail@example.com';
             
-            var updated = {
-                username: 'user1',
-                name: 'user',
-                surname: 'one',
-                email: newEmail,
-                password: 'passwordlunga',
-                privilege: 'technician',
-                pin: '1234',
-                rfidTag: '1'
-            }
-
+            var updatedUser = Object.assign({},users[0]);
+            updatedUser.email = newEmail;
 
             request(app)
             .put(`${adminPath}/users/${users[0]._id.toHexString()}`)
-            .send(updated)
+            .set('x-auth', users[2].tokens[0].token)
+            .send(updatedUser)
             .expect(200)
             .expect((res) => {
-                expect(res.body.user.email).to.equal(updated.email);
+                expect(res.body.user.email).to.equal(updatedUser.email);
             })
             .end((err, res) => {
                 if(err) return done(err);
@@ -159,6 +166,7 @@ describe('[*] ADMIN API TEST:', () => {
             var randomId = new ObjectId();
             request(app)
             .put(`${adminPath}/users/${randomId.toHexString()}`)
+            .set('x-auth', users[2].tokens[0].token)
             .expect(404)
             .end(done);
         });
@@ -166,6 +174,7 @@ describe('[*] ADMIN API TEST:', () => {
         it('should NOT update an invalid Id', (done) => {
             request(app)
             .put(`${adminPath}/users/1234`)
+            .set('x-auth', users[2].tokens[0].token)
             .expect(404)
             .end(done);
         });
@@ -186,6 +195,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .put(`${adminPath}/users/${users[0]._id.toHexString()}`)
+            .set('x-auth', users[2].tokens[0].token)
             .send(badUpdated)
             .expect(400)
             .end((err, res) => {
@@ -205,6 +215,7 @@ describe('[*] ADMIN API TEST:', () => {
         it('should delete an existing user', (done) => {
             request(app)
             .delete(`${adminPath}/users/${users[1]._id.toHexString()}`)
+            .set('x-auth', users[2].tokens[0].token)
             .expect(200)
             .expect((res) => {
                 expect(res.body.user.email).to.equal(users[1].email);
@@ -223,6 +234,7 @@ describe('[*] ADMIN API TEST:', () => {
         it('should NOT accept an invalid Id', (done) => {
             request(app)
             .delete(`${adminPath}/users/234`)
+            .set('x-auth', users[2].tokens[0].token)
             .expect(404)
             .end(done);
         });
@@ -232,6 +244,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .delete(`${adminPath}/users/${randId.toHexString()}`)
+            .set('x-auth', users[2].tokens[0].token)
             .expect(404)
             .end(done);
         });
