@@ -49,7 +49,7 @@ var UserSchema = new mongoose.Schema({
     },
     privilege: {
         type: String,
-        enum: ['admin', 'technician', 'hr', 'security'],
+        enum: ['admin', 'technician', 'hr', 'security', 'worker'],
         required:true
     },
     pin: { // Access pin
@@ -87,6 +87,18 @@ UserSchema.methods.generateAuthToken = function () {
 UserSchema.methods.isAdmin = function () {
     var user = this;
     return user.privilege === 'admin' ? true : false;
+};
+
+UserSchema.methods.removeToken = function (token) {
+    var user = this;
+
+    return user.update({
+        $pull: {
+            tokens: {
+                token
+            }
+        }
+    });
 };
 
 UserSchema.statics.findByToken = function (token){

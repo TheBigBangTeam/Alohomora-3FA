@@ -114,5 +114,23 @@ describe('[*] USER API TEST:', () => {
         .end(done);
       });
     });
+
+    describe('DELETE / ',() => {
+      it('Should logout user', (done) => {
+        request(app)
+        .delete(`${userPath}`)
+        .set('x-auth', users[0].tokens[0].token)
+        .expect(200)
+        .end(done);
+      });
+
+      it('Should NOT logout user with invalid request token', (done) => {
+        request(app)
+        .delete(`${userPath}`)
+        .set('x-auth', users[0].tokens[0].token + 'iinvalideverything')
+        .expect(401)
+        .end(done);
+      });
+    });
     
 });

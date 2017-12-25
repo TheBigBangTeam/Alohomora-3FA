@@ -10,12 +10,12 @@ const router = express.Router();
   USER API: route '/api/user'
 */
 
-/* GET self info */
+/* GET / self info */
 router.get('/', authenticate, (req,res) => {
     res.send(req.user);
 });
 
-/* POST login user */
+/* POST / login user */
 router.post('/', (req,res) => {
     var body = _.pick(req.body, ['username', 'password']); // Additional protection from backdoors.
     User.findByCredentials(body.username, body.password)
@@ -27,6 +27,18 @@ router.post('/', (req,res) => {
         .catch((err) => {
             res.sendStatus(400);
         });
+});
+
+/* DELETE / logout user */
+
+router.delete('/',authenticate, (req,res) => {
+    req.user.removeToken(req.token)
+            .then(() => {
+                res.sendStatus(200);
+            })
+            .catch(() => {
+                res.sendStatus(400);
+            });
 });
 
 module.exports = router;

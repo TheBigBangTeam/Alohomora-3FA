@@ -7,7 +7,12 @@ var authenticate = (req, res , next) => {
           if(!user) {
               return res.sendStatus(401);
           }
-          if(user.isAdmin()){ return next(); }
+
+          if(user.isAdmin()){
+              req.user = user;
+              req.token = token;
+              return next(); 
+          }
           
           return Promise.reject();
           
