@@ -1,7 +1,7 @@
 const request = require('supertest');
 const {ObjectId} = require('mongodb');
-
-var chai = require('chai')
+const jwt = require('jsonwebtoken');
+const chai = require('chai')
   , assert = chai.assert
   , expect = chai.expect
   , should = chai.should();
@@ -9,6 +9,7 @@ var chai = require('chai')
 const {app} = require('./../../../server/server');
 const User = require('./../../models/User');
 const {users, populateUsers} = require('./../seed/seed');
+const {settings} = require('./../../settings');
 
 const adminPath = '/api/admin';
 
@@ -21,6 +22,15 @@ describe('[*] ADMIN API TEST:', () => {
             request(app)
             .get(`${adminPath}/users`)
             .set('x-auth', users[1].tokens[0].token)
+            .expect(401)
+            .end(done);
+        });
+
+        it('shouldn\'t authorize valid formatted tokens not present on users', (done) => {
+            var testToken = jwt.sign({_id: users[2]._id, email: users[2].email,auth:'authBad'}, settings.jwtSecret).toString();
+            request(app)
+            .get(`${adminPath}/users`)
+            .set('x-auth', testToken)
             .expect(401)
             .end(done);
         });

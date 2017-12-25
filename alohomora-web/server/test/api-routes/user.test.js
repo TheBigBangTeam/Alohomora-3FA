@@ -1,12 +1,14 @@
 const request = require('supertest');
-var chai = require('chai')
+const chai = require('chai')
   , assert = chai.assert
   , expect = chai.expect
   , should = chai.should();
+const jwt = require('jsonwebtoken');
 
 const User = require('./../../models/User');
 const {app} = require('./../../../server/server');
 const {users, populateUsers} = require('./../seed/seed');
+const {settings} = require('./../../settings');
 
 const userPath = '/api/user';
 
@@ -87,6 +89,7 @@ describe('[*] USER API TEST:', () => {
             }
 
             expect(res.body.email).to.equal(users[0].email);
+            expect(res.body._id).to.equal(users[0]._id.toHexString())
             done();
 
           });
@@ -98,6 +101,15 @@ describe('[*] USER API TEST:', () => {
         request(app)
         .get(`${userPath}`)
         .set('x-auth', 'invalidt0ken')
+        .expect(401)
+        .end(done);
+      });
+
+      it('should NOT get results back with a non existent token on the database', (done)=> {
+        var testToken =  jwt.sign({_id: users[0]._id.toHexString, access:'authBad'}, settings.jwtSecret).toString();
+        request(app)
+        .get(`${userPath}`)
+        .set('x-auth', testToken)
         .expect(401)
         .end(done);
       });
