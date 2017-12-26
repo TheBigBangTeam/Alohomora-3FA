@@ -67,7 +67,7 @@ router.post('/users', async (req, res) => {
 });
 
 /* UPDATE user */
-router.put('/users/:id', (req, res) => {
+router.put('/users/:id', async (req, res) => {
   let body = _.pick(req.body,      // pick makes sure only correct values are validated
                     ['username', // and not values that shouldn't be set
                     'name',
@@ -84,13 +84,13 @@ router.put('/users/:id', (req, res) => {
     return res.sendStatus(404);
   }
 
-  User.findByIdAndUpdate(req.params.id, body,{new: true, runValidators: true})
-    .then((user) => {
-      if(!user) return res.sendStatus(404); 
-      res.json({user});
-    }).catch((err) => {
-      res.sendStatus(400);
-    });
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, body,{new: true, runValidators: true});
+    if(!user) return res.sendStatus(404);
+    res.json({user});
+  } catch (error) {
+    res.sendStatus(400);
+  }
 });
 
 /* DELETE user */
