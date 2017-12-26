@@ -116,6 +116,34 @@ describe('[*] ADMIN API TEST:', () => {
             });
         });
 
+        it('should NOT create a user that has a short password', (done) =>{
+            const badPasswordUser = {
+                username: 'newuser',
+                name: 'user',
+                surname: 'new',
+                email: 'valid@email.org',
+                password: 'short',
+                privilege: 'technician',
+                pin: '5678',
+                rfidTag: '5'
+            };
+
+            request(app)
+            .post(`${adminPath}/users`)
+            .set('x-auth', users[2].tokens[0].token)
+            .send(badPasswordUser)
+            .expect(400)
+            .end((err, res) => {
+                if(err) return done(err);
+                User.find({username: badPasswordUser.username})
+                .then((users) => {
+                    expect(users.length).to.equal(0);
+                    done();
+                })
+                .catch((err) => done(err));
+            });
+        });
+
         it('should NOT create a user with an invalid email', (done) => {
             const badEmailUser = {
                 username: 'newuser',
@@ -133,7 +161,7 @@ describe('[*] ADMIN API TEST:', () => {
             .set('x-auth', users[2].tokens[0].token)
             .send(badEmailUser)
             .expect(400)
-            .end((err,res) => {
+            .end((err, res) => {
                 if(err) return done(err);
                 User.find({username: badEmailUser.username})
                 .then((users) => {
