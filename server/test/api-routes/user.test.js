@@ -108,6 +108,9 @@ describe('[*] USER API TEST:', () => {
             }
 
             expect(res.body.email).to.equal(users[0].email);
+            expect(res.body.username).to.equal(users[0].username);
+            expect(res.body.name).to.equal(users[0].name);
+            expect(res.body.surname).to.equal(users[0].surname);
             expect(res.body._id).to.equal(users[0]._id.toHexString())
             done();
 
