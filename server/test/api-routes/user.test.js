@@ -52,10 +52,8 @@ describe('[*] USER API TEST:', () => {
               return done(err);
             }
 
-            if(res.header['x-auth'] === '' || !res.header['x-auth'])
-            {
-              return done('x-auth should be present in the header');
-            }
+            expect(res.header['x-auth']).to.not.be.undefined;
+            expect(res.body.user.email).to.equal(users[0].email);
             done();
 
 

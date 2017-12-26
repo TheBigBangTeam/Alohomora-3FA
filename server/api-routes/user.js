@@ -24,7 +24,7 @@ router.post('/', async (req,res) => {
     try {
         const user = await User.findByCredentials(body.username, body.password);
         const token = await user.generateAuthToken();
-        res.header('x-auth', token).send(user);
+        res.header('x-auth', token).send({user});
     } catch (error) {
         res.sendStatus(400);
     }
