@@ -122,25 +122,20 @@ UserSchema.statics.findByToken = function (token){
     });
 };
 
-UserSchema.statics.findByCredentials = function (username, password){
-    let User = this;
+UserSchema.statics.findByCredentials = async function (username, password){
+    const User = this;
 
-    return User.findOne({username})
-               .then((user) => {
-                   if(!user){
-                       return Promise.reject();
-                   }
+    const user = await User.findOne({username});
+    if(!user){
+        throw new Error();
+    }
 
-                   return new Promise((resolve, reject) => {
-                        argon2.verify(user.password, password)
-                        .then((match) => {
-                            if(!match) {
-                                reject();
-                            }
-                            resolve(user);
-                        });
-                   });
-               });
+    const match = await argon2.verify(user.password, password);
+    if(!match){
+        throw new Error();
+    }
+
+    return user;
 };
 
 UserSchema.pre('save', async function (next) {
