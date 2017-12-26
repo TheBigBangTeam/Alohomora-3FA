@@ -19,11 +19,15 @@ const {authenticate} = require('./../middleware/authenticate-admin');
 router.use(authenticate);
 
 /* GET All users*/
-router.get('/users', (req, res) => {
-  User.find((err, users) => {
-    if(err) return res.sendStatus(400);
-    res.json({users});
-  });
+router.get('/users', async (req, res) => {
+
+  try {
+    const users = await User.find();
+    res.json({users});  
+  } catch (error) {
+    res.sendStatus(400);
+  }
+  
 });
 
 /* GET a single user by ID */
