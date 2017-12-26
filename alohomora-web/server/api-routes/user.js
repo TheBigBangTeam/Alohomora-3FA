@@ -1,8 +1,10 @@
+"use strict";
+
 const express = require('express');
 const _ = require('lodash');
 
-var User = require('../models/User.js');
-var {authenticate} = require('./../middleware/authenticate-user');
+const User = require('../models/User.js');
+const {authenticate} = require('./../middleware/authenticate-user');
 
 const router = express.Router();
 
@@ -17,7 +19,7 @@ router.get('/', authenticate, (req,res) => {
 
 /* POST / login user */
 router.post('/', (req,res) => {
-    var body = _.pick(req.body, ['username', 'password']); // Additional protection from backdoors.
+    let body = _.pick(req.body, ['username', 'password']); // Additional protection from backdoors.
     User.findByCredentials(body.username, body.password)
         .then((user) => {
             return user.generateAuthToken().then((token) => {

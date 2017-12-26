@@ -1,11 +1,13 @@
+"use strict";
+
 const os = require('os');
 const math = require('mathjs');
 
-var getMaxMemoryCost = () => math.floor(math.log(os.totalmem() / 1024, 2)); // e.g with 8GB -> 22, with 4GB -> 21 etc...
-var safeMemoryCost = getMaxMemoryCost() - 5;
-nThreads = os.cpus().length;
+const getMaxMemoryCost = () => math.floor(math.log(os.totalmem() / 1024, 2)); // e.g with 8GB -> 22, with 4GB -> 21 etc...
+const safeMemoryCost = getMaxMemoryCost() - 5;
+const nThreads = os.cpus().length;
 
-var settings = {
+const settings = {
     port: 8080,
     db: 'mongodb://localhost/alohomora-db',
     tls: {

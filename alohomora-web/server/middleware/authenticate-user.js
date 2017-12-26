@@ -1,10 +1,11 @@
+"use strict";
 
-var User = require('./../models/User');
+const User = require('./../models/User');
 
 
 /* MIDDLEWARE FOR AUTHENTICATION */
-var authenticate = (req, res ,next) => {
-    var token = req.header('x-auth');
+const authenticate = (req, res ,next) => {
+    let token = req.header('x-auth');
   
       User.findByToken(token)
       .then((user) => {

@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require('express');
 const mongoose = require('mongoose');
 const _ = require('lodash');
@@ -5,8 +7,8 @@ const { ObjectId } = require('mongodb');
 
 const router = express.Router();
 
-var User = require('./../models/User');
-var {authenticate} = require('./../middleware/authenticate-admin');
+const User = require('./../models/User');
+const {authenticate} = require('./../middleware/authenticate-admin');
 
 /*
   ADMIN API: route '/api/admin'
@@ -38,7 +40,7 @@ router.get('/users/:id', (req, res) => {
 
 /* SAVE user */
 router.post('/users', (req, res) => {
-  var body = _.pick(req.body,      // pick makes sure only correct values are validated
+  let body = _.pick(req.body,      // pick makes sure only correct values are validated
                       ['username', // and not values that shouldn't be set
                       'name',
                       'surname',
@@ -59,7 +61,7 @@ router.post('/users', (req, res) => {
 
 /* UPDATE user */
 router.put('/users/:id', (req, res) => {
-  var body = _.pick(req.body,      // pick makes sure only correct values are validated
+  let body = _.pick(req.body,      // pick makes sure only correct values are validated
                     ['username', // and not values that shouldn't be set
                     'name',
                     'surname',

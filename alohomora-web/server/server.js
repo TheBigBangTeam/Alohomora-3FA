@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require('express');
 const path = require('path');
 const http = require('http');
@@ -10,7 +12,7 @@ const bodyParser = require('body-parser');
 const {settings} = require('./settings');
 
 /* ENVIRONMENT */
-var env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'development';
 
 if(env === 'development'){
     process.env.PORT = 8080;
@@ -75,7 +77,7 @@ app.use('/api/admin', adminRoute);
 app.use('/api/user', userRoute);
 
 // Middleware to catch errors
-var urlAux;
+let urlAux;
 app.use(function (req, res, next) {
     urlAux = req.originalUrl.split("/"); // Splits originating url route and saves first level.
     if(urlAux[1] === 'api') {res.sendStatus(400);} // Checks if the first level is /api
@@ -91,18 +93,18 @@ app.get('/*', (req,res) => { res.sendFile(path.join(__dirname, '../dist/index.ht
 
 if(tls === 'yes'){
     /* HTTPS SERVER */
-    var sslOptions = {
+    const sslOptions = {
         key: fs.readFileSync(process.env.KEY_PATH || 'key.pem'),
         cert: fs.readFileSync(process.env.CERT_PATH || 'cert.pem')
     };
 
-    var httpsServer = https.createServer(sslOptions, app);
+    let httpsServer = https.createServer(sslOptions, app);
     httpsServer.listen(port, () => console.log(`HTTPS server at localhost: ${port}`));
 
 } else {
 
     /* HTTP SERVER */
-    var httpServer = http.createServer(app);
+    let httpServer = http.createServer(app);
     httpServer.listen(port,() => {
         if(env !== 'test'){
             console.log(`HTTP server at localhost: ${port}`);

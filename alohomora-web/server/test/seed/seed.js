@@ -1,12 +1,14 @@
+"use strict";
+
 const {ObjectId} = require('mongodb');
 const jwt = require('jsonwebtoken');
 
 const User = require('./../../models/User');
 const {settings} = require('./../../settings');
 
-var user0Id = new ObjectId();
-var user1Id = new ObjectId();
-var adminId = new ObjectId();
+const user0Id = new ObjectId();
+const user1Id = new ObjectId();
+const adminId = new ObjectId();
 
 const users = [{
     _id: user0Id,

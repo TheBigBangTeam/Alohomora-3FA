@@ -1,3 +1,5 @@
+"use strict";
+
 const request = require('supertest');
 const {ObjectId} = require('mongodb');
 const jwt = require('jsonwebtoken');
@@ -27,7 +29,7 @@ describe('[*] ADMIN API TEST:', () => {
         });
 
         it('shouldn\'t authorize valid formatted tokens not present on users', (done) => {
-            var testToken = jwt.sign({_id: users[2]._id, email: users[2].email,auth:'authBad'}, settings.jwtSecret).toString();
+            let testToken = jwt.sign({_id: users[2]._id, email: users[2].email,auth:'authBad'}, settings.jwtSecret).toString();
             request(app)
             .get(`${adminPath}/users`)
             .set('x-auth', testToken)
@@ -62,7 +64,7 @@ describe('[*] ADMIN API TEST:', () => {
         });
 
         it('should NOT get a non existing user', (done) => {
-            var newId = new ObjectId();
+            let newId = new ObjectId();
 
             request(app)
             .get(`${adminPath}/users/${newId.toHexString()}`)
@@ -72,7 +74,7 @@ describe('[*] ADMIN API TEST:', () => {
         });
 
         it('should NOT accept an invalid Id', (done) => {
-            var badId = '1234'
+            let badId = '1234'
 
             request(app)
             .get(`${adminPath}/users/${badId}`)
@@ -85,7 +87,7 @@ describe('[*] ADMIN API TEST:', () => {
     describe('- POST /users', () => {
         it('should create a new user', (done) => {
 
-            var newuser = {
+            const newuser = {
                 username: 'newuser',
                 name: 'user',
                 surname: 'new',
@@ -115,7 +117,7 @@ describe('[*] ADMIN API TEST:', () => {
         });
 
         it('should NOT create a user with an invalid email', (done) => {
-            var badEmailUser = {
+            const badEmailUser = {
                 username: 'newuser',
                 name: 'user',
                 surname: 'new',
@@ -147,9 +149,9 @@ describe('[*] ADMIN API TEST:', () => {
     describe('- PUT /users/:id', () => {
         it('should update a valid user', (done) => {
 
-            var newEmail = 'usernewemail@example.com';
+            let newEmail = 'usernewemail@example.com';
             
-            var updatedUser = Object.assign({},users[0]);
+            let updatedUser = Object.assign({},users[0]);
             updatedUser.email = newEmail;
 
             request(app)
@@ -173,7 +175,7 @@ describe('[*] ADMIN API TEST:', () => {
         });
 
         it('should NOT update a non existent user', (done) => {
-            var randomId = new ObjectId();
+            let randomId = new ObjectId();
             request(app)
             .put(`${adminPath}/users/${randomId.toHexString()}`)
             .set('x-auth', users[2].tokens[0].token)
@@ -191,8 +193,8 @@ describe('[*] ADMIN API TEST:', () => {
 
         it('should NOT update a user with an invalid email', (done)=> {
             
-            var badEmail = '12345';
-            var badUpdated = {
+            let badEmail = '12345';
+            const badUpdated = {
                 username: 'user1',
                 name: 'user',
                 surname: 'one',
@@ -250,7 +252,7 @@ describe('[*] ADMIN API TEST:', () => {
         });
 
         it('should not delete an invalid Id', (done)=> {
-            var randId = new ObjectId();
+            let randId = new ObjectId();
 
             request(app)
             .delete(`${adminPath}/users/${randId.toHexString()}`)

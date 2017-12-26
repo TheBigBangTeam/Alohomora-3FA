@@ -1,3 +1,5 @@
+"use strict";
+
 const request = require('supertest');
 const chai = require('chai')
   , assert = chai.assert
@@ -17,7 +19,7 @@ describe('[*] USER API TEST:', () => {
 
     describe('- POST /', () => {
       it('should login correctly', (done) => {
-          credentials = {
+          const credentials = {
             username: users[0].username,
             password: users[0].password
           }
@@ -42,7 +44,7 @@ describe('[*] USER API TEST:', () => {
       });
 
       it('should NOT login with an invalid username', (done) => {
-        credentials = {
+        const credentials = {
           username: 'idontexist',
           password: users[0].password
         }
@@ -55,7 +57,7 @@ describe('[*] USER API TEST:', () => {
       });
 
       it('should NOT login with a wrong password', (done) => {
-        credentials = {
+        const credentials = {
           username: users[1].username,
           password: users[1].password + 'invalid'
         }
@@ -70,7 +72,7 @@ describe('[*] USER API TEST:', () => {
 
     describe('- GET /', () => {
       it('should get self results properly', (done) => {
-        credentials = {
+        const credentials = {
           username: users[0].username,
           password: users[0].password
         }
@@ -106,7 +108,7 @@ describe('[*] USER API TEST:', () => {
       });
 
       it('should NOT get results back with a non existent token on the database', (done)=> {
-        var testToken =  jwt.sign({_id: users[0]._id.toHexString, access:'authBad'}, settings.jwtSecret).toString();
+        let testToken =  jwt.sign({_id: users[0]._id.toHexString, access:'authBad'}, settings.jwtSecret).toString();
         request(app)
         .get(`${userPath}`)
         .set('x-auth', testToken)
@@ -116,7 +118,7 @@ describe('[*] USER API TEST:', () => {
     });
 
     describe('DELETE / ',() => {
-      it('Should logout user', (done) => {
+      it('Should remove token on logout user', (done) => {
         request(app)
         .delete(`${userPath}`)
         .set('x-auth', users[0].tokens[0].token)

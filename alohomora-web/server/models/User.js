@@ -1,3 +1,5 @@
+"use strict";
+
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
@@ -6,7 +8,7 @@ const argon2 = require('argon2');
 
 const {settings} = require('./../settings');
 
-var UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -24,7 +26,7 @@ var UserSchema = new mongoose.Schema({
             message: '{VALUE} is not a valid email'
         }]
     },
-    password: {
+    password: { // Stored as a hash value (argon2)
         type: String,
         required:true,
         minlength: 10
@@ -52,7 +54,7 @@ var UserSchema = new mongoose.Schema({
         enum: ['admin', 'technician', 'hr', 'security', 'worker'],
         required:true
     },
-    pin: { // Access pin
+    pin: { // Access pin stored as a hash value
         type: String,
         required: true
     },
@@ -65,16 +67,16 @@ var UserSchema = new mongoose.Schema({
 
 // OVERRIDE .toJSON
 UserSchema.methods.toJSON = function() {
-    var user = this;
-    var userObject = user.toObject();
+    let user = this;
+    let userObject = user.toObject();
 
     return _.pick(userObject, ['_id', 'email']);
 };
 
 UserSchema.methods.generateAuthToken = function () {
-    var user = this; // Document
-    var access  = 'auth';
-    var token = jwt.sign({_id: user._id.toHexString(), access}, settings.jwtSecret).toString();
+    let user = this; // Document
+    let access  = 'auth';
+    let token = jwt.sign({_id: user._id.toHexString(), access}, settings.jwtSecret).toString();
 
     user.tokens.push({access,token});
 
@@ -85,12 +87,12 @@ UserSchema.methods.generateAuthToken = function () {
 };
 
 UserSchema.methods.isAdmin = function () {
-    var user = this;
+    let user = this;
     return user.privilege === 'admin' ? true : false;
 };
 
 UserSchema.methods.removeToken = function (token) {
-    var user = this;
+    let user = this;
 
     return user.update({
         $pull: {
@@ -102,8 +104,8 @@ UserSchema.methods.removeToken = function (token) {
 };
 
 UserSchema.statics.findByToken = function (token){
-    var User = this; // Model
-    var decoded;
+    let User = this; // Model
+    let decoded;
 
     try {
         decoded = jwt.verify(token, settings.jwtSecret);
@@ -119,7 +121,7 @@ UserSchema.statics.findByToken = function (token){
 };
 
 UserSchema.statics.findByCredentials = function (username, password){
-    var User = this;
+    let User = this;
 
     return User.findOne({username})
                .then((user) => {
@@ -140,7 +142,7 @@ UserSchema.statics.findByCredentials = function (username, password){
 };
 
 UserSchema.pre('save', function (next) {
-    var user = this;
+    let user = this;
 
     if(user.isModified('password')){
         argon2.hash(user.password, settings.argon2)
