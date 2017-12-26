@@ -91,22 +91,24 @@ router.put('/users/:id', async (req, res) => {
   } catch (error) {
     res.sendStatus(400);
   }
+
 });
 
 /* DELETE user */
-router.delete('/users/:id', (req, res) => {
+router.delete('/users/:id', async (req, res) => {
   if(!ObjectId.isValid(req.params.id)){
     return res.sendStatus(404);
   }
 
-  User.findByIdAndRemove(req.params.id, req.body)
-  .then((user) => {
+  try {
+    const user = await User.findByIdAndRemove(req.params.id, req.body);
     if(!user) return res.sendStatus(404);
     res.json({user});
-  })
-  .catch((err) => {
+    
+  } catch (error) {
+    
     res.sendStatus(400);
-  });
+  }
 });
 
 
