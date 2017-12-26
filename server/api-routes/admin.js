@@ -27,19 +27,21 @@ router.get('/users', async (req, res) => {
   } catch (error) {
     res.sendStatus(400);
   }
-  
+
 });
 
 /* GET a single user by ID */
-router.get('/users/:id', (req, res) => {
-  User.findById(req.params.id)
-    .then((user) => {
-      if(!user) return res.sendStatus(404);
-      res.json({user});
-    })
-    .catch((err) => {
-      res.sendStatus(400);
-    });
+router.get('/users/:id', async (req, res) => {
+  try {
+
+    const user = await User.findById(req.params.id);
+    if(!user) 
+      return res.sendStatus(404);
+    res.json({user});
+
+  } catch (error) {
+    res.sendStatus(400);
+  }
 });
 
 /* SAVE user */
