@@ -22,7 +22,12 @@ const settings = {
         parallelism: nThreads, // Max number of parallelism 
         type: 2 // 2 is argon2id, the recommended from the Draft RFC
     },
-    jwtSecret: 'This-Should-Be-Secret' // YOU SHOULD DEFINITELY CHANGE THIS.
+    jwtSecret: 'This-Should-Be-Secret',
+    AES: {
+        secret: 'This-Should-Be-Changed-Too',
+        keyLength: 256,
+        mode: 'cbc'
+    }
 };
 
 

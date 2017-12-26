@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const argon2 = require('argon2');
 
+const {encryptAES} = require('./../utilities');
 const {settings} = require('./../settings');
 
 const UserSchema = new mongoose.Schema({
@@ -54,11 +55,11 @@ const UserSchema = new mongoose.Schema({
         enum: ['admin', 'technician', 'hr', 'security', 'worker'],
         required:true
     },
-    pin: { // Access pin stored as a hash value
+    pin: { // Access pin stored as encrypted value (aes 128)
         type: String,
         required: true
     },
-    rfidTag:{
+    rfidTag:{ // Stored as a hash value (argon2) to prevent duplication of tag
         type: String,
         required:true,
         unique: true
@@ -143,6 +144,14 @@ UserSchema.pre('save', async function (next) {
 
     if(user.isModified('password')){
         user.password = await argon2.hash(user.password, settings.argon2);
+    }
+
+    if(user.isModified('rfidTag')) {
+        user.rfidTag = await argon2.hash(user.rfidTag, settings.argon2);
+    }
+
+    if(user.isModified('pin')) {
+        user.pin = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.pin);
     }
     
     next();
