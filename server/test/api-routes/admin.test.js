@@ -151,9 +151,9 @@ describe('[*] ADMIN API TEST:', () => {
 
             let newEmail = 'usernewemail@example.com';
             
-            let updatedUser = Object.assign({},users[0]);
+            let updatedUser = {...users[0]};
             updatedUser.email = newEmail;
-
+            
             request(app)
             .put(`${adminPath}/users/${users[0]._id.toHexString()}`)
             .set('x-auth', users[2].tokens[0].token)
