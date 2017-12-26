@@ -45,8 +45,8 @@ router.get('/users/:id', async (req, res) => {
 });
 
 /* SAVE user */
-router.post('/users', (req, res) => {
-  let body = _.pick(req.body,      // pick makes sure only correct values are validated
+router.post('/users', async (req, res) => {
+  const body = _.pick(req.body,      // pick makes sure only correct values are validated
                       ['username', // and not values that shouldn't be set
                       'name',
                       'surname',
@@ -54,15 +54,16 @@ router.post('/users', (req, res) => {
                       'password',
                       'privilege',
                       'pin',
-                      'rfidTag'
-                      ]
+                      'rfidTag']
                     );
-  User.create(body)
-    .then((user) => {
-      res.json({user});
-    }).catch((err) => {
-      res.status(400).send(err);
-    });
+  try {
+   
+    const user = await User.create(body);
+    res.json({user});
+
+  } catch (error) {
+    res.sendStatus(400);
+  }
 });
 
 /* UPDATE user */
