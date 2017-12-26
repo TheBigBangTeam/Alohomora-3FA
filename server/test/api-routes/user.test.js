@@ -16,26 +16,7 @@ const userPath = '/api/user';
 
 describe('[*] USER API TEST:', () => {
     beforeEach(populateUsers);
-
-    it('should hash user with Argon2 algorithm', (done) => {
-      User.findById(users[0]._id)
-      .then((user) => {
-        if(!user){
-          return done('Cannot find user');
-        }
-        
-        if(user.password.includes("argon2")){
-          return done();
-        }
-        else {
-          return done(new Error('Password NOT hashed, or hashed with a different algorithm'));
-        }
-      })
-      .catch((err) => {
-        return done(err);
-      });
-    });
-
+  
     describe('- POST /', () => {
       it('should login correctly', (done) => {
           const credentials = {
