@@ -33,14 +33,15 @@ router.post('/', (req,res) => {
 
 /* DELETE / logout user */
 
-router.delete('/',authenticate, (req,res) => {
-    req.user.removeToken(req.token)
-            .then(() => {
-                res.sendStatus(200);
-            })
-            .catch(() => {
-                res.sendStatus(400);
-            });
+router.delete('/',authenticate, async (req,res) => {
+    try {
+        await req.user.removeToken(req.token)
+        res.sendStatus(200);
+    } catch (error) {
+        res.sendStatus(400);
+    }
+    
+    
 });
 
 module.exports = router;
