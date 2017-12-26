@@ -143,18 +143,14 @@ UserSchema.statics.findByCredentials = function (username, password){
                });
 };
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', async function (next) {
     let user = this;
 
     if(user.isModified('password')){
-        argon2.hash(user.password, settings.argon2)
-              .then((hash) => {
-                    user.password = hash;
-                    next();
-              })
-    } else {
-        next();
+        user.password = await argon2.hash(user.password, settings.argon2);
     }
+    
+    next();
 });
 
 module.exports = mongoose.model('User', UserSchema);
