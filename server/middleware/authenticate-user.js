@@ -4,22 +4,23 @@ const User = require('./../models/User');
 
 
 /* MIDDLEWARE FOR AUTHENTICATION */
-const authenticate = (req, res ,next) => {
-    let token = req.header('x-auth');
-  
-      User.findByToken(token)
-      .then((user) => {
-          if(!user) {
-              return res.sendStatus(401);
-          }
-  
-          req.user = user;
-          req.token = token;
-          next();
-      })
-      .catch((e) => {
-          return res.sendStatus(401);
-      });
+const authenticate = async (req, res ,next) => {
+    const token = req.header('x-auth');
+    
+    try {
+        const user = await User.findByToken(token);
+        if(!user) {
+            return res.sendStatus(401);
+        }
+        req.user = user;
+        req.token = token;
+        next();
+        
+    } catch (error) {
+        
+        return res.sendStatus(401);
+    }
+
 };
 
 module.exports = {authenticate};
