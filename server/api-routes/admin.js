@@ -19,28 +19,34 @@ const {authenticate} = require('./../middleware/authenticate-admin');
 router.use(authenticate);
 
 /* GET All users*/
-router.get('/users', (req, res) => {
-  User.find((err, users) => {
-    if(err) return res.sendStatus(400);
-    res.json({users});
-  });
+router.get('/users', async (req, res) => {
+
+  try {
+    const users = await User.find();
+    res.json({users});  
+  } catch (error) {
+    res.sendStatus(400);
+  }
+
 });
 
 /* GET a single user by ID */
-router.get('/users/:id', (req, res) => {
-  User.findById(req.params.id)
-    .then((user) => {
-      if(!user) return res.sendStatus(404);
-      res.json({user});
-    })
-    .catch((err) => {
-      res.sendStatus(400);
-    });
+router.get('/users/:id', async (req, res) => {
+  try {
+
+    const user = await User.findById(req.params.id);
+    if(!user) 
+      return res.sendStatus(404);
+    res.json({user});
+
+  } catch (error) {
+    res.sendStatus(400);
+  }
 });
 
 /* SAVE user */
-router.post('/users', (req, res) => {
-  let body = _.pick(req.body,      // pick makes sure only correct values are validated
+router.post('/users', async (req, res) => {
+  const body = _.pick(req.body,      // pick makes sure only correct values are validated
                       ['username', // and not values that shouldn't be set
                       'name',
                       'surname',
@@ -48,19 +54,20 @@ router.post('/users', (req, res) => {
                       'password',
                       'privilege',
                       'pin',
-                      'rfidTag'
-                      ]
+                      'rfidTag']
                     );
-  User.create(body)
-    .then((user) => {
-      res.json({user});
-    }).catch((err) => {
-      res.status(400).send(err);
-    });
+  try {
+   
+    const user = await User.create(body);
+    res.json({user});
+
+  } catch (error) {
+    res.sendStatus(400);
+  }
 });
 
 /* UPDATE user */
-router.put('/users/:id', (req, res) => {
+router.put('/users/:id', async (req, res) => {
   let body = _.pick(req.body,      // pick makes sure only correct values are validated
                     ['username', // and not values that shouldn't be set
                     'name',
@@ -77,29 +84,31 @@ router.put('/users/:id', (req, res) => {
     return res.sendStatus(404);
   }
 
-  User.findByIdAndUpdate(req.params.id, body,{new: true, runValidators: true})
-    .then((user) => {
-      if(!user) return res.sendStatus(404); 
-      res.json({user});
-    }).catch((err) => {
-      res.sendStatus(400);
-    });
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, body,{new: true, runValidators: true});
+    if(!user) return res.sendStatus(404);
+    res.json({user});
+  } catch (error) {
+    res.sendStatus(400);
+  }
+
 });
 
 /* DELETE user */
-router.delete('/users/:id', (req, res) => {
+router.delete('/users/:id', async (req, res) => {
   if(!ObjectId.isValid(req.params.id)){
     return res.sendStatus(404);
   }
 
-  User.findByIdAndRemove(req.params.id, req.body)
-  .then((user) => {
+  try {
+    const user = await User.findByIdAndRemove(req.params.id, req.body);
     if(!user) return res.sendStatus(404);
     res.json({user});
-  })
-  .catch((err) => {
+    
+  } catch (error) {
+    
     res.sendStatus(400);
-  });
+  }
 });
 
 

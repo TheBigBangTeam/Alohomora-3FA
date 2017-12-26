@@ -66,24 +66,26 @@ const UserSchema = new mongoose.Schema({
 });
 
 // OVERRIDE .toJSON
-UserSchema.methods.toJSON = function() {
-    let user = this;
-    let userObject = user.toObject();
+UserSchema.methods.toJSON = function () {
+    const user = this;
+    const userObject = user.toObject();
 
     return _.pick(userObject, ['_id', 'email']);
 };
 
-UserSchema.methods.generateAuthToken = function () {
-    let user = this; // Document
-    let access  = 'auth';
-    let token = jwt.sign({_id: user._id.toHexString(), access}, settings.jwtSecret).toString();
+UserSchema.methods.generateAuthToken = async function () {
+    const user = this; // Document
+    const access  = 'auth';
+    const token = jwt.sign({_id: user._id.toHexString(), access}, settings.jwtSecret).toString();
 
     user.tokens.push({access,token});
-
-    return user.save()
-    .then(() => {
-        return token;
-    });
+    
+    try {
+        await user.save();
+        return token;   
+    } catch (error) {
+        throw new Error();
+    }
 };
 
 UserSchema.methods.isAdmin = function () {
@@ -120,39 +122,30 @@ UserSchema.statics.findByToken = function (token){
     });
 };
 
-UserSchema.statics.findByCredentials = function (username, password){
-    let User = this;
+UserSchema.statics.findByCredentials = async function (username, password){
+    const User = this;
 
-    return User.findOne({username})
-               .then((user) => {
-                   if(!user){
-                       return Promise.reject();
-                   }
+    const user = await User.findOne({username});
+    if(!user){
+        throw new Error();
+    }
 
-                   return new Promise((resolve, reject) => {
-                        argon2.verify(user.password, password)
-                        .then((match) => {
-                            if(!match) {
-                                reject();
-                            }
-                            resolve(user);
-                        });
-                   });
-               });
+    const match = await argon2.verify(user.password, password);
+    if(!match){
+        throw new Error();
+    }
+
+    return user;
 };
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', async function (next) {
     let user = this;
 
     if(user.isModified('password')){
-        argon2.hash(user.password, settings.argon2)
-              .then((hash) => {
-                    user.password = hash;
-                    next();
-              })
-    } else {
-        next();
+        user.password = await argon2.hash(user.password, settings.argon2);
     }
+    
+    next();
 });
 
 module.exports = mongoose.model('User', UserSchema);

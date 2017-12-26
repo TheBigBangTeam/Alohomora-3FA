@@ -18,29 +18,29 @@ router.get('/', authenticate, (req,res) => {
 });
 
 /* POST / login user */
-router.post('/', (req,res) => {
-    let body = _.pick(req.body, ['username', 'password']); // Additional protection from backdoors.
-    User.findByCredentials(body.username, body.password)
-        .then((user) => {
-            return user.generateAuthToken().then((token) => {
-                res.header('x-auth', token).send(user);
-            })
-        })
-        .catch((err) => {
-            res.sendStatus(400);
-        });
+router.post('/', async (req,res) => {
+    const body = _.pick(req.body, ['username', 'password']);
+
+    try {
+        const user = await User.findByCredentials(body.username, body.password);
+        const token = await user.generateAuthToken();
+        res.header('x-auth', token).send({user});
+    } catch (error) {
+        res.sendStatus(400);
+    }
 });
 
 /* DELETE / logout user */
 
-router.delete('/',authenticate, (req,res) => {
-    req.user.removeToken(req.token)
-            .then(() => {
-                res.sendStatus(200);
-            })
-            .catch(() => {
-                res.sendStatus(400);
-            });
+router.delete('/',authenticate, async (req,res) => {
+    try {
+        await req.user.removeToken(req.token)
+        res.sendStatus(200);
+    } catch (error) {
+        res.sendStatus(400);
+    }
+    
+    
 });
 
 module.exports = router;
