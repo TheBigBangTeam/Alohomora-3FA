@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const _ = require('lodash');
 const { ObjectId } = require('mongodb');
+const bearerToken = require('express-bearer-token');
 
 const router = express.Router();
 
@@ -14,6 +15,8 @@ const {authenticate} = require('./../middleware/authenticate-admin');
   ADMIN API: route '/api/admin'
 */
 
+/* MIDDLEWARE TO FIND BEARER TOKEN */
+router.use(bearerToken());
 
 /* MIDDLEWARE FOR AUTHENTICATION */
 router.use(authenticate);
@@ -21,12 +24,8 @@ router.use(authenticate);
 /* GET All users*/
 router.get('/users', async (req, res) => {
 
-  try {
-    const users = await User.find();
-    res.json({users});  
-  } catch (error) {
-    res.sendStatus(400);
-  }
+  const users = await User.find();
+  res.json({users});
 
 });
 
@@ -37,6 +36,7 @@ router.get('/users/:id', async (req, res) => {
     const user = await User.findById(req.params.id);
     if(!user) 
       return res.sendStatus(404);
+    
     res.json({user});
 
   } catch (error) {
@@ -100,15 +100,9 @@ router.delete('/users/:id', async (req, res) => {
     return res.sendStatus(404);
   }
 
-  try {
-    const user = await User.findByIdAndRemove(req.params.id, req.body);
-    if(!user) return res.sendStatus(404);
-    res.json({user});
-    
-  } catch (error) {
-    
-    res.sendStatus(400);
-  }
+  const user = await User.findByIdAndRemove(req.params.id, req.body);
+  if(!user) return res.sendStatus(404);
+  res.json({user});
 });
 
 

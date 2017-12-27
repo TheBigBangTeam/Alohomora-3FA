@@ -32,16 +32,6 @@ const UserSchema = new mongoose.Schema({
         required:true,
         minlength: 10
     },
-    tokens: [{
-        access: {
-            type: String,
-            required: true
-        },
-        token: {
-            type: String,
-            required: true
-        }
-    }],
     name: {
         type: String,
         required:true
@@ -74,53 +64,19 @@ UserSchema.methods.toJSON = function () {
     return _.pick(userObject, ['_id', 'email','username','name','surname']);
 };
 
-UserSchema.methods.generateAuthToken = async function () {
+UserSchema.methods.generateAuthToken = function () {
     const user = this; // Document
-    const access  = 'auth';
-    const token = jwt.sign({_id: user._id.toHexString(), access}, settings.jwtSecret).toString();
+    const token = jwt.sign({_id: user._id.toHexString(), privilege: user.privilege}, 
+                            settings.JWT.secret, 
+                            {algorithm:settings.JWT.algorithm, expiresIn: settings.JWT.expiration, issuer: settings.JWT.issuer}
+                          ).toString();
 
-    user.tokens.push({access,token});
-    
-    try {
-        await user.save();
-        return token;   
-    } catch (error) {
-        throw new Error();
-    }
+    return token;
 };
 
 UserSchema.methods.isAdmin = function () {
     let user = this;
     return user.privilege === 'admin' ? true : false;
-};
-
-UserSchema.methods.removeToken = function (token) {
-    let user = this;
-
-    return user.update({
-        $pull: {
-            tokens: {
-                token
-            }
-        }
-    });
-};
-
-UserSchema.statics.findByToken = function (token){
-    let User = this; // Model
-    let decoded;
-
-    try {
-        decoded = jwt.verify(token, settings.jwtSecret);
-    } catch (e) {
-        return Promise.reject();
-    }
-
-    return User.findOne({
-        '_id': decoded._id,
-        'tokens.token': token,
-        'tokens.access': 'auth'
-    });
 };
 
 UserSchema.statics.findByCredentials = async function (username, password){
@@ -139,20 +95,31 @@ UserSchema.statics.findByCredentials = async function (username, password){
     return user;
 };
 
+UserSchema.statics.findByToken = async function (token){
+    const User = this;
+    let decoded;
+
+    try {
+        decoded = jwt.verify(token, settings.JWT.secret);
+    } catch (error) {
+        throw new Error();        
+    }
+
+    let user = await User.findOne({
+        _id: decoded._id,
+        privilege: decoded.privilege
+    });
+
+    return user;
+
+}
+
 UserSchema.pre('save', async function (next) {
     let user = this;
 
-    if(user.isModified('password')){
-        user.password = await argon2.hash(user.password, settings.argon2);
-    }
-
-    if(user.isModified('rfidTag')) {
-        user.rfidTag = await argon2.hash(user.rfidTag, settings.argon2);
-    }
-
-    if(user.isModified('pin')) {
-        user.pin = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.pin);
-    }
+    user.password = user.isModified('password') ? await argon2.hash(user.password, settings.argon2) : user.password;
+    user.rfidTag = user.isModified('rfidTag') ? await argon2.hash(user.rfidTag, settings.argon2) : user.rfidTag;
+    user.pin = user.isModified('pin') ? encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.pin) : user.pin;
     
     next();
 });

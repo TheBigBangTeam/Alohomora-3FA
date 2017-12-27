@@ -15,24 +15,37 @@ const {settings} = require('./../../settings');
 
 const adminPath = '/api/admin';
 
+const token = jwt.sign({_id: users[2]._id.toHexString(), privilege: users[2].privilege}, 
+                            settings.JWT.secret, 
+                            {algorithm:settings.JWT.algorithm, expiresIn: settings.JWT.expiration, issuer: settings.JWT.issuer}
+                            ).toString();
+
+const nonAdminToken = jwt.sign({_id: users[0]._id.toHexString(), privilege: users[0].privilege}, 
+                            settings.JWT.secret, 
+                            {algorithm:settings.JWT.algorithm, expiresIn: settings.JWT.expiration, issuer: settings.JWT.issuer}
+                            ).toString();
+
+const randomId = new ObjectId();
+const nonExistentUserToken = jwt.sign({_id: randomId.toHexString(), privilege: 'hr'}, 
+                                settings.JWT.secret, 
+                                {algorithm:settings.JWT.algorithm, expiresIn: settings.JWT.expiration, issuer: settings.JWT.issuer}
+                                ).toString();
 describe('[*] ADMIN API TEST:', () => {
-    
     beforeEach(populateUsers);
 
     describe('- GET /users', () => {
         it('shouldn\'t authorize non-admin users', (done) => {
             request(app)
             .get(`${adminPath}/users`)
-            .set('x-auth', users[1].tokens[0].token)
+            .set('Authorization', `Bearer ${nonAdminToken}`)
             .expect(401)
             .end(done);
         });
 
-        it('shouldn\'t authorize valid formatted tokens not present on users', (done) => {
-            let testToken = jwt.sign({_id: users[2]._id, email: users[2].email,auth:'authBad'}, settings.jwtSecret).toString();
+        it('shouldn\'t authorize deleted users', (done) => {
             request(app)
             .get(`${adminPath}/users`)
-            .set('x-auth', testToken)
+            .set('Authorization', `Bearer ${nonExistentUserToken}`)
             .expect(401)
             .end(done);
         });
@@ -41,7 +54,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .get(`${adminPath}/users`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .expect(200)
             .expect((res) => {
                 expect(res.body.users.length).to.equal(users.length);
@@ -55,7 +68,7 @@ describe('[*] ADMIN API TEST:', () => {
         it('should get a valid user', (done) => {
             request(app)
             .get(`${adminPath}/users/${users[1]._id.toHexString()}`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .expect(200)
             .expect((res) => {
                 expect(res.body.user._id).to.equal(users[1]._id.toHexString());
@@ -68,7 +81,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .get(`${adminPath}/users/${newId.toHexString()}`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .expect(404)
             .end(done);
         });
@@ -78,7 +91,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .get(`${adminPath}/users/${badId}`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .expect(400)
             .end(done);
         });
@@ -100,7 +113,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .post(`${adminPath}/users`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .send(newuser)
             .expect(200)
             .expect((res) => {
@@ -130,7 +143,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .post(`${adminPath}/users`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .send(badPasswordUser)
             .expect(400)
             .end((err, res) => {
@@ -158,7 +171,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .post(`${adminPath}/users`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .send(badEmailUser)
             .expect(400)
             .end((err, res) => {
@@ -184,7 +197,7 @@ describe('[*] ADMIN API TEST:', () => {
             
             request(app)
             .put(`${adminPath}/users/${users[0]._id.toHexString()}`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .send(updatedUser)
             .expect(200)
             .expect((res) => {
@@ -202,11 +215,12 @@ describe('[*] ADMIN API TEST:', () => {
             });
         });
 
+        
         it('should NOT update a non existent user', (done) => {
             let randomId = new ObjectId();
             request(app)
             .put(`${adminPath}/users/${randomId.toHexString()}`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .expect(404)
             .end(done);
         });
@@ -214,7 +228,7 @@ describe('[*] ADMIN API TEST:', () => {
         it('should NOT update an invalid Id', (done) => {
             request(app)
             .put(`${adminPath}/users/1234`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .expect(404)
             .end(done);
         });
@@ -235,7 +249,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .put(`${adminPath}/users/${users[0]._id.toHexString()}`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .send(badUpdated)
             .expect(400)
             .end((err, res) => {
@@ -255,7 +269,7 @@ describe('[*] ADMIN API TEST:', () => {
         it('should delete an existing user', (done) => {
             request(app)
             .delete(`${adminPath}/users/${users[1]._id.toHexString()}`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .expect(200)
             .expect((res) => {
                 expect(res.body.user.email).to.equal(users[1].email);
@@ -274,7 +288,7 @@ describe('[*] ADMIN API TEST:', () => {
         it('should NOT accept an invalid Id', (done) => {
             request(app)
             .delete(`${adminPath}/users/234`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .expect(404)
             .end(done);
         });
@@ -284,7 +298,7 @@ describe('[*] ADMIN API TEST:', () => {
 
             request(app)
             .delete(`${adminPath}/users/${randId.toHexString()}`)
-            .set('x-auth', users[2].tokens[0].token)
+            .set('Authorization', `Bearer ${token}`)
             .expect(404)
             .end(done);
         });

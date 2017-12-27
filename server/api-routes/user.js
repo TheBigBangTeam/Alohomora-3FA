@@ -2,6 +2,7 @@
 
 const express = require('express');
 const _ = require('lodash');
+const bearerToken = require('express-bearer-token');
 
 const User = require('../models/User.js');
 const {authenticate} = require('./../middleware/authenticate-user');
@@ -13,10 +14,9 @@ const router = express.Router();
 */
 
 /* GET / self info */
-router.get('/', authenticate, (req,res) => {
+router.get('/', bearerToken(), authenticate, (req,res) => {
     res.send(req.user);
 });
-
 /* POST / login user */
 router.post('/', async (req,res) => {
     const body = _.pick(req.body, ['username', 'password']);
@@ -24,23 +24,10 @@ router.post('/', async (req,res) => {
     try {
         const user = await User.findByCredentials(body.username, body.password);
         const token = await user.generateAuthToken();
-        res.header('x-auth', token).send({user});
+        return res.json({user, token});
     } catch (error) {
-        res.sendStatus(400);
+        return res.sendStatus(400);
     }
-});
-
-/* DELETE / logout user */
-
-router.delete('/',authenticate, async (req,res) => {
-    try {
-        await req.user.removeToken(req.token)
-        res.sendStatus(200);
-    } catch (error) {
-        res.sendStatus(400);
-    }
-    
-    
 });
 
 module.exports = router;
