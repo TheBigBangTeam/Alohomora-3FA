@@ -31,7 +31,7 @@ DeviceSchema.methods.toJSON = function () {
     const device = this;
     const deviceObject = user.toObject();
 
-    return _.pick(userObject, ['_id', 'building','descriptiom']);
+    return _.pick(userObject, ['_id', 'building','description']);
 };
 
 DeviceSchema.methods.generateAuthToken = function() {
