@@ -150,8 +150,9 @@ router.get('/devices/:id', async (req, res) => {
   try {
 
     const device = await Device.findById(req.params.id);
-    if(!device) 
+    if(!device) {
       return res.sendStatus(404);
+    }
     
     res.json({device});
 

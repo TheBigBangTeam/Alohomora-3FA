@@ -396,6 +396,28 @@ describe('[*] ADMIN API TEST:', () => {
             });
 
         });
+
+        it('should NOT get a device that does not exist', (done) => {
+            const randId = new ObjectId(); 
+
+            request(app)
+            .get(`${adminPath}/devices/${randId.toHexString()}`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(404)
+            .end((err, res) => {
+                should.not.exist(err);
+                done();
+            });
+
+        });
+
+        it('should NOT get a device with an invalid ID', (done) => {
+            request(app)
+            .get(`${adminPath}/devices/thisisinvalid`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(400)
+            .end(done);
+        });
     });
 
 });
