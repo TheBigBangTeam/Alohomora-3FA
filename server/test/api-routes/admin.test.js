@@ -420,4 +420,59 @@ describe('[*] ADMIN API TEST:', () => {
         });
     });
 
+    describe('PUT /devices/:id', () => {
+        it('should update device', (done) => {
+            let newDevice = {...devices[0]};
+            newDevice.building='modified';
+            
+            request(app)
+            .put(`${adminPath}/devices/${devices[0]._id.toHexString()}`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(200)
+            .end((err,res) => {
+                should.not.exist(err);
+                expect(res.body.device.description).to.equal(newDevice.description);
+                done();
+            });
+        });
+
+        it('should NOT update invalid device', (done) => {
+            let newDevice = {...devices[0]};
+            newDevice.building='modified';
+            
+            request(app)
+            .put(`${adminPath}/devices/12`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(400)
+            .end((err,res) => {
+                should.not.exist(err);
+                done();
+            });
+        });
+
+        it('should NOT update non existing device', (done) => {
+
+            let newId = new ObjectId();
+            let newDevice = {...devices[0]};
+            newDevice.building='modified';
+            
+            request(app)
+            .put(`${adminPath}/devices/${newId.toHexString()}`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(404)
+            .end((err,res) => {
+                should.not.exist(err);
+                done();
+            });
+        });
+
+    });
+
+
+
+
+
 });

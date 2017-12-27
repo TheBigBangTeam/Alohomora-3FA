@@ -162,7 +162,19 @@ router.get('/devices/:id', async (req, res) => {
 
 });
 
-
+/* UPDATE SPECIFIC DEVICE*/
+router.put('/devices/:id', async (req,res) => {
+    const body = _.pick(req.body,['building', 'description']);
+    try {
+      const device = await Device.findByIdAndUpdate(req.params.id, {body}, {new: true, runValidators: true});
+      if(!device) { 
+        return res.sendStatus(404)
+      };
+      res.json({device});
+    } catch (error) {
+      res.sendStatus(400);
+    }
+});
 
 
 
