@@ -44,12 +44,4 @@ DeviceSchema.methods.generateAuthToken = function() {
     return token;
 };
 
-DeviceSchema.pre('save',  function (next) {
-    const device = this;
-    if(device.isModified('alohomora_ok')) 
-        device.alohomora = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, device.alohomora);
-    
-    next();
-});
-
 module.exports = mongoose.model('Device', DeviceSchema);
