@@ -18,10 +18,6 @@ const users = [{
     email: 'user0@example.com',
     password: 'longpassword',
     privilege: 'hr',
-    tokens: [{
-        access: 'auth',
-        token: jwt.sign({_id: user0Id, access: 'auth'}, settings.jwtSecret).toString()
-    }],
     pin: '1234',
     rfidTag: '1'
 },{
@@ -32,10 +28,6 @@ const users = [{
     email: 'user1@example.com',
     password: 'longlongpassword',
     privilege: 'hr',
-    tokens: [{
-        access: 'auth',
-        token: jwt.sign({_id: user1Id, access: 'auth'}, settings.jwtSecret).toString()
-    }],
     pin: '6578',
     rfidTag: '2'
 },{
@@ -45,10 +37,6 @@ const users = [{
     surname: 'Surminio',
     email: 'admin@expample.com',
     password: 'adminpasswordislongest',
-    tokens: [{
-        access: 'auth',
-        token: jwt.sign({_id: adminId, access: 'auth'}, settings.jwtSecret).toString()
-    }],
     privilege: 'admin',
     pin: '1337',
     rfidTag: '1377'
@@ -64,5 +52,7 @@ const populateUsers = (done) => {
         })
         .then(() => done())
 };
+
+
 
 module.exports = {users, populateUsers};

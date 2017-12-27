@@ -16,6 +16,7 @@ SOFTWARE:
  - To run the server you need Node.js installed ( > v8.x)
  - You need Node-gyp installed globally for some dependencies.
 `(sudo) npm install -g node-gyp`
+ - Run `npm install` inside the project folder to receive dependencies.
 
 ## Development server
 
@@ -44,6 +45,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## Running backend tests & code coverage reporting
+![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)
 
 Run `npm run test-backend` to execute the backend tests via [Mocha](https://mochajs.org/) 
 and receive code coverage via [Istanbul](https://istanbul.js.org/).

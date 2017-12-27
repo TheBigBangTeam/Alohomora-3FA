@@ -6,6 +6,7 @@ const chai = require('chai')
   , expect = chai.expect
   , should = chai.should();
 const jwt = require('jsonwebtoken');
+const {ObjectId} = require('mongodb');
 
 const User = require('./../../models/User');
 const {app} = require('./../../../server/server');
@@ -29,21 +30,16 @@ describe('[*] USER API TEST:', () => {
           .send(credentials)
           .expect(200)
           .end((err, res) => {
-            if(err) {
-              return done(err);
-            }
-
-            expect(res.header['x-auth']).to.not.be.undefined;
+            should.not.exist(err);
+            expect(res.body.token).to.not.be.undefined;
             expect(res.body.user.email).to.equal(users[0].email);
             done();
-
-
           });
       });
 
       it('should NOT login with an invalid username', (done) => {
         const credentials = {
-          username: 'idontexist',
+          username: 'invalid',
           password: users[0].password
         }
 
@@ -81,7 +77,7 @@ describe('[*] USER API TEST:', () => {
         .end((err, res) => {
           request(app)
           .get(`${userPath}`)
-          .set('x-auth', res.header['x-auth'])
+          .set('Authorization', `Bearer ${res.body.token}`)
           .expect(200)
           .end((err, res) => {
             if(err){
@@ -103,43 +99,26 @@ describe('[*] USER API TEST:', () => {
       it('should NOT get results back with an invalid token', (done) => {
         request(app)
         .get(`${userPath}`)
-        .set('x-auth', 'invalidt0ken')
+        .set('Authorization', 'invalidt0ken')
         .expect(401)
         .end(done);
       });
 
-      it('should NOT get results back with a non existent token on the database', (done)=> {
-        let testToken =  jwt.sign({_id: users[0]._id.toHexString, access:'authBad'}, settings.jwtSecret).toString();
+      it('should NOT get results back with a rogue Token', (done)=> {
+        let rogueToken =  jwt.sign({_id: users[2]._id.toHexString, privilege: 'admin' }, 'not a valid key').toString();
         request(app)
         .get(`${userPath}`)
-        .set('x-auth', testToken)
+        .set('Authorization', `Bearer ${rogueToken}`)
         .expect(401)
         .end(done);
       });
-    });
 
-    describe('DELETE / ',() => {
-      it('Should remove token on logout user', (done) => {
+      it('should NOT get results back with a non-existent user', (done) => {
+        const id = new ObjectId();
+        let wrongUserToken =  jwt.sign({_id: id, privilege: 'admin' }, settings.JWT.secret).toString();
         request(app)
-        .delete(`${userPath}`)
-        .set('x-auth', users[0].tokens[0].token)
-        .expect(200)
-        .end((err, res) => {
-            if(err){
-              return done(err);
-            }
-            User.findById(users[0]._id)
-            .then((user) => {
-                expect(user.tokens.length).to.equal(0);
-                return done();
-            }).catch((err) => done(err));
-          });
-      });
-
-      it('Should NOT logout user with invalid request token', (done) => {
-        request(app)
-        .delete(`${userPath}`)
-        .set('x-auth', users[0].tokens[0].token + 'iinvalideverything')
+        .get(`${userPath}`)
+        .set('Authorization', `Bearer ${wrongUserToken}`)
         .expect(401)
         .end(done);
       });
