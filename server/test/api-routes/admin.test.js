@@ -249,7 +249,7 @@ describe('[*] ADMIN API TEST:', () => {
                 privilege: 'technician',
                 pin: '1234',
                 rfidTag: '6'
-            }
+            };
 
             request(app)
             .put(`${adminPath}/users/${users[0]._id.toHexString()}`)
