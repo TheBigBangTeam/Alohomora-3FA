@@ -375,9 +375,26 @@ describe('[*] ADMIN API TEST:', () => {
             .set('Authorization', `Bearer ${token}`)
             .expect(200)
             .end((err, res) => {
+                should.not.exist(err);
                 expect(res.body.devices.length).to.equal(2);
                 done();
             });
+        });
+    });
+
+    describe('GET /devices/:id', () => {
+        it('should get a device', (done) => {
+            request(app)
+            .get(`${adminPath}/devices/${devices[0]._id.toHexString()}`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(200)
+            .end((err, res) => {
+                should.not.exist(err);
+                expect(res.body.device.building).to.equal(devices[0].building);
+                expect(res.body.device.description).to.equal(devices[0].description);
+                done();
+            });
+
         });
     });
 
