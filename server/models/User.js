@@ -117,11 +117,12 @@ UserSchema.statics.findByToken = async function (token){
 UserSchema.pre('save', async function (next) {
     let user = this;
 
-    user.password = user.isModified('password') ? await argon2.hash(user.password, settings.argon2) : user.password;
-    user.rfidTag = user.isModified('rfidTag') ? await argon2.hash(user.rfidTag, settings.argon2) : user.rfidTag;
-    user.pin = user.isModified('pin') ? encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.pin) : user.pin;
+    if(user.isModified('password')) user.password = await argon2.hash(user.password, settings.argon2);
+    if(user.isModified('rfidTag')) user.rfidTag = await argon2.hash(user.rfidTag, settings.argon2);
+    if(user.isModified('pin')) user.pin = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.pin);
     
     next();
 });
+
 
 module.exports = mongoose.model('User', UserSchema);

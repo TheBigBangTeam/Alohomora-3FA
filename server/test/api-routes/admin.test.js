@@ -209,6 +209,9 @@ describe('[*] ADMIN API TEST:', () => {
                 User.findById(users[0]._id)
                 .then((user) => {
                     expect(user.email).to.equal(newEmail);
+                    expect(user.password).to.not.equal(updatedUser.password);
+                    expect(user.pin).to.not.equal(updatedUser.pin);
+                    expect(user.rfidTag).to.not.equal(updatedUser.rfidTag);
                     done();
                 })
                 .catch((err) => done(err));

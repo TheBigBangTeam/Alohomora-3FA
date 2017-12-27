@@ -83,13 +83,18 @@ router.put('/users/:id', async (req, res) => {
   if(!ObjectId.isValid(req.params.id)){
     return res.sendStatus(404);
   }
-
+  
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, body,{new: true, runValidators: true});
+    let user = await User.findById(req.params.id);
     if(!user) return res.sendStatus(404);
-    res.json({user});
+    
+    Object.assign(user, body);
+
+    const updatedUser = await user.save(); 
+    return res.json({user: updatedUser});
   } catch (error) {
-    res.sendStatus(400);
+      
+    return res.sendStatus(400);
   }
 
 });
