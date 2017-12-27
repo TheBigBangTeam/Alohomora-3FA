@@ -5,12 +5,14 @@ const mongoose = require('mongoose');
 const _ = require('lodash');
 const { ObjectId } = require('mongodb');
 const bearerToken = require('express-bearer-token');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
 const User = require('./../models/User');
+const Device = require('./../models/Device');
 const {authenticate} = require('./../middleware/authenticate-admin');
-
+const {settings} = require('./../settings');
 /*
   ADMIN API: route '/api/admin'
 */
@@ -20,6 +22,10 @@ router.use(bearerToken());
 
 /* MIDDLEWARE FOR AUTHENTICATION */
 router.use(authenticate);
+
+/*
+    ADMIN USERS API
+*/
 
 /* GET All users*/
 router.get('/users', async (req, res) => {
@@ -109,6 +115,29 @@ router.delete('/users/:id', async (req, res) => {
   if(!user) return res.sendStatus(404);
   res.json({user});
 });
+
+/*
+    ADMIN DEVICES API
+*/
+
+/* CREATE DEVICE API */
+router.post('/devices', async (req, res) => {
+  const body = _.pick(req.body,      // pick makes sure only correct values are validated
+                      ['building', // and not values that shouldn't be set
+                      'description',]
+                    );
+  try {
+   
+    const device = await Device.create(body);
+    const authToken = jwt.sign({_id: device._id.toHexString()}, settings.JWT.secret);
+    res.json({authToken, device});
+
+  } catch (error) {
+    res.sendStatus(400);
+  }
+});
+
+
 
 
 module.exports = router;

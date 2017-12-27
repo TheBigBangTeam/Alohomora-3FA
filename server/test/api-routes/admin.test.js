@@ -10,6 +10,7 @@ const chai = require('chai')
 
 const {app} = require('./../../../server/server');
 const User = require('./../../models/User');
+const Device = require('./../../models/Device');
 const {users, populateUsers} = require('./../seed/seed');
 const {settings} = require('./../../settings');
 
@@ -305,6 +306,65 @@ describe('[*] ADMIN API TEST:', () => {
             .expect(404)
             .end(done);
         });
+    });
+
+    describe('POST /devices', () => {
+        it('should create a new device', (done) => {
+            const newDevice = {
+                building:'Colosseum',
+                description:'Main entry'
+            };
+
+            request(app)
+            .post(`${adminPath}/devices`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(200)
+            .end((err, res) => {
+                should.not.exist(err);
+                should.exist(res.body.authToken);
+                should.exist(res.body.device);
+                done();
+            });
+        });
+
+        it('should NOT create a new device without building', (done) => {
+            const newDevice = {
+                description:'Main entry'
+            };
+
+            request(app)
+            .post(`${adminPath}/devices`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(400)
+            .end((err, res) => {
+                should.not.exist(err);
+                should.not.exist(res.body.authToken);
+                should.not.exist(res.body.device);
+                done();
+            });
+        });
+
+        it('should NOT create a new device without description', (done) => {
+            const newDevice = {
+                building:'Main entry'
+            };
+
+            request(app)
+            .post(`${adminPath}/devices`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(400)
+            .end((err, res) => {
+                should.not.exist(err);
+                should.not.exist(res.body.authToken);
+                should.not.exist(res.body.device);
+                done();
+            });
+        });
+
+        
     });
 
 });
