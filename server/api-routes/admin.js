@@ -137,6 +137,15 @@ router.post('/devices', async (req, res) => {
   }
 });
 
+/* GET DEVICES API */
+router.get('/devices', async (req, res) => {
+
+  const devices = await Device.find();
+  res.json({devices});
+
+});
+
+
 
 
 

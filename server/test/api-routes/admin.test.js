@@ -11,7 +11,7 @@ const chai = require('chai')
 const {app} = require('./../../../server/server');
 const User = require('./../../models/User');
 const Device = require('./../../models/Device');
-const {users, populateUsers} = require('./../seed/seed');
+const {users, devices, populateDevices, populateUsers} = require('./../seed/seed');
 const {settings} = require('./../../settings');
 
 const adminPath = '/api/admin';
@@ -33,6 +33,7 @@ const nonExistentUserToken = jwt.sign({_id: randomId.toHexString(), privilege: '
                                 ).toString();
 describe('[*] ADMIN API TEST:', () => {
     beforeEach(populateUsers);
+    beforeEach(populateDevices);
 
     describe('- GET /users', () => {
         it('shouldn\'t authorize non-admin users', (done) => {
@@ -365,6 +366,19 @@ describe('[*] ADMIN API TEST:', () => {
         });
 
         
+    });
+
+    describe('GET /devices', () => {
+        it('should get all devices', (done) => {
+            request(app)
+            .get(`${adminPath}/devices`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(200)
+            .end((err, res) => {
+                expect(res.body.devices.length).to.equal(2);
+                done();
+            });
+        });
     });
 
 });
