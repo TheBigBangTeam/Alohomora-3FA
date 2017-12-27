@@ -2,7 +2,7 @@
 
 # Alohomora-3FA
 
-![Status](https://img.shields.io/badge/status-WIP-red.svg)
+![Status](https://img.shields.io/badge/status-WIP-red.svg)            [![Known Vulnerabilities](https://snyk.io/test/github/thebigbangteam/alohomora-3fa/badge.svg)](https://snyk.io/test/github/thebigbangteam/alohomora-3fa)
 
 A smart IoT based entrance unlock system which comprises full fledged logging, system security alerts and statistics.
 
