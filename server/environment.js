@@ -1,8 +1,8 @@
 "use strict";
 
-const env = process.env.NODE_ENV || 'development';
+const {settings} = require('./settings');
 
-const setEnvironment = () => {
+const setEnvironment = (env) => {
     switch(env){
         case 'development':
             process.env.PORT = 8080;
@@ -25,7 +25,5 @@ const setEnvironment = () => {
 }
 
 module.exports = {
-    env,
-    setEnvironment 
-    
+    setEnvironment   
 };

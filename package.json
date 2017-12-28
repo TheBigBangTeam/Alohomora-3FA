@@ -7,7 +7,7 @@
     "start": "export NODE_ENV=development || SET \"NODE_ENV=development\" && ng build --dev && node server/index.js",
     "start-production": "export NODE_ENV=production || SET \"NODE_ENV=production\" && ng build --aot --prod && node server/index.js",
     "build": "ng build",
-    "test": "ng build && nyc --reporter=html --reporter=text mocha server/**/* --exit",
+    "test": "export NODE_ENV=test && ng build && nyc --reporter=html --reporter=text mocha server/**/* --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "test-frontend": "ng test",
     "lint": "ng lint",

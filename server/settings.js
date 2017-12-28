@@ -10,7 +10,7 @@ const nThreads = os.cpus().length;
 const getRecommendedCost = () => safeMemoryCost > 10 ? safeMemoryCost : 11;
 
 const settings = {
-    port: 8080,
+    port: '8080',
     db: 'mongodb://localhost/alohomora-db',
     tls: {
         set: 'no',
