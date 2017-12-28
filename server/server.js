@@ -29,15 +29,7 @@ app.use(bodyParser.urlencoded({'extended':true}));
 
 /* DATABASE */
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true })
-    .then(() =>  {
-        if(env !== 'test'){
-            console.log('Connection to alohomora-db was succesful.');
-        } 
-    })
-    .catch((err) => console.error(err));
-
-
+mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true });
 
 /* ROUTES */
 
@@ -77,13 +69,13 @@ if(tls === 'yes'){
     };
 
     let httpsServer = https.createServer(sslOptions, app);
-    httpsServer.listen(port, () => console.log(`HTTPS server at localhost: ${port}`));
+    httpsServer.listen(port, () => console.log(`HTTPS server at localhost: ${port}\n`));
 
 } else {
 
     /* HTTP SERVER */
     let httpServer = http.createServer(app);
-    httpServer.listen(port, () => console.log(`HTTP server at localhost: ${port}`));
+    httpServer.listen(port, () => console.log(`HTTP server at localhost: ${port}\n`));
 
 }
 
