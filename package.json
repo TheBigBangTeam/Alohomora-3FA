@@ -8,7 +8,7 @@
     "start-production": "export NODE_ENV=production || SET \"NODE_ENV=production\" && ng build --aot --prod && node server/server.js",
     "build": "ng build",
     "test-frontend": "ng test",
-    "test": "export NODE_ENV=test && nyc --reporter=html --reporter=text -x server/models -x server/server.js -x server/settings.js -x server/test mocha server/test/test.js --exit",
+    "test": "export NODE_ENV=test && nyc --reporter=html --reporter=text -x server/models -x server/server.js -x server/environment.js -x server/settings.js -x server/test mocha server/test/test.js --exit",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
