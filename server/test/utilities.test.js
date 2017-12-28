@@ -6,12 +6,12 @@ const chai = require('chai')
   , expect = chai.expect
   , should = chai.should();
 
-const User = require('./../../models/User');
-const {users, populateUsers} = require('./../seed/seed');
-const {encryptAES, decryptAES} = require('./../../utilities');
-const {settings} = require('./../../settings');
+const User = require('./../models/User');
+const {users, populateUsers} = require('./seed/seed');
+const {encryptAES, decryptAES} = require('./../utilities');
+const {settings} = require('./../settings');
 
-describe('[*] CRYPTO & HASHING TEST:', () => {
+describe('[*] UTILITIES TEST:', () => {
   beforeEach(populateUsers);
   
   it('should hash user password with Argon2 algorithm', (done) => {
