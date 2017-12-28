@@ -8,6 +8,7 @@
     "start-production": "export NODE_ENV=production || SET \"NODE_ENV=production\" && ng build --aot --prod && node server/server.js",
     "build": "ng build",
     "test": "ng build && nyc --reporter=html --reporter=text mocha server/**/* --exit",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "test-frontend": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
