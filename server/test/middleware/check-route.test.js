@@ -24,6 +24,7 @@ describe('[*] ROUTE CHECKER MIDDLEWARE TEST', () => {
     });
 
     it('Should return 404', (done) => {
+        // If you don't remove dist folder prior to starting the test this will fail.
         request(app)
         .get('/')
         .expect(404)
