@@ -24,7 +24,6 @@ describe('[*] ROUTE CHECKER MIDDLEWARE TEST', () => {
     });
 
     it('Should return 404', (done) => {
-        // Remember to delete 
         request(app)
         .get('/')
         .expect(404)
