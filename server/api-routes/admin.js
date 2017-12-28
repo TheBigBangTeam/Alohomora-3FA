@@ -111,7 +111,7 @@ router.delete('/users/:id', async (req, res) => {
     return res.sendStatus(404);
   }
 
-  const user = await User.findByIdAndRemove(req.params.id, req.body);
+  const user = await User.findByIdAndRemove(req.params.id);
   if(!user) return res.sendStatus(404);
   res.json({user});
 });
@@ -174,6 +174,19 @@ router.put('/devices/:id', async (req,res) => {
     } catch (error) {
       res.sendStatus(400);
     }
+});
+
+/* DELETE SPECIFIC DEVICE */
+router.delete('/devices/:id', async (req,res) => {
+  if(!ObjectId.isValid(req.params.id)){
+    return res.sendStatus(400);
+  }
+  
+  const device = await Device.findByIdAndRemove(req.params.id);
+  if(!device) return res.sendStatus(404);
+  res.send({device});
+
+
 });
 
 
