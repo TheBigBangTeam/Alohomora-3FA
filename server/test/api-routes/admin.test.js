@@ -10,7 +10,8 @@ const chai = require('chai')
 
 const {app} = require('./../../../server/server');
 const User = require('./../../models/User');
-const {users, populateUsers} = require('./../seed/seed');
+const Device = require('./../../models/Device');
+const {users, devices, populateDevices, populateUsers} = require('./../seed/seed');
 const {settings} = require('./../../settings');
 
 const adminPath = '/api/admin';
@@ -32,6 +33,7 @@ const nonExistentUserToken = jwt.sign({_id: randomId.toHexString(), privilege: '
                                 ).toString();
 describe('[*] ADMIN API TEST:', () => {
     beforeEach(populateUsers);
+    beforeEach(populateDevices);
 
     describe('- GET /users', () => {
         it('shouldn\'t authorize non-admin users', (done) => {
@@ -248,7 +250,7 @@ describe('[*] ADMIN API TEST:', () => {
                 privilege: 'technician',
                 pin: '1234',
                 rfidTag: '6'
-            }
+            };
 
             request(app)
             .put(`${adminPath}/users/${users[0]._id.toHexString()}`)
@@ -306,5 +308,171 @@ describe('[*] ADMIN API TEST:', () => {
             .end(done);
         });
     });
+
+    describe('POST /devices', () => {
+        it('should create a new device', (done) => {
+            const newDevice = {
+                building:'Colosseum',
+                description:'Main entry'
+            };
+
+            request(app)
+            .post(`${adminPath}/devices`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(200)
+            .end((err, res) => {
+                should.not.exist(err);
+                should.exist(res.body.authToken);
+                should.exist(res.body.device);
+                done();
+            });
+        });
+
+        it('should NOT create a new device without building', (done) => {
+            const newDevice = {
+                description:'Main entry'
+            };
+
+            request(app)
+            .post(`${adminPath}/devices`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(400)
+            .end((err, res) => {
+                should.not.exist(err);
+                should.not.exist(res.body.authToken);
+                should.not.exist(res.body.device);
+                done();
+            });
+        });
+
+        it('should NOT create a new device without description', (done) => {
+            const newDevice = {
+                building:'Main entry'
+            };
+
+            request(app)
+            .post(`${adminPath}/devices`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(400)
+            .end((err, res) => {
+                should.not.exist(err);
+                should.not.exist(res.body.authToken);
+                should.not.exist(res.body.device);
+                done();
+            });
+        });
+
+        
+    });
+
+    describe('GET /devices', () => {
+        it('should get all devices', (done) => {
+            request(app)
+            .get(`${adminPath}/devices`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(200)
+            .end((err, res) => {
+                should.not.exist(err);
+                expect(res.body.devices.length).to.equal(2);
+                done();
+            });
+        });
+    });
+
+    describe('GET /devices/:id', () => {
+        it('should get a device', (done) => {
+            request(app)
+            .get(`${adminPath}/devices/${devices[0]._id.toHexString()}`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(200)
+            .end((err, res) => {
+                should.not.exist(err);
+                expect(res.body.device.building).to.equal(devices[0].building);
+                expect(res.body.device.description).to.equal(devices[0].description);
+                done();
+            });
+
+        });
+
+        it('should NOT get a device that does not exist', (done) => {
+            const randId = new ObjectId(); 
+
+            request(app)
+            .get(`${adminPath}/devices/${randId.toHexString()}`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(404)
+            .end((err, res) => {
+                should.not.exist(err);
+                done();
+            });
+
+        });
+
+        it('should NOT get a device with an invalid ID', (done) => {
+            request(app)
+            .get(`${adminPath}/devices/thisisinvalid`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(400)
+            .end(done);
+        });
+    });
+
+    describe('PUT /devices/:id', () => {
+        it('should update device', (done) => {
+            let newDevice = {...devices[0]};
+            newDevice.building='modified';
+            
+            request(app)
+            .put(`${adminPath}/devices/${devices[0]._id.toHexString()}`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(200)
+            .end((err,res) => {
+                should.not.exist(err);
+                expect(res.body.device.description).to.equal(newDevice.description);
+                done();
+            });
+        });
+
+        it('should NOT update invalid device', (done) => {
+            let newDevice = {...devices[0]};
+            newDevice.building='modified';
+            
+            request(app)
+            .put(`${adminPath}/devices/12`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(400)
+            .end((err,res) => {
+                should.not.exist(err);
+                done();
+            });
+        });
+
+        it('should NOT update non existing device', (done) => {
+
+            let newId = new ObjectId();
+            let newDevice = {...devices[0]};
+            newDevice.building='modified';
+            
+            request(app)
+            .put(`${adminPath}/devices/${newId.toHexString()}`)
+            .send(newDevice)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(404)
+            .end((err,res) => {
+                should.not.exist(err);
+                done();
+            });
+        });
+
+    });
+
+
+
+
 
 });

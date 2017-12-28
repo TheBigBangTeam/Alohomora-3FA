@@ -47,6 +47,6 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Running backend tests & code coverage reporting
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)
 
-Run `npm run test-backend` to execute the backend tests via [Mocha](https://mochajs.org/) 
+Run `npm test` to execute the backend tests via [Mocha](https://mochajs.org/) 
 and receive code coverage via [Istanbul](https://istanbul.js.org/).
 
