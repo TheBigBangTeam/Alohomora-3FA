@@ -2,7 +2,7 @@
 
 # Alohomora-3FA
 
-![Status](https://img.shields.io/badge/status-WIP-red.svg)   [![Build Status](https://travis-ci.org/TheBigBangTeam/Alohomora-3FA.svg?branch=master)](https://travis-ci.org/TheBigBangTeam/Alohomora-3FA)         [![Known Vulnerabilities](https://snyk.io/test/github/thebigbangteam/alohomora-3fa/badge.svg)](https://snyk.io/test/github/thebigbangteam/alohomora-3fa) [![BCH compliance](https://bettercodehub.com/edge/badge/TheBigBangTeam/Alohomora-3FA?branch=master)](https://bettercodehub.com/)
+![Status](https://img.shields.io/badge/status-WIP-red.svg)   [![Build Status](https://travis-ci.org/TheBigBangTeam/Alohomora-3FA.svg?branch=master)](https://travis-ci.org/TheBigBangTeam/Alohomora-3FA)         [![Known Vulnerabilities](https://snyk.io/test/github/thebigbangteam/alohomora-3fa/badge.svg)](https://snyk.io/test/github/thebigbangteam/alohomora-3fa) [![BCH compliance](https://bettercodehub.com/edge/badge/TheBigBangTeam/Alohomora-3FA?branch=master)](https://bettercodehub.com/) [![Coverage Status](https://coveralls.io/repos/github/TheBigBangTeam/Alohomora-3FA/badge.svg?branch=master)](https://coveralls.io/github/TheBigBangTeam/Alohomora-3FA?branch=master)
 
 A smart IoT based entrance unlock system which comprises full fledged logging, system security alerts and statistics.
 
@@ -45,7 +45,6 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 ## Running backend tests & code coverage reporting
-![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)
 
 Run `npm test` to execute the backend tests via [Mocha](https://mochajs.org/) 
 and receive code coverage via [Istanbul](https://istanbul.js.org/).
