@@ -10,10 +10,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const {settings} = require('./settings');
+const {setEnvironment} = require('./environment');
+const checkRoute = require('./middleware/check-route');
 
-const environment = require('./environment');
-
-environment.setEnvironment();
+/* NODE ENVIRONMENT */
+setEnvironment();
 
 /* SERVER & PARAMETERS */
 const app = express();
@@ -29,7 +30,12 @@ app.use(bodyParser.urlencoded({'extended':true}));
 
 /* DATABASE */
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true });
+mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true })
+.then()
+.catch((err) => {
+    console.error('[*ERROR*] Could not connect to MongoDB');
+    process.exit(1);
+});
 
 /* ROUTES */
 
@@ -47,14 +53,9 @@ app.use('/api/admin', adminRoute);
 app.use('/api/user', userRoute);
 
 // Middleware to catch errors
-let urlAux;
-app.use(function (req, res, next) {
-    urlAux = req.originalUrl.split("/"); // Splits originating url route and saves first level.
-    if(urlAux[1] === 'api') {res.sendStatus(400);} // Checks if the first level is /api
-    else {next()}; // otherwise it must be a angular route and it should be handled by frontend
-    
-});
-  
+app.use(checkRoute);
+
+// Angular redirect  
 app.get('/*', (req,res) => { res.sendFile(path.join(__dirname, '../dist/index.html')); });
 
 
