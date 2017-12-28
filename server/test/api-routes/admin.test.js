@@ -309,7 +309,7 @@ describe('[*] ADMIN API TEST:', () => {
         });
     });
 
-    describe('POST /devices', () => {
+    describe('- POST /devices', () => {
         it('should create a new device', (done) => {
             const newDevice = {
                 building:'Colosseum',
@@ -368,7 +368,7 @@ describe('[*] ADMIN API TEST:', () => {
         
     });
 
-    describe('GET /devices', () => {
+    describe('- GET /devices', () => {
         it('should get all devices', (done) => {
             request(app)
             .get(`${adminPath}/devices`)
@@ -382,7 +382,7 @@ describe('[*] ADMIN API TEST:', () => {
         });
     });
 
-    describe('GET /devices/:id', () => {
+    describe('- GET /devices/:id', () => {
         it('should get a device', (done) => {
             request(app)
             .get(`${adminPath}/devices/${devices[0]._id.toHexString()}`)
@@ -420,7 +420,7 @@ describe('[*] ADMIN API TEST:', () => {
         });
     });
 
-    describe('PUT /devices/:id', () => {
+    describe('- PUT /devices/:id', () => {
         it('should update device', (done) => {
             let newDevice = {...devices[0]};
             newDevice.building='modified';
@@ -469,6 +469,46 @@ describe('[*] ADMIN API TEST:', () => {
             });
         });
 
+    });
+
+    describe('- DELETE /devices/:id', () => {
+        it('should delete a device', (done) => {
+            request(app)
+            .delete(`${adminPath}/devices/${devices[0]._id.toHexString()}`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(200)
+            .end((err,res) => {
+                should.not.exist(err);
+                expect(res.body.device.building).to.equal(devices[0].building);
+                expect(res.body.device.description).to.equal(devices[0].description);
+                Device.find({}).then((deviceArray) => {
+                    expect(deviceArray.length).to.equal(devices.length - 1)
+                    done();
+                })
+                .catch((err) => {
+                    done(err);
+                });
+                
+            });
+        });
+
+        it('should NOT delete a device that does not exist', (done) => {
+            let newId = new ObjectId();
+
+            request(app)
+            .delete(`${adminPath}/devices/${newId.toHexString()}`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(404)
+            .end(done);
+        });
+
+        it('should NOT delete a device with an invalid Id', (done) => {
+            request(app)
+            .delete(`${adminPath}/devices/wrong`)
+            .set('Authorization', `Bearer ${token}`)
+            .expect(400)
+            .end(done);
+        });
     });
 
 
