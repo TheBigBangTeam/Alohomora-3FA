@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const {ObjectId} = require('mongodb');
 
 const User = require('./../../models/User');
-const {app} = require('./../../../server/server');
+const {app} = require('./../../../server/index');
 const {users, populateUsers} = require('./../seed/seed');
 const {settings} = require('./../../settings');
 

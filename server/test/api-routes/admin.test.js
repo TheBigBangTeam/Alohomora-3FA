@@ -8,7 +8,7 @@ const chai = require('chai')
   , expect = chai.expect
   , should = chai.should();
 
-const {app} = require('./../../../server/server');
+const {app} = require('./../../../server/index');
 const User = require('./../../models/User');
 const Device = require('./../../models/Device');
 const {users, devices, populateDevices, populateUsers} = require('./../seed/seed');

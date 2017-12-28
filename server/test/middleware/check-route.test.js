@@ -6,7 +6,7 @@ const chai = require('chai')
   , expect = chai.expect
   , should = chai.should();
 
-const {app} = require('./../../../server/server');
+const {app} = require('./../../../server/index');
 
 describe('[*] ROUTE CHECKER MIDDLEWARE TEST', () => {
     it('Should return 400', (done) => {
