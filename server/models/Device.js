@@ -38,7 +38,7 @@ DeviceSchema.statics.findByToken = async function (token) {
         throw new Error();
     }
     const device = await Device.findById(decoded._id);
-    return({device});
+    return(device);
 
 };
 
