@@ -2,6 +2,7 @@
 
 const User = require('./../models/User');
 
+/* MIDDLEWARE FOR AUTHENTICATION */
 const authenticate = async (req, res , next) => {
 
     try {

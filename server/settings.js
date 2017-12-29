@@ -3,17 +3,18 @@
 const os = require('os');
 const math = require('mathjs');
 
-const getMaxMemoryCost = () => math.floor(math.log(os.totalmem() / 1024, 2)); // e.g with 8GB -> 22, with 4GB -> 21 etc...
-const safeMemoryCost = getMaxMemoryCost() - 5;
-const nThreads = os.cpus().length;
+// @Developers
+// const getMaxMemoryCost = () => math.floor(math.log(os.totalmem() / 1024, 2)); // e.g with 8GB -> 22, with 4GB -> 21 etc...
+// const safeMemoryCost = getMaxMemoryCost() - 5;
+// const getRecommendedCost = () => safeMemoryCost > 10 ? safeMemoryCost : 11;
 
-const getRecommendedCost = () => safeMemoryCost > 10 ? safeMemoryCost : 11;
+const nThreads = os.cpus().length;
 
 const settings = {
     port: '8080',
     db: 'mongodb://localhost/alohomora-db',
     tls: {
-        set: 'no',
+        set: 'yes', // WARNING: Disabling this will make your system vulnerable to Man In The Middle attacks.
         keyPath: './key.pem',
         certPath:'./cert.pem'
     },
@@ -22,7 +23,7 @@ const settings = {
     argon2: { // WARNING: CHANGE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING OR YOU ARE GETTING PERFORMANCE ISSUES.
         // Defaults suggested by argon2 Draft RFC https://tools.ietf.org/html/draft-irtf-cfrg-argon2-03 with custom memory tweak
         timeCost: 1,    // Increase adds security but more time to the computation
-        memoryCost: 11, // IN PRODUCTION YOU SHOULD CHANGE THIS TO getRecommendedCost(). Anything > 10 should suffice.
+        memoryCost: 13, // IN PRODUCTION YOU SHOULD CHANGE THIS TO getRecommendedCost(). Anything > 10 should suffice.
         parallelism: nThreads, // Max number of parallelism 
         type: 2 // 2 is argon2id, the recommended from the Draft RFC
     },

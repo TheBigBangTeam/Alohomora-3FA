@@ -28,4 +28,18 @@ DeviceSchema.methods.toJSON = function () {
     return _.pick(deviceObject, ['_id', 'building','description']);
 };
 
+DeviceSchema.statics.findByToken = async function (token) {
+    const Device = this;
+    let decoded;
+
+    try {
+        decoded = jwt.verify(token, settings.JWT.secret);
+    } catch (error) {
+        throw new Error();
+    }
+    const device = await Device.findById(decoded._id);
+    return({device});
+
+};
+
 module.exports = mongoose.model('Device', DeviceSchema);
