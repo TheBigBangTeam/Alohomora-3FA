@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const {setEnvironment} = require('./environment');
 const checkRoute = require('./middleware/check-route');
 const {startServer} = require('./server');
+const {dbConnect} = require('./db');
 
 /* NODE ENVIRONMENT */
 const env = process.env.NODE_ENV;
@@ -28,11 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':true}));
 
 /* DATABASE */
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI)
-.then()
-.catch((err) => {
-    console.error('[*ERROR*] Could not connect to MongoDB');
+dbConnect().catch((e) => {
+    console.log(e.message);
     process.exit(1);
 });
 
