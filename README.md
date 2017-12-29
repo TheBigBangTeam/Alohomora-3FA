@@ -6,6 +6,12 @@
 
 A smart IoT based entrance unlock system which comprises full fledged logging, system security alerts and statistics.
 
+## Authors
+  - Michele 'An4cr0n' Biondi, michelebiondi01@gmail.com, PGP:3814987E (Contacts)
+  - Andrea Salvatori
+  - Maicol Moretti
+  - Daniele Moscati
+
 ## Prerequisites
 HARDWARE:
   - Arduino (sketches and schematics will be provided in the final release)
