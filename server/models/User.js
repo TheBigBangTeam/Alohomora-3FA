@@ -79,6 +79,23 @@ UserSchema.methods.isAdmin = function () {
     return user.privilege === 'admin' ? true : false;
 };
 
+UserSchema.statics.findByRfid = async function (rfid) {
+    const User = this;
+
+    const encryptedTag = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, rfid);
+    const user = await User.findOne({rfidTag: encryptedTag});
+    return (user);
+};
+
+UserSchema.statics.findByRfidAndPin =  async function (rfid, pin) {
+    const User = this;
+    
+    const encryptedTag = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, rfid);
+    const encryptedPin = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, pin);
+    const user = await User.findOne({rfidTag: encryptedTag, pin:encryptedPin});
+    return (user);
+};
+
 UserSchema.statics.findByCredentials = async function (username, password){
     const User = this;
 
@@ -118,7 +135,7 @@ UserSchema.pre('save', async function (next) {
     let user = this;
 
     if(user.isModified('password')) user.password = await argon2.hash(user.password, settings.argon2);
-    if(user.isModified('rfidTag')) user.rfidTag = await argon2.hash(user.rfidTag, settings.argon2);
+    if(user.isModified('rfidTag')) user.rfidTag = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.rfidTag);
     if(user.isModified('pin')) user.pin = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.pin);
     
     next();

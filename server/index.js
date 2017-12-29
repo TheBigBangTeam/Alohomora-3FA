@@ -10,9 +10,10 @@ const bodyParser = require('body-parser');
 const {setEnvironment} = require('./environment');
 const checkRoute = require('./middleware/check-route');
 const {startServer} = require('./server');
+const {dbConnect} = require('./db');
 
 /* NODE ENVIRONMENT */
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV;
 setEnvironment(env);
 
 /* SERVER & PARAMETERS */
@@ -28,11 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended':true}));
 
 /* DATABASE */
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI)
-.then()
-.catch((err) => {
-    console.error('[*ERROR*] Could not connect to MongoDB');
+dbConnect().catch((e) => {
+    console.log(e.message);
     process.exit(1);
 });
 
@@ -44,12 +42,16 @@ app.use(express.static(path.join(__dirname, '../dist')));
 // Routers
 const adminRoute = require('./api-routes/admin');
 const userRoute = require('./api-routes/user');
+const authenticationRoute = require('./api-routes/authentication');
 
 // Admin API
 app.use('/api/admin', adminRoute); 
 
 // User API
 app.use('/api/user', userRoute);
+
+// Doorlock authentication API
+app.use('/api/authenticate', authenticationRoute);
 
 // Middleware to catch errors
 app.use(checkRoute);

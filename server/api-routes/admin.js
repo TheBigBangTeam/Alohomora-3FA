@@ -129,7 +129,7 @@ router.post('/devices', async (req, res) => {
   try {
    
     const device = await Device.create(body);
-    const authToken = jwt.sign({_id: device._id.toHexString()}, settings.JWT.secret);
+    const authToken = jwt.sign({_id: device._id.toHexString()}, settings.JWT.secret, {algorithm:settings.JWT.algorithm, issuer: settings.JWT.issuer}).toString(); 
     res.json({authToken, device});
 
   } catch (error) {

@@ -32,21 +32,18 @@ describe('[*] UTILITIES TEST:', () => {
     });
   });
 
-  it('should hash user rfidTag with Argon2 algorithm', (done) => {
+  it('should encrypt user rfidTag using AES algorithm', (done) => {
     User.findById(users[0]._id)
     .then((user) => {
       if(!user){
         return done('Cannot find user');
       }
-      
-      if(user.rfidTag.includes("argon2")){
-        return done();
-      } else {
-        return done(new Error('rfidTag NOT hashed, or hashed with a different algorithm'));
-      }
-    })
-    .catch((err) => {
-      return done(err);
+
+      expect(user.rfidTag).to.not.equal(users[0].rfidTag);
+      expect(user.rfidTag.length).to.equal(32);
+      done();
+    }).catch((err) => {
+      done(err);
     });
   });
 
