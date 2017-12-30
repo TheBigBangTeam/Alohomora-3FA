@@ -1,5 +1,13 @@
 language: node_js
 node_js:
-  - "lts/*"
+- lts/*
+- node
+before_install:
+- npm install -g greenkeeper-lockfile@1
+before_script: greenkeeper-lockfile-update
+after_script: greenkeeper-lockfile-upload
 services: mongodb
 after_success: npm run coverage
+env:
+  global:
+    secure: FXmNfHGQ7DKImZwhp0a0pkL+mtqWWd9SkCWwUCoJwc7nwptO2X62ziKB1qDg/Lm+ahFIOTvOoM5txzUzDMIs9ZexVtyI62XWC1GPksQtYZRrcM6Y4BD29g/FbZ0NsdMXqVsnjb1PSQEfLM5CCRL125kCrRxh/y+BCyPT9hEqQL/3vPVmn6w3TSvpsZ+029h2iKlk+xJ3mCzc4/YOquMaR+blXed8GL5VijUCG8fT7R8TEiUyZQQs7pTXRINfwCAog8AVYIC/SnF4Z98VaOc/Zen4aEmu0xMB51SfH3QCtBuz00T6ci1Z7gA1FBdhRFpyGJ4Y/esdyUvQ+bDV0gVVSGommSJDedUy3D+s/1bQ+oe2L8UAJnx1x80pvr8XAgG4sSR/bKQxrYhfA0EtzXifQHe4ekAaDZ/7+qoqO4Qiv3pkUzS8x4kiaDCXjn8kDp/lZV1fWRO9+cCWugq+68GLnOT466Qdhaz4mGW7FPE6hKrJt+nzoOabEE46A/KwmcyRzYd6d7iE9RwvWCF6eusiy9BfIJz4QRel9sJORc5261xYCLUhRe74+OsqnFnIy1DdtxBmI20a2KTXu9MEOK+p2Sd5M2RouQKmjbxmi/KpI7csHdPzsJFJRUW1WMNVd+9+bgepBkcORJKOtBPJGG5IRzyw9VMcFoMoa3b/4Mgu3b8=
