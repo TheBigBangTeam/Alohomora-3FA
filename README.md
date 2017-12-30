@@ -2,6 +2,8 @@
 
 # Alohomora-3FA
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/TheBigBangTeam/Alohomora-3FA.svg)](https://greenkeeper.io/)
+
 ![Status](https://img.shields.io/badge/status-WIP-red.svg)   [![Build Status](https://travis-ci.org/TheBigBangTeam/Alohomora-3FA.svg?branch=master)](https://travis-ci.org/TheBigBangTeam/Alohomora-3FA)         [![Known Vulnerabilities](https://snyk.io/test/github/thebigbangteam/alohomora-3fa/badge.svg)](https://snyk.io/test/github/thebigbangteam/alohomora-3fa) [![BCH compliance](https://bettercodehub.com/edge/badge/TheBigBangTeam/Alohomora-3FA?branch=master)](https://bettercodehub.com/) [![Coverage Status](https://coveralls.io/repos/github/TheBigBangTeam/Alohomora-3FA/badge.svg?branch=master)](https://coveralls.io/github/TheBigBangTeam/Alohomora-3FA?branch=master)
 
 A smart IoT based entrance unlock system which comprises full fledged logging, system security alerts and statistics.
