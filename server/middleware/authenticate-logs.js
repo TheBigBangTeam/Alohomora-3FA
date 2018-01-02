@@ -12,14 +12,9 @@ const authenticate = async (req, res , next) => {
             return res.sendStatus(401);
         }
 
-        if(user.isAdmin()){
+        if(user.isAdmin() || settings.logPermissionEnum.includes(user.privilege)){
             req.user = user;
             return next(); 
-        }
-
-        if(settings.logPermissionEnum.includes(user.privilege)){
-            req.user = user;
-            return next();
         }
 
         throw new Error(`Not authorized`);
