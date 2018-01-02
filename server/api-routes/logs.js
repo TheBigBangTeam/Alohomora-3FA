@@ -16,3 +16,5 @@ router.get('/', async (req, res) => {
     const logs = await Log.find();
     res.json({logs});
 });
+
+module.exports = router;

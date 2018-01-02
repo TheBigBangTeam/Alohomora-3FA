@@ -43,6 +43,7 @@ app.use(express.static(path.join(__dirname, '../dist')));
 const adminRoute = require('./api-routes/admin');
 const userRoute = require('./api-routes/user');
 const authenticationRoute = require('./api-routes/authentication');
+const logsRoute = require('./api-routes/logs');
 
 // Admin API
 app.use('/api/admin', adminRoute); 
@@ -52,6 +53,9 @@ app.use('/api/user', userRoute);
 
 // Doorlock authentication API
 app.use('/api/authenticate', authenticationRoute);
+
+// Logs API
+app.use('/api/logs', logsRoute);
 
 // Middleware to catch errors
 app.use(checkRoute);
