@@ -1,14 +1,12 @@
 'use strict'
 
 const request = require('supertest')
-const chai = require('chai'),
-  assert = chai.assert,
-  expect = chai.expect,
-  should = chai.should()
+const chai = require('chai')
+const expect = chai.expect
+const should = chai.should()
 const jwt = require('jsonwebtoken')
 const {ObjectId} = require('mongodb')
 
-const User = require('./../../models/User')
 const {app} = require('./../../../server/index')
 const {users, populateUsers} = require('./../seed/seed')
 const {settings} = require('./../../settings')
@@ -31,7 +29,7 @@ describe('[*] USER API TEST:', () => {
           .expect(200)
           .end((err, res) => {
             should.not.exist(err)
-            expect(res.body.token).to.not.be.undefined
+            expect(res.body.token).to.not.be.an('undefined')
             expect(res.body.user.email).to.equal(users[0].email)
             done()
           })
@@ -75,6 +73,10 @@ describe('[*] USER API TEST:', () => {
         .post(`${userPath}`)
         .send(credentials)
         .end((err, res) => {
+          if (err) {
+            done(err)
+          }
+
           request(app)
           .get(`${userPath}`)
           .set('Authorization', `Bearer ${res.body.token}`)
@@ -103,7 +105,7 @@ describe('[*] USER API TEST:', () => {
     })
 
     it('should NOT get results back with a rogue Token', (done) => {
-      let rogueToken = jwt.sign({_id: users[2]._id.toHexString, privilege: 'admin' }, 'not a valid key').toString()
+      let rogueToken = jwt.sign({ _id: users[2]._id.toHexString, privilege: 'admin' }, 'not a valid key').toString()
       request(app)
         .get(`${userPath}`)
         .set('Authorization', `Bearer ${rogueToken}`)
@@ -113,7 +115,7 @@ describe('[*] USER API TEST:', () => {
 
     it('should NOT get results back with a non-existent user', (done) => {
       const id = new ObjectId()
-      let wrongUserToken = jwt.sign({_id: id, privilege: 'admin' }, settings.JWT.secret).toString()
+      let wrongUserToken = jwt.sign({ _id: id, privilege: 'admin' }, settings.JWT.secret).toString()
       request(app)
         .get(`${userPath}`)
         .set('Authorization', `Bearer ${wrongUserToken}`)

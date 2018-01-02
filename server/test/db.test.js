@@ -1,7 +1,3 @@
-const chai = require('chai'),
-  assert = chai.assert,
-  expect = chai.expect,
-  should = chai.should()
 
 const {dbConnect} = require('./../db')
 

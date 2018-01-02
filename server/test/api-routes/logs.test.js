@@ -1,13 +1,11 @@
 'use strict'
 
 const request = require('supertest')
-const chai = require('chai'),
-  assert = chai.assert,
-  expect = chai.expect,
-  should = chai.should()
+const chai = require('chai')
+const expect = chai.expect
 const jwt = require('jsonwebtoken')
 
-const {users, devices, logs, populateDevices, populateUsers, populateLogs} = require('./../seed/seed')
+const {users, logs, populateDevices, populateUsers, populateLogs} = require('./../seed/seed')
 const {app} = require('./../../../server/index')
 const {settings} = require('./../../settings')
 

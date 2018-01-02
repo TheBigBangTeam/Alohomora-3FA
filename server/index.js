@@ -3,8 +3,6 @@
 const express = require('express')
 const path = require('path')
 const helmet = require('helmet')
-const fs = require('fs')
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
 const {setEnvironment} = require('./environment')

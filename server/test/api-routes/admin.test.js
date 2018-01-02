@@ -3,10 +3,9 @@
 const request = require('supertest')
 const {ObjectId} = require('mongodb')
 const jwt = require('jsonwebtoken')
-const chai = require('chai'),
-  assert = chai.assert,
-  expect = chai.expect,
-  should = chai.should()
+const chai = require('chai')
+const expect = chai.expect
+const should = chai.should()
 
 const {app} = require('./../../../server/index')
 const User = require('./../../models/User')

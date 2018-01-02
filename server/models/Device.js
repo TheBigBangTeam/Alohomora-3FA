@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 
-const {encryptAES} = require('./../utilities')
 const {settings} = require('./../settings')
 
 const DeviceSchema = new mongoose.Schema({

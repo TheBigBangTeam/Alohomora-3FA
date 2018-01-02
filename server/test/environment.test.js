@@ -1,7 +1,5 @@
-const chai = require('chai'),
-  assert = chai.assert,
-  expect = chai.expect,
-  should = chai.should()
+const chai = require('chai')
+const expect = chai.expect
 
 const {setEnvironment} = require('./../environment')
 const {settings} = require('./../settings')

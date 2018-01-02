@@ -1,10 +1,6 @@
 'use strict'
 
 const request = require('supertest')
-const chai = require('chai'),
-  assert = chai.assert,
-  expect = chai.expect,
-  should = chai.should()
 
 const {app} = require('./../../../server/index')
 

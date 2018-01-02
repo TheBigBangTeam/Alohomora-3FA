@@ -1,12 +1,10 @@
 'use strict'
 
 const {ObjectId} = require('mongodb')
-const jwt = require('jsonwebtoken')
 
 const User = require('./../../models/User')
 const Device = require('./../../models/Device')
 const Log = require('./../../models/Log')
-const {settings} = require('./../../settings')
 
 const user0Id = new ObjectId()
 const user1Id = new ObjectId()

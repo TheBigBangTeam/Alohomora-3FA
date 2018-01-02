@@ -1,12 +1,6 @@
 'use strict'
 
 const os = require('os')
-const math = require('mathjs')
-
-// @Developers
-// const getMaxMemoryCost = () => math.floor(math.log(os.totalmem() / 1024, 2)); // e.g with 8GB -> 22, with 4GB -> 21 etc...
-// const safeMemoryCost = getMaxMemoryCost() - 5;
-// const getRecommendedCost = () => safeMemoryCost > 10 ? safeMemoryCost : 11;
 
 const nThreads = os.cpus().length
 

@@ -1,13 +1,8 @@
 'use strict'
 
 const request = require('supertest')
-const chai = require('chai'),
-  assert = chai.assert,
-  expect = chai.expect,
-  should = chai.should()
 const jwt = require('jsonwebtoken')
 
-const {ObjectId} = require('mongodb')
 const {app} = require('./../../../server/index')
 const {users, devices, populateUsers, populateDevices} = require('./../seed/seed')
 const {settings} = require('./../../settings')
@@ -16,7 +11,6 @@ const authenticationPath = '/api/authenticate'
 
 const token = jwt.sign({_id: devices[0]._id.toHexString()}, settings.JWT.secret, {algorithm: settings.JWT.algorithm, issuer: settings.JWT.issuer}).toString()
 const tokenFake = jwt.sign({_id: devices[0]._id.toHexString()}, 'Fake', {algorithm: settings.JWT.algorithm, issuer: settings.JWT.issuer}).toString()
-const randId = new ObjectId()
 const noDbToken = jwt.sign({_id: '5a469a203d4f2410c9cb7632'}, settings.JWT.secret, {algorithm: settings.JWT.algorithm, issuer: settings.JWT.issuer}).toString()
 
 describe('[*] AUTHENTICATION ROUTE TEST', () => {

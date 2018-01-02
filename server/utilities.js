@@ -1,7 +1,6 @@
 'use strict'
 
 const crypto = require('crypto')
-const {settings} = require('./settings')
 
 const encryptAES = (length, mode, secret, plaintext) => {
   let cipher

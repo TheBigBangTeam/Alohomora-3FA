@@ -1,7 +1,6 @@
 'use strict'
 
 const express = require('express')
-const mongoose = require('mongoose')
 const _ = require('lodash')
 const { ObjectId } = require('mongodb')
 const bearerToken = require('express-bearer-token')

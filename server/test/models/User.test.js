@@ -1,11 +1,8 @@
-const chai = require('chai'),
-  assert = chai.assert,
-  expect = chai.expect,
-  should = chai.should()
+const chai = require('chai')
+const expect = chai.expect
 
 const User = require('./../../models/User')
 const {users, populateUsers} = require('./../seed/seed')
-const {app} = require('./../../index')
 
 beforeEach(populateUsers)
 
