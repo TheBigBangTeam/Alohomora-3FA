@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('./../../models/User');
 const Device = require('./../../models/Device');
+const Log = require('./../../models/Log');
 const {settings} = require('./../../settings');
 
 const user0Id = new ObjectId();
@@ -18,7 +19,7 @@ const users = [{
     surname: 'zero',
     email: 'user0@example.com',
     password: 'longpassword',
-    privilege: 'hr',
+    privilege: 'security',
     pin: '1234',
     rfidTag: '1'
 },{
@@ -54,7 +55,24 @@ const devices = [{
     _id: device1Id,
     building:'Office',
     description:'Backdoor'
-}]
+}];
+
+const log0Id = new ObjectId();
+const log1Id = new ObjectId();
+
+const logs = [{
+    _id: log0Id,
+    severity: 'info',
+    device: device0Id,
+    user: user0Id,
+    description: 'Succesful access'
+},{
+    _id: log1Id,
+    severity: 'warning',
+    device: device1Id,
+    user: user1Id,
+    description: 'Wrong pin'
+}];
 
 const populateUsers = (done) => {
     User.remove({})
@@ -75,8 +93,17 @@ const populateDevices = (done) => {
         return Promise.all([deviceOnePromise, deviceTwoPromise]);
     })
     .then(() => done())
+};
+
+const populateLogs = (done) => {
+    Log.remove({})
+    .then(() => {
+        let logOnePromise = Log.create(logs[0]);
+        let logTwoPromise = Log.create(logs[1]);
+        return Promise.all([logOnePromise, logTwoPromise]);
+    })
+    .then(() => done())
 }
 
 
-
-module.exports = {users, devices, populateUsers, populateDevices};
+module.exports = {users, devices, logs, populateUsers, populateDevices, populateLogs};
