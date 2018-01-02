@@ -36,8 +36,7 @@ dbConnect().catch((e) => {
 
 /* ROUTES */
 
-// Static files
-app.use(express.static(path.join(__dirname, '../dist')));
+
 
 // Routers
 const adminRoute = require('./api-routes/admin');
@@ -60,8 +59,10 @@ app.use('/api/logs', logsRoute);
 // Middleware to catch errors
 app.use(checkRoute);
 
-// Angular redirect  
-app.get('/*', (req,res) => { res.sendFile(path.join(__dirname, '../dist/index.html')); });
+// Frontend redirect  
+//app.get('/*', (req,res) => { res.sendFile(path.join(__dirname, '../dist/index.html')); });
+// Static files
+app.use(express.static(path.join(__dirname, '../public')));
 
 startServer(app, tls, port);
 
