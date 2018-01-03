@@ -109,3 +109,6 @@ playground
 
 # React
 build
+
+# Vagrant
+.vagrant
