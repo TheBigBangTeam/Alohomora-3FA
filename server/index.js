@@ -40,6 +40,9 @@ const userRoute = require('./api-routes/user')
 const authenticationRoute = require('./api-routes/authentication')
 const logsRoute = require('./api-routes/logs')
 
+// Server static assets
+app.use(express.static(path.resolve(__dirname, '..', 'build')))
+
 // Admin API
 app.use('/api/admin', adminRoute)
 
@@ -54,11 +57,6 @@ app.use('/api/logs', logsRoute)
 
 // Middleware to catch errors
 app.use(checkRoute)
-
-// Frontend redirect
-// app.get('/*', (req,res) => { res.sendFile(path.join(__dirname, '../dist/index.html')); });
-// Static files
-app.use(express.static(path.join(__dirname, '../public')))
 
 startServer(app, tls, port)
 
