@@ -9,8 +9,7 @@
   "contributors": [],
   "scripts": {
     "start": "export NODE_ENV=development || SET \"NODE_ENV=development\" && node server/index.js",
-    "start-production": "export NODE_ENV=production || SET \"NODE_ENV=production\" && node server/index.js",
-    "build": "",
+    "build": "react-scripts build",
     "test": "export NODE_ENV=test && nyc --reporter=html --reporter=text mocha server/**/* --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard --fix | snazzy"
@@ -38,6 +37,9 @@
     "lodash": "^4.17.4",
     "mongodb": "^3.0.1",
     "mongoose": "^5.0.0-rc0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "^1.0.17",
     "validator": "^9.2.0"
   },
   "devDependencies": {
