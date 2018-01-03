@@ -10,7 +10,7 @@
   "scripts": {
     "start": "export NODE_ENV=development || SET \"NODE_ENV=development\" && node server/index.js",
     "build": "react-scripts build",
-    "test": "export NODE_ENV=test && nyc --reporter=html --reporter=text mocha server/**/* --exit",
+    "test": "export NODE_ENV=test && npm run build && nyc --reporter=html --reporter=text mocha server/**/* --exit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard --fix | snazzy"
   },
