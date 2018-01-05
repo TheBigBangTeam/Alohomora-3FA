@@ -3,7 +3,7 @@ node_js:
 - lts/*
 before_install:
 - npm install -g greenkeeper-lockfile@1
-- cd app && npm install
+- cd app && npm install && cd ..
 before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload
 services: mongodb
