@@ -13,7 +13,7 @@
     "server": "cd server && nodemon server",
     "start": "concurrently \"npm run server\" \"npm run client\" ",
     "build": "cd client && npm run build",
-    "test": "nyc --reporter=html --reporter=text mocha server/**/* --exit",
+    "test": "nyc --reporter=html --reporter=text mocha server/src/**/* --exit",
     "test-vuln": "snyk test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard | snazzy",

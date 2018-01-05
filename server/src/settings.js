@@ -5,14 +5,8 @@ const os = require('os')
 const nThreads = os.cpus().length
 
 const settings = {
-  port: '8080',
   db: 'mongodb://localhost/alohomora-db',
-  tls: {
-    set: 'yes', // WARNING: Disabling this will make your system vulnerable to Man In The Middle attacks.
-    keyPath: './key.pem',
-    certPath: './cert.pem'
-  },
-    // list of permissions in addition to admin
+  // list of permissions in addition to admin
   permissionEnum: ['technician', 'hr', 'security', 'worker'],
   logPermissionEnum: ['security'],
   argon2: { // WARNING: CHANGE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING OR YOU ARE GETTING PERFORMANCE ISSUES.
