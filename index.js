@@ -5,10 +5,10 @@ const path = require('path')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 
-const {setEnvironment} = require('./environment')
-const checkRoute = require('./middleware/check-route')
-const {startServer} = require('./server')
-const {dbConnect} = require('./db')
+const {setEnvironment} = require('./server/environment')
+const checkRoute = require('./server/middleware/check-route')
+const {startServer} = require('./server/server')
+const {dbConnect} = require('./server/db')
 
 /* NODE ENVIRONMENT */
 const env = process.env.NODE_ENV
@@ -35,13 +35,13 @@ dbConnect().catch((e) => {
 /* ROUTES */
 
 // Routers
-const adminRoute = require('./api-routes/admin')
-const userRoute = require('./api-routes/user')
-const authenticationRoute = require('./api-routes/authentication')
-const logsRoute = require('./api-routes/logs')
+const adminRoute = require('./server/api-routes/admin')
+const userRoute = require('./server/api-routes/user')
+const authenticationRoute = require('./server/api-routes/authentication')
+const logsRoute = require('./server/api-routes/logs')
 
 // Server static assets
-app.use(express.static(path.resolve(__dirname, '..', 'build')))
+app.use(express.static(path.join(__dirname, 'app', 'build')))
 
 // Admin API
 app.use('/api/admin', adminRoute)

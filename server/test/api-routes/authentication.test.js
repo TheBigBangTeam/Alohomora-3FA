@@ -3,7 +3,7 @@
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
 
-const {app} = require('./../../../server/index')
+const {app} = require('./../../../index')
 const {users, devices, populateUsers, populateDevices} = require('./../seed/seed')
 const {settings} = require('./../../settings')
 

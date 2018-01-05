@@ -2,7 +2,7 @@
 
 const request = require('supertest')
 
-const {app} = require('./../../../server/index')
+const {app} = require('./../../../index')
 
 describe('[*] ROUTE CHECKER MIDDLEWARE TEST', () => {
   it('Should return 400', (done) => {
