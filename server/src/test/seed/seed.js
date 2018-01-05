@@ -48,11 +48,13 @@ const device1Id = new ObjectId()
 const devices = [{
   _id: device0Id,
   building: 'Home',
-  description: 'Main entrance'
+  description: 'Main entrance',
+  functionality: 'Entrance'
 }, {
   _id: device1Id,
   building: 'Office',
-  description: 'Backdoor'
+  description: 'Backdoor',
+  functionality: 'Exit'
 }]
 
 const log0Id = new ObjectId()

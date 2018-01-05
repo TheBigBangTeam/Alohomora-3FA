@@ -305,7 +305,8 @@ describe('[*] ADMIN API TEST:', () => {
     it('should create a new device', (done) => {
       const newDevice = {
         building: 'Colosseum',
-        description: 'Main entry'
+        description: 'Main entry',
+        functionality: 'Entrance'
       }
 
       request(app)
@@ -317,6 +318,10 @@ describe('[*] ADMIN API TEST:', () => {
               should.not.exist(err)
               should.exist(res.body.authToken)
               should.exist(res.body.device)
+              should.exist(res.body.device._id)
+              should.exist(res.body.device.building)
+              should.exist(res.body.device.description)
+              should.exist(res.body.device.functionality)
               done()
             })
     })
@@ -382,6 +387,7 @@ describe('[*] ADMIN API TEST:', () => {
               should.not.exist(err)
               expect(res.body.device.building).to.equal(devices[0].building)
               expect(res.body.device.description).to.equal(devices[0].description)
+              expect(res.body.device.functionality).to.equal(devices[0].functionality)
               done()
             })
     })
@@ -411,7 +417,8 @@ describe('[*] ADMIN API TEST:', () => {
   describe('- PUT /devices/:id', () => {
     it('should update device', (done) => {
       let newDevice = {...devices[0]}
-      newDevice.building = 'modified'
+      const building = 'modified'
+      newDevice.building = building
 
       request(app)
             .put(`${adminPath}/devices/${devices[0]._id.toHexString()}`)
@@ -420,7 +427,10 @@ describe('[*] ADMIN API TEST:', () => {
             .expect(200)
             .end((err, res) => {
               should.not.exist(err)
-              expect(res.body.device.description).to.equal(newDevice.description)
+              expect(res.body.device.building).to.equal(building)
+              expect(res.body.device.building).to.not.equal(devices[0].building)
+              expect(res.body.device.description).to.equal(devices[0].description)
+              expect(res.body.device.functionality).to.equal(devices[0].functionality)
               done()
             })
     })
