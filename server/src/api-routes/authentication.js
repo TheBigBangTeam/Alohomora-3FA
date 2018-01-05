@@ -35,8 +35,18 @@ router.get('/:rfid', async (req, res) => {
 
 router.get('/:rfid/:pin', async (req, res) => {
   const user = await User.findByRfidAndPin(req.params.rfid, req.params.pin)
-  if (!user) return res.sendStatus(401)
-  res.sendStatus(200)
+  if (!user) {
+    return res.sendStatus(401)
+  } else {
+    const log = {
+      severity: 'info',
+      device: req.device._id,
+      user: user._id,
+      description: `${user.username} succesfully unlocked DOOR at ${req.device.functionality} of ${req.device.description} at ${req.device.building}`
+    }
+    await Log.create(log)
+    res.sendStatus(200)
+  }
 })
 
 module.exports = router
