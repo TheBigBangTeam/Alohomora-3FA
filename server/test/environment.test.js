@@ -8,7 +8,7 @@ describe('[*] ENVIRONMENT TEST', () => {
   it('should load development environment', () => {
     setEnvironment('development')
 
-    expect(process.env.PORT).to.equal('8080')
+    expect(process.env.PORT).to.equal('3001')
     expect(process.env.MONGODB_URI).to.equal('mongodb://localhost/alohomora-db-devel')
   })
 
@@ -19,12 +19,5 @@ describe('[*] ENVIRONMENT TEST', () => {
     expect(process.env.TLS).to.equal(settings.tls.set)
     expect(process.env.KEY_PATH).to.equal(settings.tls.keyPath)
     expect(process.env.CERT_PATH).to.equal(settings.tls.certPath)
-  })
-
-  it('should load test environment', () => {
-    setEnvironment('test')
-
-    expect(process.env.PORT).to.equal('3001')
-    expect(process.env.MONGODB_URI).to.equal('mongodb://localhost/alohomora-db-test')
   })
 })

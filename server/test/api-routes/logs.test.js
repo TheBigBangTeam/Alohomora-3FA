@@ -6,7 +6,7 @@ const expect = chai.expect
 const jwt = require('jsonwebtoken')
 
 const {users, logs, populateDevices, populateUsers, populateLogs} = require('./../seed/seed')
-const {app} = require('./../../../index')
+const {app} = require('./../../app')
 const {settings} = require('./../../settings')
 
 const logsPath = '/api/logs'

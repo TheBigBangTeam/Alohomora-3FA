@@ -2,23 +2,23 @@ const http = require('http')
 const https = require('https')
 const fs = require('fs')
 
-const startServer = (app, tls, port) => {
-  if (tls === 'yes') {
-        /* HTTPS SERVER */
-    const sslOptions = {
-      key: fs.readFileSync(process.env.KEY_PATH || 'key.pem'),
-      cert: fs.readFileSync(process.env.CERT_PATH || 'cert.pem')
-    }
+const {app} = require('./app')
 
-    let httpsServer = https.createServer(sslOptions, app)
-    httpsServer.listen(port, () => console.log(`HTTPS server at localhost: ${port}\n`))
-  } else {
-        /* HTTP SERVER */
-    let httpServer = http.createServer(app)
-    httpServer.listen(port, () => console.log(`HTTP server at localhost: ${port}\n`))
+const env = process.env.NODE_ENV
+
+if (env === 'production') {
+      /* HTTPS PRODUCTION SERVER */
+
+      // TODO Redirect from 80 to 443
+  const sslOptions = {
+    key: fs.readFileSync(process.env.KEY_PATH),
+    cert: fs.readFileSync(process.env.CERT_PATH)
   }
-}
 
-module.exports = {
-  startServer
+  let httpsServer = https.createServer(sslOptions, app)
+  httpsServer.listen(443)
+} else {
+      /* HTTP DEVELOPMENT SERVER */
+  let httpServer = http.createServer(app)
+  httpServer.listen(3001, () => console.log(`HTTP server at localhost: 3001\n`))
 }

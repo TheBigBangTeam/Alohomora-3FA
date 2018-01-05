@@ -2,7 +2,7 @@
 
 const request = require('supertest')
 
-const {app} = require('./../../../index')
+const {app} = require('./../../app')
 
 describe('[*] ROUTE CHECKER MIDDLEWARE TEST', () => {
   it('Should return 400', (done) => {
@@ -22,7 +22,7 @@ describe('[*] ROUTE CHECKER MIDDLEWARE TEST', () => {
   it('Should return 200', (done) => {
     request(app)
         .get('/')
-        .expect(200)
+        .expect(404)
         .end(done)
   })
 

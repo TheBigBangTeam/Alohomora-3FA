@@ -5,10 +5,9 @@ const path = require('path')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 
-const {setEnvironment} = require('./server/environment')
-const checkRoute = require('./server/middleware/check-route')
-const {startServer} = require('./server/server')
-const {dbConnect} = require('./server/db')
+const {setEnvironment} = require('./environment')
+const checkRoute = require('./middleware/check-route')
+const {dbConnect} = require('./db')
 
 /* NODE ENVIRONMENT */
 const env = process.env.NODE_ENV
@@ -16,8 +15,6 @@ setEnvironment(env)
 
 /* SERVER & PARAMETERS */
 const app = express()
-const port = process.env.PORT
-const tls = process.env.TLS || 'no'
 
 /* SECURITY */
 app.use(helmet())
@@ -35,13 +32,13 @@ dbConnect().catch((e) => {
 /* ROUTES */
 
 // Routers
-const adminRoute = require('./server/api-routes/admin')
-const userRoute = require('./server/api-routes/user')
-const authenticationRoute = require('./server/api-routes/authentication')
-const logsRoute = require('./server/api-routes/logs')
+const adminRoute = require('./api-routes/admin')
+const userRoute = require('./api-routes/user')
+const authenticationRoute = require('./api-routes/authentication')
+const logsRoute = require('./api-routes/logs')
 
 // Server static assets
-app.use(express.static(path.join(__dirname, 'app', 'build')))
+if (env === 'production') app.use(express.static(path.join(__dirname, 'app', 'build')))
 
 // Admin API
 app.use('/api/admin', adminRoute)
@@ -57,7 +54,5 @@ app.use('/api/logs', logsRoute)
 
 // Middleware to catch errors
 app.use(checkRoute)
-
-startServer(app, tls, port)
 
 module.exports = {app}

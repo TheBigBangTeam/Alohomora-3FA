@@ -7,7 +7,7 @@ const chai = require('chai')
 const expect = chai.expect
 const should = chai.should()
 
-const {app} = require('./../../../index')
+const {app} = require('./../../app')
 const User = require('./../../models/User')
 const Device = require('./../../models/Device')
 const {users, devices, populateDevices, populateUsers} = require('./../seed/seed')

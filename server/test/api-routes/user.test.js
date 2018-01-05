@@ -7,7 +7,7 @@ const should = chai.should()
 const jwt = require('jsonwebtoken')
 const {ObjectId} = require('mongodb')
 
-const {app} = require('./../../../index')
+const {app} = require('./../../app')
 const {users, populateUsers} = require('./../seed/seed')
 const {settings} = require('./../../settings')
 
