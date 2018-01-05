@@ -24,7 +24,7 @@ describe('[*] ENVIRONMENT TEST', () => {
   it('should load test environment', () => {
     setEnvironment('test')
 
-    expect(process.env.PORT).to.equal('8080')
+    expect(process.env.PORT).to.equal('3001')
     expect(process.env.MONGODB_URI).to.equal('mongodb://localhost/alohomora-db-test')
   })
 })

@@ -17,7 +17,7 @@ const setEnvironment = (env) => {
       break
     case 'development':
     default: // Defaults to 'development'
-      process.env.PORT = 8080
+      process.env.PORT = 3001
       process.env.MONGODB_URI = 'mongodb://localhost/alohomora-db-devel'
       break
   }
