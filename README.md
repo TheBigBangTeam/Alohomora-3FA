@@ -22,6 +22,8 @@ SOFTWARE:
 `npm install -g node-gyp`
  - Run `npm install` inside the project folder to receive dependencies.
 
+## Install dependencies
+Run `npm run setup` to install both dependencies for client and server.
 ## Development server
 
 Run `npm start` for a development server. Navigate to `http://localhost:3000/`.
