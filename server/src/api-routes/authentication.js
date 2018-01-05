@@ -20,6 +20,12 @@ router.use(authenticate)
 router.get('/:rfid', async (req, res) => {
   const user = await User.findByRfid(req.params.rfid)
   if (!user) {
+    const log = {
+      severity: 'warning',
+      device: req.device._id,
+      description: `!DENIED! PIN unlock at ${req.device.functionality} of ${req.device.description} at ${req.device.building} with RFID:${req.params.rfid}`
+    }
+    await Log.create(log)
     return res.sendStatus(404)
   } else {
     const log = {
@@ -36,6 +42,12 @@ router.get('/:rfid', async (req, res) => {
 router.get('/:rfid/:pin', async (req, res) => {
   const user = await User.findByRfidAndPin(req.params.rfid, req.params.pin)
   if (!user) {
+    const log = {
+      severity: 'warning',
+      device: req.device._id,
+      description: `!DENIED! DOOR unlock at ${req.device.functionality} of ${req.device.description} at ${req.device.building} with RFID:${req.params.rfid} and PIN ${req.params.pin}`
+    }
+    await Log.create(log)
     return res.sendStatus(401)
   } else {
     const log = {
