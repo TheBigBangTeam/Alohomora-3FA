@@ -1,6 +1,4 @@
-![License](https://img.shields.io/badge/license-MIT-blue.svg) ![CodeStyle](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) ![EcmaScript](https://img.shields.io/badge/Javascript-ES2017-yellow.svg) ![React](https://img.shields.io/badge/React-16-blue.svg) ![Node](https://img.shields.io/badge/Node.js-8.x-brightgreen.svg)
-
-# Alohomora-3FA
+# Alohomora-3FA ![React](https://img.shields.io/badge/React-16-blue.svg) ![Node](https://img.shields.io/badge/Node.js-8.x-brightgreen.svg) ![CodeStyle](https://img.shields.io/badge/code%20style-standard-brightgreen.svg) 
 
 ![Status](https://img.shields.io/badge/status-WIP-red.svg)   [![Build Status](https://travis-ci.org/TheBigBangTeam/Alohomora-3FA.svg?branch=master)](https://travis-ci.org/TheBigBangTeam/Alohomora-3FA)    [![Greenkeeper badge](https://badges.greenkeeper.io/TheBigBangTeam/Alohomora-3FA.svg)](https://greenkeeper.io/)       [![Known Vulnerabilities](https://snyk.io/test/github/thebigbangteam/alohomora-3fa/badge.svg)](https://snyk.io/test/github/thebigbangteam/alohomora-3fa) [![BCH compliance](https://bettercodehub.com/edge/badge/TheBigBangTeam/Alohomora-3FA?branch=master)](https://bettercodehub.com/) [![Coverage Status](https://coveralls.io/repos/github/TheBigBangTeam/Alohomora-3FA/badge.svg?branch=master)](https://coveralls.io/github/TheBigBangTeam/Alohomora-3FA?branch=master)
 
@@ -26,10 +24,9 @@ SOFTWARE:
 
 ## Development server
 
-Run `npm start` for a dev server. Navigate to `http://localhost:8080/`.
+Run `npm start` for a development server. Navigate to `http://localhost:3000/`.
 
-## Running backend tests & code coverage reporting
+## Testing
 
 Run `npm test` to execute the backend tests via [Mocha](https://mochajs.org/) 
 and receive code coverage via [Istanbul](https://istanbul.js.org/).
-
