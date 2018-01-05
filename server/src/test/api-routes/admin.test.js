@@ -198,6 +198,7 @@ describe('[*] ADMIN API TEST:', () => {
             .expect(200)
             .expect((res) => {
               expect(res.body.user.email).to.equal(updatedUser.email)
+              expect(res.body.user.email).to.not.equal(users[0].email)
             })
             .end((err, res) => {
               if (err) return done(err)
