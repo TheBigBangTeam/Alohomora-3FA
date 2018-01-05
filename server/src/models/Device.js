@@ -16,6 +16,11 @@ const DeviceSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true
+  },
+  functionality: {
+    type: String,
+    enum: ['Entrance', 'Exit'],
+    required: true
   }
 })
 
@@ -24,7 +29,7 @@ DeviceSchema.methods.toJSON = function () {
   const device = this
   const deviceObject = device.toObject()
 
-  return _.pick(deviceObject, ['_id', 'building', 'description'])
+  return _.pick(deviceObject, ['_id', 'building', 'description', 'functionality'])
 }
 
 DeviceSchema.statics.findByToken = async function (token) {

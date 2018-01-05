@@ -45,7 +45,7 @@ const UserSchema = new mongoose.Schema({
     enum: settings.permissionEnum.concat('admin'),
     required: true
   },
-  pin: { // Access pin stored as encrypted value (aes 128)
+  pin: { // Access pin stored as encrypted value
     type: String,
     required: true
   },

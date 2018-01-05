@@ -114,7 +114,9 @@ router.delete('/users/:id', async (req, res) => {
 router.post('/devices', async (req, res) => {
   const body = _.pick(req.body,      // pick makes sure only correct values are validated
     ['building', // and not values that shouldn't be set
-      'description']
+      'description',
+      'functionality'
+    ]
                     )
   try {
     const device = await Device.create(body)
@@ -147,9 +149,9 @@ router.get('/devices/:id', async (req, res) => {
 
 /* UPDATE SPECIFIC DEVICE */
 router.put('/devices/:id', async (req, res) => {
-  const body = _.pick(req.body, ['building', 'description'])
+  const body = _.pick(req.body, ['building', 'description', 'functionality'])
   try {
-    const device = await Device.findByIdAndUpdate(req.params.id, {body}, {new: true, runValidators: true})
+    const device = await Device.findByIdAndUpdate(req.params.id, body, {new: true, runValidators: true})
     if (!device) {
       return res.sendStatus(404)
     };
