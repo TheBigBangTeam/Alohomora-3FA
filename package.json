@@ -21,6 +21,8 @@
   },
   "standard": {
     "globals": [
+      "URL",
+      "fetch",
       "describe",
       "context",
       "before",
