@@ -1,6 +1,6 @@
 {
   "Settings": {
-    "db": "mongodb://localhost/alohomora-db",
+    "db": "mongodb://localhost/alohomora-db-devel",
     "argon2": {
     "timeCost": "1",
     "memoryCost": "13",

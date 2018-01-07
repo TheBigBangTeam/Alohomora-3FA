@@ -17,6 +17,10 @@
       "secret": "",
       "keyLength": "256",
       "mode": "cbc"
+    },
+    "TLS": {
+      "keyPath": "",
+      "certPath": ""
     }
   }
 }

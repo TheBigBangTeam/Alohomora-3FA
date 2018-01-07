@@ -1,6 +1,7 @@
 'use strict'
 
 const request = require('supertest')
+const config = require('config')
 const chai = require('chai')
 const expect = chai.expect
 const should = chai.should()
@@ -9,7 +10,6 @@ const {ObjectId} = require('mongodb')
 
 const {app} = require('./../../app')
 const {users, populateUsers} = require('./../seed/seed')
-const {settings} = require('./../../settings')
 
 const userPath = '/api/user'
 
@@ -115,7 +115,7 @@ describe('[*] USER API TEST:', () => {
 
     it('should NOT get results back with a non-existent user', (done) => {
       const id = new ObjectId()
-      let wrongUserToken = jwt.sign({ _id: id, privilege: 'admin' }, settings.JWT.secret).toString()
+      let wrongUserToken = jwt.sign({ _id: id, privileges: ['admin'] }, config.get('Settings.JWT.secret')).toString()
       request(app)
         .get(`${userPath}`)
         .set('Authorization', `Bearer ${wrongUserToken}`)

@@ -5,13 +5,8 @@ const path = require('path')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 
-const {setEnvironment} = require('./environment')
 const checkRoute = require('./middleware/check-route')
 const {dbConnect} = require('./db')
-
-/* NODE ENVIRONMENT */
-const env = process.env.NODE_ENV
-setEnvironment(env)
 
 /* SERVER & PARAMETERS */
 const app = express()
@@ -38,7 +33,7 @@ const authenticationRoute = require('./api-routes/authentication')
 const logsRoute = require('./api-routes/logs')
 
 // Server static assets
-if (env === 'production') app.use(express.static(path.join(__dirname, 'app', 'build')))
+if (process.env.NODE_ENV === 'production') app.use(express.static(path.join(__dirname, 'app', 'build')))
 
 // Admin API
 app.use('/api/admin', adminRoute)
