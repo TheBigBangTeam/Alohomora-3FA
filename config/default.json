@@ -1,0 +1,22 @@
+{
+  "Settings": {
+    "db": "mongodb://localhost/alohomora-db",
+    "argon2": {
+    "timeCost": "1",
+    "memoryCost": "13",
+    "parallelism": "1",
+    "type": "2"
+    },
+    "JWT": {
+      "secret": "This-Should-Be-Changed",
+      "issuer": "TheBigBangTeam",
+      "expiration": "12h",
+      "algorithm": "HS512"
+    },
+    "AES": {
+      "secret": "This-Should-Be-Changed-Too",
+      "keyLength": "256",
+      "mode": "cbc"
+    }
+  }
+}
