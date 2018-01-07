@@ -1,12 +1,12 @@
 'use strict'
 
+const config = require('config')
 const chai = require('chai')
 const expect = chai.expect
 
 const User = require('./../models/User')
 const {users, populateUsers} = require('./seed/seed')
 const {encryptAES, decryptAES} = require('./../utilities')
-const {settings} = require('./../settings')
 
 describe('[*] UTILITIES TEST:', () => {
   beforeEach(populateUsers)
@@ -67,7 +67,7 @@ describe('[*] UTILITIES TEST:', () => {
         return done('Cannot find user')
       }
 
-      let decrypted = decryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.pin)
+      let decrypted = decryptAES(config.get('Settings.AES.keyLength'), config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), user.pin)
       expect(decrypted).to.equal(users[0].pin)
       done()
     })
@@ -79,7 +79,7 @@ describe('[*] UTILITIES TEST:', () => {
   it('should throw an error if using an invalid algorithm', (done) => {
     const message = 'hello, friend!'
     try {
-      encryptAES(settings.AES.keyLength, 'invalid-mode', settings.AES.secret, message)
+      encryptAES(config.get('Settings.AES.keyLength'), 'invalid-mode', config.get('Settings.AES.secret'), message)
       done('Should not have encrypted message')
     } catch (error) {
       expect(error.message).to.equal('Invalid algorithm length or mode')
@@ -88,9 +88,9 @@ describe('[*] UTILITIES TEST:', () => {
   })
 
   it('should throw an error if using an invalid key length', (done) => {
-    const ciphertext = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, 'Hello, world!')
+    const ciphertext = encryptAES(config.get('Settings.AES.keyLength'), config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), 'Hello, world!')
     try {
-      decryptAES(1337, settings.AES.mode, settings.AES.secret, ciphertext)
+      decryptAES(1337, config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), ciphertext)
       done('Should not have decrypted message')
     } catch (error) {
       expect(error.message).to.equal('Invalid algorithm length or mode')

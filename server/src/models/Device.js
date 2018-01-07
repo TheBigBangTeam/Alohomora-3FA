@@ -3,8 +3,7 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
-
-const {settings} = require('./../settings')
+const config = require('config')
 
 const DeviceSchema = new mongoose.Schema({
   building: {
@@ -37,7 +36,7 @@ DeviceSchema.statics.findByToken = async function (token) {
   let decoded
 
   try {
-    decoded = jwt.verify(token, settings.JWT.secret)
+    decoded = jwt.verify(token, config.get('Settings.JWT.secret'))
   } catch (error) {
     throw new Error()
   }

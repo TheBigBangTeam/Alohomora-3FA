@@ -13,7 +13,7 @@
     "server": "cd server && nodemon server",
     "start": "concurrently \"npm run server\" \"npm run client\" ",
     "build": "cd client && npm run build",
-    "test": "nyc --reporter=html --reporter=text mocha server/src/**/* --exit",
+    "test": "export NODE_CONFIG_DIR=./server/config && nyc --reporter=html --reporter=text mocha server/src/**/* --exit",
     "test-vuln": "snyk test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard | snazzy",
@@ -35,6 +35,7 @@
   "dependencies": {
     "argon2": "^0.16.2",
     "body-parser": "^1.18.2",
+    "config": "^1.29.1",
     "express": "^4.16.2",
     "express-bearer-token": "^2.1.1",
     "helmet": "^3.9.0",

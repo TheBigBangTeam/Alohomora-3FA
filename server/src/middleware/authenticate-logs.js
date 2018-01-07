@@ -1,9 +1,8 @@
 'use strict'
 
 const User = require('./../models/User')
-const {settings} = require('./../settings')
 
-/* MIDDLEWARE FOR AUTHENTICATION */
+/* MIDDLEWARE FOR LOGS AUTHENTICATION */
 const authenticate = async (req, res, next) => {
   try {
     const user = await User.findByToken(req.token)
@@ -11,12 +10,12 @@ const authenticate = async (req, res, next) => {
       return res.sendStatus(401)
     }
 
-    if (user.isAdmin() || settings.logPermissionEnum.includes(user.privilege)) {
+    if (user.isAdmin() || user.hasLogsPermission()) {
       req.user = user
       return next()
     }
 
-    throw new Error(`Not authorized`)
+    throw new Error(`Not authorized to use log route`)
   } catch (error) {
     return res.sendStatus(401)
   }

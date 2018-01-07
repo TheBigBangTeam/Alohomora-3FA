@@ -2,7 +2,7 @@
 
 const User = require('./../models/User')
 
-/* MIDDLEWARE FOR AUTHENTICATION */
+/* MIDDLEWARE FOR ADMIN AUTHENTICATION */
 const authenticate = async (req, res, next) => {
   try {
     const user = await User.findByToken(req.token)
@@ -15,7 +15,7 @@ const authenticate = async (req, res, next) => {
       return next()
     }
 
-    throw new Error(`Not authorized`)
+    throw new Error(`Not authorized to use admin route`)
   } catch (error) {
     return res.sendStatus(401)
   }

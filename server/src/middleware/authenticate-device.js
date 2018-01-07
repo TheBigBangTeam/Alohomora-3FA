@@ -2,7 +2,7 @@
 
 const Device = require('./../models/Device')
 
-/* MIDDLEWARE FOR AUTHENTICATION */
+/* MIDDLEWARE FOR DEVICE AUTHENTICATION */
 
 const authenticate = async (req, res, next) => {
   try {

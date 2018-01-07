@@ -1,18 +1,17 @@
 const http = require('http')
 const https = require('https')
 const fs = require('fs')
+const config = require('config')
 
 const {app} = require('./src/app')
 
-const env = process.env.NODE_ENV
-
-if (env === 'production') {
+if (process.env.NODE_ENV === 'production') {
       /* HTTPS PRODUCTION SERVER */
 
       // TODO Redirect from 80 to 443
   const sslOptions = {
-    key: fs.readFileSync(process.env.KEY_PATH),
-    cert: fs.readFileSync(process.env.CERT_PATH)
+    key: fs.readFileSync(config.get('Settings.TLS.keyPath')),
+    cert: fs.readFileSync(config.get('Settings.TLS.certPath'))
   }
 
   let httpsServer = https.createServer(sslOptions, app)
