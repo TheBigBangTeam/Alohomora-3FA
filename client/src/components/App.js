@@ -1,12 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
-
+import Header from './Header'
 const App = () => (
   <BrowserRouter>
     <div>
-      <header className='App-header'>
-        <h1 className='App-title'>Welcome to Alohomora Web</h1>
-      </header>
+      <Header />
     </div>
   </BrowserRouter>
 )
