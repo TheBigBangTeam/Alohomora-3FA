@@ -44,18 +44,20 @@ router.get('/users/:id', async (req, res) => {
   }
 })
 
+const bodyPickTemplate =
+  ['username',
+    'name',
+    'surname',
+    'email',
+    'password',
+    'privileges',
+    'pin',
+    'rfidTag'
+  ]
+
 /* SAVE user */
 router.post('/users', async (req, res) => {
-  const body = _.pick(req.body,      // pick makes sure only correct values are validated
-    ['username', // and not values that shouldn't be set
-      'name',
-      'surname',
-      'email',
-      'password',
-      'privileges',
-      'pin',
-      'rfidTag']
-                    )
+  const body = _.pick(req.body, bodyPickTemplate)
   try {
     const user = await User.create(body)
     res.json({user})
@@ -66,17 +68,7 @@ router.post('/users', async (req, res) => {
 
 /* UPDATE user */
 router.put('/users/:id', async (req, res) => {
-  let body = _.pick(req.body,      // pick makes sure only correct values are validated
-    ['username', // and not values that shouldn't be set
-      'name',
-      'surname',
-      'email',
-      'password',
-      'privileges',
-      'pin',
-      'rfidTag'
-    ]
-  )
+  const body = _.pick(req.body, bodyPickTemplate)
 
   if (!ObjectId.isValid(req.params.id)) {
     return res.sendStatus(404)
