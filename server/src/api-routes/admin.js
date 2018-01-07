@@ -11,7 +11,7 @@ const router = express.Router()
 const User = require('./../models/User')
 const Device = require('./../models/Device')
 const {authenticate} = require('./../middleware/authenticate-admin')
-const {settings} = require('./../settings')
+const config = require('config')
 /*
   ADMIN API: route '/api/admin'
 */
@@ -44,18 +44,20 @@ router.get('/users/:id', async (req, res) => {
   }
 })
 
+const bodyPickTemplate =
+  ['username',
+    'name',
+    'surname',
+    'email',
+    'password',
+    'privileges',
+    'pin',
+    'rfidTag'
+  ]
+
 /* SAVE user */
 router.post('/users', async (req, res) => {
-  const body = _.pick(req.body,      // pick makes sure only correct values are validated
-    ['username', // and not values that shouldn't be set
-      'name',
-      'surname',
-      'email',
-      'password',
-      'privilege',
-      'pin',
-      'rfidTag']
-                    )
+  const body = _.pick(req.body, bodyPickTemplate)
   try {
     const user = await User.create(body)
     res.json({user})
@@ -66,17 +68,7 @@ router.post('/users', async (req, res) => {
 
 /* UPDATE user */
 router.put('/users/:id', async (req, res) => {
-  let body = _.pick(req.body,      // pick makes sure only correct values are validated
-    ['username', // and not values that shouldn't be set
-      'name',
-      'surname',
-      'email',
-      'password',
-      'privilege',
-      'pin',
-      'rfidTag'
-    ]
-  )
+  const body = _.pick(req.body, bodyPickTemplate)
 
   if (!ObjectId.isValid(req.params.id)) {
     return res.sendStatus(404)
@@ -120,7 +112,7 @@ router.post('/devices', async (req, res) => {
                     )
   try {
     const device = await Device.create(body)
-    const authToken = jwt.sign({_id: device._id.toHexString()}, settings.JWT.secret, {algorithm: settings.JWT.algorithm, issuer: settings.JWT.issuer}).toString()
+    const authToken = jwt.sign({_id: device._id.toHexString()}, config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), issuer: config.get('Settings.JWT.issuer')}).toString()
     res.json({authToken, device})
   } catch (error) {
     res.sendStatus(400)

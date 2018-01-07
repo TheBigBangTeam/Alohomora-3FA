@@ -2,18 +2,21 @@
 
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
+const config = require('config')
 const chai = require('chai')
 const expect = chai.expect
 
 const {app} = require('./../../app')
 const {users, devices, logs, populateLogs, populateUsers, populateDevices} = require('./../seed/seed')
-const {settings} = require('./../../settings')
 const Log = require('./../../models/Log')
 const authenticationPath = '/api/authenticate'
 
-const token = jwt.sign({_id: devices[0]._id.toHexString()}, settings.JWT.secret, {algorithm: settings.JWT.algorithm, issuer: settings.JWT.issuer}).toString()
-const tokenFake = jwt.sign({_id: devices[0]._id.toHexString()}, 'Fake', {algorithm: settings.JWT.algorithm, issuer: settings.JWT.issuer}).toString()
-const noDbToken = jwt.sign({_id: '5a469a203d4f2410c9cb7632'}, settings.JWT.secret, {algorithm: settings.JWT.algorithm, issuer: settings.JWT.issuer}).toString()
+const token = jwt.sign({_id: devices[0]._id.toHexString()}, config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
+                      ).toString()
+const tokenFake = jwt.sign({_id: devices[0]._id.toHexString()}, 'Fake', {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
+                          ).toString()
+const noDbToken = jwt.sign({_id: '5a469a203d4f2410c9cb7632'}, config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
+                          ).toString()
 
 describe('[*] AUTHENTICATION ROUTE TEST', () => {
   beforeEach(populateUsers)

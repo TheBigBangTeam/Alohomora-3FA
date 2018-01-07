@@ -17,7 +17,7 @@ const users = [{
   surname: 'zero',
   email: 'user0@example.com',
   password: 'longpassword',
-  privilege: 'security',
+  privileges: [],
   pin: '1234',
   rfidTag: '1'
 }, {
@@ -27,7 +27,7 @@ const users = [{
   surname: 'one',
   email: 'user1@example.com',
   password: 'longlongpassword',
-  privilege: 'hr',
+  privileges: ['logs', 'stats'],
   pin: '6578',
   rfidTag: '2'
 }, {
@@ -37,7 +37,7 @@ const users = [{
   surname: 'Surminio',
   email: 'admin@expample.com',
   password: 'adminpasswordislongest',
-  privilege: 'admin',
+  privileges: ['admin'],
   pin: '1337',
   rfidTag: '1377'
 }]

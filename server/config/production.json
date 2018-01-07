@@ -1,0 +1,26 @@
+{
+  "Settings": {
+    "db": "",
+    "argon2": {
+    "timeCost": "1",
+    "memoryCost": "13",
+    "parallelism": "",
+    "type": "2"
+    },
+    "JWT": {
+      "secret": "",
+      "issuer": "",
+      "expiration": "12h",
+      "algorithm": "HS512"
+    },
+    "AES": {
+      "secret": "",
+      "keyLength": "256",
+      "mode": "cbc"
+    },
+    "TLS": {
+      "keyPath": "",
+      "certPath": ""
+    }
+  }
+}

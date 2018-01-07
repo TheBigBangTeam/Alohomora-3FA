@@ -5,9 +5,9 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
 const argon2 = require('argon2')
+const config = require('config')
 
 const {encryptAES} = require('./../utilities')
-const {settings} = require('./../settings')
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -40,11 +40,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  privilege: {
+  privileges: [{
     type: String,
-    enum: settings.permissionEnum.concat('admin'),
-    required: true
-  },
+    enum: ['admin', 'logs', 'stats']
+  }],
   pin: { // Access pin stored as encrypted value
     type: String,
     required: true
@@ -66,9 +65,9 @@ UserSchema.methods.toJSON = function () {
 
 UserSchema.methods.generateAuthToken = function () {
   const user = this // Document
-  const token = jwt.sign({_id: user._id.toHexString(), privilege: user.privilege},
-                            settings.JWT.secret,
-                            {algorithm: settings.JWT.algorithm, expiresIn: settings.JWT.expiration, issuer: settings.JWT.issuer}
+  const token = jwt.sign({ _id: user._id.toHexString(), privileges: user.privileges },
+                            config.get('Settings.JWT.secret'),
+                            {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
                           ).toString()
 
   return token
@@ -76,13 +75,18 @@ UserSchema.methods.generateAuthToken = function () {
 
 UserSchema.methods.isAdmin = function () {
   let user = this
-  return user.privilege === 'admin'
+  return user.privileges.includes('admin')
+}
+
+UserSchema.methods.hasLogsPermission = function () {
+  let user = this
+  return user.privileges.includes('logs')
 }
 
 UserSchema.statics.findByRfid = async function (rfid) {
   const User = this
 
-  const encryptedTag = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, rfid)
+  const encryptedTag = encryptAES(config.get('Settings.AES.keyLength'), config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), rfid)
   const user = await User.findOne({rfidTag: encryptedTag})
   return (user)
 }
@@ -90,8 +94,8 @@ UserSchema.statics.findByRfid = async function (rfid) {
 UserSchema.statics.findByRfidAndPin = async function (rfid, pin) {
   const User = this
 
-  const encryptedTag = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, rfid)
-  const encryptedPin = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, pin)
+  const encryptedTag = encryptAES(config.get('Settings.AES.keyLength'), config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), rfid)
+  const encryptedPin = encryptAES(config.get('Settings.AES.keyLength'), config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), pin)
   const user = await User.findOne({rfidTag: encryptedTag, pin: encryptedPin})
   return (user)
 }
@@ -117,7 +121,7 @@ UserSchema.statics.findByToken = async function (token) {
   let decoded
 
   try {
-    decoded = jwt.verify(token, settings.JWT.secret)
+    decoded = jwt.verify(token, config.get('Settings.JWT.secret'))
   } catch (error) {
     throw new Error()
   }
@@ -133,9 +137,9 @@ UserSchema.statics.findByToken = async function (token) {
 UserSchema.pre('save', async function (next) {
   let user = this
 
-  if (user.isModified('password')) user.password = await argon2.hash(user.password, settings.argon2)
-  if (user.isModified('rfidTag')) user.rfidTag = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.rfidTag)
-  if (user.isModified('pin')) user.pin = encryptAES(settings.AES.keyLength, settings.AES.mode, settings.AES.secret, user.pin)
+  if (user.isModified('password')) user.password = await argon2.hash(user.password, config.get('Settings.argon2'))
+  if (user.isModified('rfidTag')) user.rfidTag = encryptAES(config.get('Settings.AES.keyLength'), config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), user.rfidTag)
+  if (user.isModified('pin')) user.pin = encryptAES(config.get('Settings.AES.keyLength'), config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), user.pin)
 
   next()
 })

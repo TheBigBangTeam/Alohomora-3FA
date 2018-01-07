@@ -10,11 +10,4 @@ describe('[*] DB CONNECTION TEST', () => {
       done(e.message)
     };
   })
-
-  it('should NOT connect to a non-existent database', (done) => {
-    process.env.MONGODB_URI = 'mongodb://NotLocalhost/alohomora'
-    dbConnect()
-        .then(() => done('Should not have connected'))
-        .catch(() => done())
-  })
 })
