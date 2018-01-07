@@ -15,21 +15,22 @@ const {settings} = require('./../../settings')
 
 const adminPath = '/api/admin'
 
-const token = jwt.sign({_id: users[2]._id.toHexString(), privilege: users[2].privilege},
+const token = jwt.sign({_id: users[2]._id.toHexString(), privileges: users[2].privileges},
                             settings.JWT.secret,
                             {algorithm: settings.JWT.algorithm, expiresIn: settings.JWT.expiration, issuer: settings.JWT.issuer}
                             ).toString()
 
-const nonAdminToken = jwt.sign({_id: users[0]._id.toHexString(), privilege: users[0].privilege},
+const nonAdminToken = jwt.sign({_id: users[0]._id.toHexString(), privileges: users[0].privileges},
                             settings.JWT.secret,
                             {algorithm: settings.JWT.algorithm, expiresIn: settings.JWT.expiration, issuer: settings.JWT.issuer}
                             ).toString()
 
 const randomId = new ObjectId()
-const nonExistentUserToken = jwt.sign({_id: randomId.toHexString(), privilege: 'hr'},
+const nonExistentUserToken = jwt.sign({_id: randomId.toHexString(), privileges: ['logs']},
                                 settings.JWT.secret,
                                 {algorithm: settings.JWT.algorithm, expiresIn: settings.JWT.expiration, issuer: settings.JWT.issuer}
                                 ).toString()
+
 describe('[*] ADMIN API TEST:', () => {
   beforeEach(populateUsers)
   beforeEach(populateDevices)

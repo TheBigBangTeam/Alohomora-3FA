@@ -40,11 +40,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  privilege: {
+  privileges: [{
     type: String,
-    enum: settings.permissionEnum.concat('admin'),
-    required: true
-  },
+    enum: ['admin', 'logs', 'stats']
+  }],
   pin: { // Access pin stored as encrypted value
     type: String,
     required: true
@@ -66,7 +65,7 @@ UserSchema.methods.toJSON = function () {
 
 UserSchema.methods.generateAuthToken = function () {
   const user = this // Document
-  const token = jwt.sign({_id: user._id.toHexString(), privilege: user.privilege},
+  const token = jwt.sign({_id: user._id.toHexString(), privileges: user.privileges },
                             settings.JWT.secret,
                             {algorithm: settings.JWT.algorithm, expiresIn: settings.JWT.expiration, issuer: settings.JWT.issuer}
                           ).toString()
@@ -76,7 +75,12 @@ UserSchema.methods.generateAuthToken = function () {
 
 UserSchema.methods.isAdmin = function () {
   let user = this
-  return user.privilege === 'admin'
+  return user.privileges.includes('admin')
+}
+
+UserSchema.methods.hasLogsPermission = function () {
+  let user = this
+  return user.privileges.includes('logs')
 }
 
 UserSchema.statics.findByRfid = async function (rfid) {

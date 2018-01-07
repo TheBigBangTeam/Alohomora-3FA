@@ -7,8 +7,6 @@ const nThreads = os.cpus().length
 const settings = {
   db: 'mongodb://localhost/alohomora-db',
   // list of permissions in addition to admin
-  permissionEnum: ['technician', 'hr', 'security', 'worker'],
-  logPermissionEnum: ['security'],
   argon2: { // WARNING: CHANGE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING OR YOU ARE GETTING PERFORMANCE ISSUES.
         // Defaults suggested by argon2 Draft RFC https://tools.ietf.org/html/draft-irtf-cfrg-argon2-03 with custom memory tweak
     timeCost: 1,    // Increase adds security but more time to the computation

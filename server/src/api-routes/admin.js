@@ -52,7 +52,7 @@ router.post('/users', async (req, res) => {
       'surname',
       'email',
       'password',
-      'privilege',
+      'privileges',
       'pin',
       'rfidTag']
                     )
@@ -72,7 +72,7 @@ router.put('/users/:id', async (req, res) => {
       'surname',
       'email',
       'password',
-      'privilege',
+      'privileges',
       'pin',
       'rfidTag'
     ]

@@ -1,7 +1,6 @@
 'use strict'
 
 const User = require('./../models/User')
-const {settings} = require('./../settings')
 
 /* MIDDLEWARE FOR AUTHENTICATION */
 const authenticate = async (req, res, next) => {
@@ -11,7 +10,7 @@ const authenticate = async (req, res, next) => {
       return res.sendStatus(401)
     }
 
-    if (user.isAdmin() || settings.logPermissionEnum.includes(user.privilege)) {
+    if (user.isAdmin() || user.hasLogsPermission()) {
       req.user = user
       return next()
     }
