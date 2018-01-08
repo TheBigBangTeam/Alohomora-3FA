@@ -1,9 +1,9 @@
 import React from 'react'
-import './styles/404.css'
+import './../styles/404.css'
 
 const NotFound = () => (
-  <div class="error-container">
-    <div class="animate-404">
+  <div className="error-container">
+    <div className="animate-404">
       <svg id="cogs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 225 184">
         <path id="cog3" d="M163.1,48.3c-3.4,0.9-6.7,2.1-9.8,3.4c2.6,12-7.6,15.9-14.8,10.8c-2.8,1.9-4.8,4.6-5.7,8.3
           c7.6,5.1,3.8,18.7-6.5,17.5c0,3.9,0,7.8,0,11.7c11-1.1,13.4,12.5,6.5,18.4c1.9,2.8,2.8,6.7,6.5,7.6c6.5-5.5,16.5-0.5,13.9,10.8
@@ -25,8 +25,8 @@ const NotFound = () => (
           s7.6-17.3,17-17.3C64.1,114.7,71.7,122.5,71.7,132.2z"/>
       </svg>
     </div>
-  <div class="error-code">404</div>
-  <div class="error-desc">We are sorry. <br />The page doesn't exists</div>
+  <div className="error-code">404</div>
+  <div className="error-desc">We are sorry. <br />The page doesn't exists</div>
 </div>
 
 )
