@@ -7,8 +7,8 @@ A smart IoT based entrance unlock system which comprises full fledged logging, s
 ## Authors
   - Michele 'An4cr0n' Biondi, michelebiondi01@gmail.com, PGP:3814987E (Contacts)
   - Andrea Salvatori, andrea.salvatori92@gmail.com, PGP:AE6F5660
-  - Maicol Moretti
-  - Daniele Moscati
+  - Maicol Moretti, maicol.moretti11@gmail.com
+  - Daniele 'Rygar Nelson' Moscati, danielemoscati96@hotmail.it
 
 ## Prerequisites
 HARDWARE:
