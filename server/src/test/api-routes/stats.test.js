@@ -42,4 +42,19 @@ describe('[*] STATS API TEST', () => {
     .expect(401)
     .end(done)
   })
+
+  it('should return stats to authorized users', (done) => {
+    request(app)
+    .get(logsPath)
+    .set('Authorization', `Bearer ${authorizedToken}`)
+    .expect(200)
+    .end((err, res) => {
+      if (err) return done(err)
+      expect(res.body.total_actions).to.equal(logs.length)
+      expect(res.body.total_info).to.equal(1)
+      expect(res.body.total_warnings).to.equal(1)
+      expect(res.body.total_fatal).to.equal(1)
+      done()
+    })
+  })
 })
