@@ -6,9 +6,22 @@
     "name": "Michele Biondi",
     "email": "michelebiondi01@gmail.com"
   },
+  "homepage": "https://github.com/TheBigBangTeam/Alohomora-3FA",
+  "bugs": {
+    "url": "https://github.com/TheBigBangTeam/Alohomora-3FA/issues",
+    "email": "michelebiondi01@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheBigBangTeam/Alohomora-3FA.git"
+  },
+  "engines": {
+    "node" : ">=8.9.3"
+  },
   "contributors": [],
   "scripts": {
     "setup": "npm install && cd client && npm install",
+    "setup-production": "npm install --only=production && cd client && npm install --only=production",
     "client": "cd client && npm start",
     "server": "cd server && nodemon server",
     "start": "concurrently \"npm run server\" \"npm run client\" ",

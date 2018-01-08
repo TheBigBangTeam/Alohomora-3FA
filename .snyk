@@ -2,14 +2,4 @@
 version: v1.10.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
-  'npm:content-type-parser:20170905':
-    - react-scripts > jest > jest-cli > jest-environment-jsdom > jsdom > content-type-parser:
-        reason: Doesn't directly affect the project
-        expires: '2018-02-02T19:06:51.342Z'
-    - react-scripts > jest > jest-cli > jest-config > jest-environment-jsdom > jsdom > content-type-parser:
-        reason: Doesn't directly affect the project
-        expires: '2018-02-02T19:06:51.342Z'
-    - react-scripts > jest > jest-cli > jest-runtime > jest-config > jest-environment-jsdom > jsdom > content-type-parser:
-        reason: Doesn't directly affect the project
-        expires: '2018-02-02T19:06:51.343Z'
 patch: {}
