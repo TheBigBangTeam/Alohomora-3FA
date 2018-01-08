@@ -1,12 +1,13 @@
 import React from 'react'
 
 const Header = (props) => (
-  <div>
+  <header>
     <h1>{props.title}</h1>
-  </div>
+  </header>
 )
 
 Header.defaultProps = {
   title: 'Alohomora App'
 }
+
 export default Header
