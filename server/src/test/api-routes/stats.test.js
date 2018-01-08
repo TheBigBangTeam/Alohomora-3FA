@@ -2,29 +2,16 @@
 
 const request = require('supertest')
 const chai = require('chai')
-const config = require('config')
 const expect = chai.expect
-const jwt = require('jsonwebtoken')
-const {ObjectId} = require('mongodb')
 
-const {users, logs, populateUsers, populateLogs} = require('./../seed/seed')
+const {logs, populateTokens} = require('./../seed/seed')
 const {app} = require('./../../app')
 
 const logsPath = '/api/stats'
 
-const tokenAdmin = jwt.sign({_id: users[2]._id.toHexString(), privileges: users[2].privileges},
-                                  config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
-                                  ).toString()
-
-const notAuthorizedToken = jwt.sign({_id: users[0]._id.toHexString(), privileges: users[0].privileges},
-                                  config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
-                                  ).toString()
-const nonExistentId = new ObjectId()
-const nonExistentUserToken = jwt.sign({_id: nonExistentId.toHexString(), privileges: users[2].privileges},
-                                                              config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
-                                                              ).toString()
-
 describe('[*] STATS API TEST', () => {
+  const {tokenAdmin, notAuthorizedToken, authorizedToken, nonExistentUserToken} = populateTokens()
+
   it('should return all stats to admin', (done) => {
     request(app)
     .get(logsPath)
