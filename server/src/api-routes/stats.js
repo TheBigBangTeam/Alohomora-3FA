@@ -15,7 +15,6 @@ router.use(authenticate)
 // GET all stats
 router.get('/', async (req, res) => {
   const logs = await Log.find({})
-  console.log(logs)
   res.json({
     'total_actions': logs.length,
     'total_warnings': logs.filter((log) => log.severity === 'warning').length,

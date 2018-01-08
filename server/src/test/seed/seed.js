@@ -59,6 +59,7 @@ const devices = [{
 
 const log0Id = new ObjectId()
 const log1Id = new ObjectId()
+const log2Id = new ObjectId()
 
 const logs = [{
   _id: log0Id,
@@ -72,6 +73,10 @@ const logs = [{
   device: device1Id,
   user: user1Id,
   description: 'Wrong pin'
+}, {
+  _id: log2Id,
+  severity: 'fatal',
+  description: 'Cannot communicate to device'
 }]
 
 const populateUsers = (done) => {
@@ -100,7 +105,8 @@ const populateLogs = (done) => {
     .then(() => {
       let logOnePromise = Log.create(logs[0])
       let logTwoPromise = Log.create(logs[1])
-      return Promise.all([logOnePromise, logTwoPromise])
+      let logThreePromise = Log.create(logs[2])
+      return Promise.all([logOnePromise, logTwoPromise, logThreePromise])
     })
     .then(() => done())
 }
