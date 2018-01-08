@@ -6,14 +6,11 @@ const Header = () => (
   <div class="header-limiter">
     <h1><a href="#">Alohomora<span>3FA</span></a></h1>
     <nav>
-      <a href="#">Home</a>
       <a href="#">Contacts</a>
-      <a href="#">Pricing</a>
       <a href="#">EULA</a>
     </nav>
     <ul>
       <li><a href="#">Login</a></li>
-      <li><a href="#">Sign up</a></li>
     </ul>
   </div>
   </header>
