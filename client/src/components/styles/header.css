@@ -42,7 +42,7 @@
 }
 
 .header-login-signup .header-limiter nav a{
-	font-size: 14px;
+	font-size: 16px;
 	display: inline-block;
 	padding: 0 5px;
 	opacity: 0.9;
@@ -61,7 +61,7 @@
 /* Login/Sign up buttons */
 
 .header-login-signup .header-limiter ul {
-	font: 14px Arial, Helvetica, sans-serif;
+	font: 16px Arial, Helvetica, sans-serif;
 	list-style: none;
 	line-height: 1;
 	float: right;
