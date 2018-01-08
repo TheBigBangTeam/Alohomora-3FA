@@ -32,7 +32,7 @@ describe('[*] STATS API TEST', () => {
     .expect(200)
     .end((err, res) => {
       if (err) return done(err)
-      expect(res.body.total_actions).to.equal(3)
+      expect(res.body.total_actions).to.equal(logs.length)
       expect(res.body.total_info).to.equal(1)
       expect(res.body.total_warnings).to.equal(1)
       expect(res.body.total_fatal).to.equal(1)
