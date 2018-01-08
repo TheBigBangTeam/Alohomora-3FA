@@ -2,35 +2,18 @@
 
 const request = require('supertest')
 const chai = require('chai')
-const config = require('config')
 const expect = chai.expect
-const jwt = require('jsonwebtoken')
-const {ObjectId} = require('mongodb')
 
-const {users, logs, populateDevices, populateUsers, populateLogs} = require('./../seed/seed')
+const {logs, populateDevices, populateUsers, populateLogs, populateTokens} = require('./../seed/seed')
 const {app} = require('./../../app')
 
 const logsPath = '/api/logs'
-
-const tokenAdmin = jwt.sign({_id: users[2]._id.toHexString(), privileges: users[2].privileges},
-                                  config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
-                                  ).toString()
-const authorizedToken = jwt.sign({_id: users[1]._id.toHexString(), privileges: users[1].privileges},
-                            config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
-                            ).toString()
-const notAuthorizedToken = jwt.sign({_id: users[0]._id.toHexString(), privileges: users[0].privileges},
-                              config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
-                              ).toString()
-
-const nonExistentId = new ObjectId()
-const nonExistentUserToken = jwt.sign({_id: nonExistentId.toHexString(), privileges: users[2].privileges},
-                            config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
-                            ).toString()
 
 describe('[*] LOG API TEST', () => {
   beforeEach(populateUsers)
   beforeEach(populateDevices)
   beforeEach(populateLogs)
+  const {tokenAdmin, notAuthorizedToken, authorizedToken, nonExistentUserToken} = populateTokens()
 
   it('should return all logs to the admin', (done) => {
     request(app)

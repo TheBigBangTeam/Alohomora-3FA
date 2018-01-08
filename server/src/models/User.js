@@ -83,6 +83,11 @@ UserSchema.methods.hasLogsPermission = function () {
   return user.privileges.includes('logs')
 }
 
+UserSchema.methods.hasStatsPermission = function () {
+  let user = this
+  return user.privileges.includes('stats')
+}
+
 UserSchema.statics.findByRfid = async function (rfid) {
   const User = this
 

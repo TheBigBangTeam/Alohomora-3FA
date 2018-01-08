@@ -1,6 +1,8 @@
 'use strict'
 
 const {ObjectId} = require('mongodb')
+const jwt = require('jsonwebtoken')
+const config = require('config')
 
 const User = require('./../../models/User')
 const Device = require('./../../models/Device')
@@ -59,6 +61,7 @@ const devices = [{
 
 const log0Id = new ObjectId()
 const log1Id = new ObjectId()
+const log2Id = new ObjectId()
 
 const logs = [{
   _id: log0Id,
@@ -72,6 +75,10 @@ const logs = [{
   device: device1Id,
   user: user1Id,
   description: 'Wrong pin'
+}, {
+  _id: log2Id,
+  severity: 'fatal',
+  description: 'Cannot communicate to device'
 }]
 
 const populateUsers = (done) => {
@@ -100,9 +107,28 @@ const populateLogs = (done) => {
     .then(() => {
       let logOnePromise = Log.create(logs[0])
       let logTwoPromise = Log.create(logs[1])
-      return Promise.all([logOnePromise, logTwoPromise])
+      let logThreePromise = Log.create(logs[2])
+      return Promise.all([logOnePromise, logTwoPromise, logThreePromise])
     })
     .then(() => done())
 }
 
-module.exports = {users, devices, logs, populateUsers, populateDevices, populateLogs}
+const populateTokens = () => {
+  const tokenAdmin = jwt.sign({_id: users[2]._id.toHexString(), privileges: users[2].privileges},
+                                  config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
+                                  ).toString()
+
+  const notAuthorizedToken = jwt.sign({_id: users[0]._id.toHexString(), privileges: users[0].privileges},
+                                  config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
+                                  ).toString()
+  const authorizedToken = jwt.sign({_id: users[1]._id.toHexString(), privileges: users[1].privileges},
+                                  config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
+                                  ).toString()
+  const nonExistentId = new ObjectId()
+  const nonExistentUserToken = jwt.sign({_id: nonExistentId.toHexString(), privileges: users[2].privileges},
+                                                              config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
+                                                              ).toString()
+  return {tokenAdmin, notAuthorizedToken, authorizedToken, nonExistentUserToken}
+}
+
+module.exports = {users, devices, logs, populateUsers, populateDevices, populateLogs, populateTokens}

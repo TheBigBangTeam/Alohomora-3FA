@@ -7,8 +7,8 @@ A smart IoT based entrance unlock system which comprises full fledged logging, s
 ## Authors
   - Michele 'An4cr0n' Biondi, michelebiondi01@gmail.com, PGP:3814987E (Contacts)
   - Andrea Salvatori, andrea.salvatori92@gmail.com, PGP:AE6F5660
-  - Maicol Moretti
-  - Daniele Moscati
+  - Maicol Moretti, maicol.moretti11@gmail.com
+  - Daniele 'Rygar Nelson' Moscati, danielemoscati96@hotmail.it
 
 ## Prerequisites
 HARDWARE:
@@ -18,8 +18,6 @@ HARDWARE:
 
 SOFTWARE:
  - To run the server you need Node.js installed ( > v8.x)
- - You need Node-gyp installed globally for some dependencies.
-`npm install -g node-gyp`
  - Run `npm install` inside the project folder to receive dependencies.
 
 ## Install dependencies
