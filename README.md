@@ -18,8 +18,6 @@ HARDWARE:
 
 SOFTWARE:
  - To run the server you need Node.js installed ( > v8.x)
- - You need Node-gyp installed globally for some dependencies.
-`npm install -g node-gyp`
  - Run `npm install` inside the project folder to receive dependencies.
 
 ## Install dependencies
