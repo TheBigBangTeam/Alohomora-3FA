@@ -1,5 +1,5 @@
 import React from 'react'
-import './styles/header.css'
+import './../styles/header.css'
 
 const Header = () => (
   <header class="header-login-signup">
