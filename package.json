@@ -15,6 +15,7 @@
     "type": "git",
     "url": "https://github.com/TheBigBangTeam/Alohomora-3FA.git"
   },
+  "os" : [ "darwin", "linux" ],
   "engines": {
     "node": ">=8.9.3"
   },
