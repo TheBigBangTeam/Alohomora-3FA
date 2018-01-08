@@ -16,7 +16,7 @@
     "url": "https://github.com/TheBigBangTeam/Alohomora-3FA.git"
   },
   "engines": {
-    "node" : ">=8.9.3"
+    "node": ">=8.9.3"
   },
   "contributors": [],
   "scripts": {
@@ -67,11 +67,11 @@
     "istanbul": "^0.4.5",
     "mocha": "^4.1.0",
     "mocha-lcov-reporter": "^1.3.0",
-    "nodemon": "^1.14.7",
+    "nodemon": "^1.14.9",
     "nyc": "^11.4.1",
-    "sinon": "^4.1.3",
+    "sinon": "^4.1.4",
     "snazzy": "^7.0.0",
-    "snyk": "^1.65.0",
+    "snyk": "^1.65.3",
     "standard": "^10.0.3",
     "supertest": "^3.0.0"
   }
