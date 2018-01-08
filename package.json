@@ -6,14 +6,27 @@
     "name": "Michele Biondi",
     "email": "michelebiondi01@gmail.com"
   },
+  "homepage": "https://github.com/TheBigBangTeam/Alohomora-3FA",
+  "bugs": {
+    "url": "https://github.com/TheBigBangTeam/Alohomora-3FA/issues",
+    "email": "michelebiondi01@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheBigBangTeam/Alohomora-3FA.git"
+  },
+  "engines": {
+    "node" : ">=8.9.3"
+  },
   "contributors": [],
   "scripts": {
     "setup": "npm install && cd client && npm install",
+    "setup-production": "npm install --only=production && cd client && npm install --only=production",
     "client": "cd client && npm start",
     "server": "cd server && nodemon server",
     "start": "concurrently \"npm run server\" \"npm run client\" ",
     "build": "cd client && npm run build",
-    "test": "export NODE_CONFIG_DIR=./server/config && nyc --reporter=html --reporter=text mocha server/src/**/* --exit",
+    "test": "export NODE_CONFIG_DIR=./server/config && nyc --reporter=html --reporter=text mocha server/src/**/* --exit && cd client && npm test && cd ..",
     "test-vuln": "snyk test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard | snazzy",
@@ -21,6 +34,8 @@
   },
   "standard": {
     "globals": [
+      "URL",
+      "fetch",
       "describe",
       "context",
       "before",
