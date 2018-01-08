@@ -31,6 +31,7 @@ const adminRoute = require('./api-routes/admin')
 const userRoute = require('./api-routes/user')
 const authenticationRoute = require('./api-routes/authentication')
 const logsRoute = require('./api-routes/logs')
+const statsRoute = require('./api-routes/stats')
 
 // Server static assets
 if (process.env.NODE_ENV === 'production') app.use(express.static(path.join(__dirname, 'app', 'build')))
@@ -46,6 +47,9 @@ app.use('/api/authenticate', authenticationRoute)
 
 // Logs API
 app.use('/api/logs', logsRoute)
+
+// Stats API
+app.use('/api/stats', statsRoute)
 
 // Middleware to catch errors
 app.use(checkRoute)
