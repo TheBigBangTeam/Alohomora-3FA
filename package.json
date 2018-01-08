@@ -15,21 +15,25 @@
     "type": "git",
     "url": "https://github.com/TheBigBangTeam/Alohomora-3FA.git"
   },
-  "os" : [ "darwin", "linux" ],
+  "os": [
+    "darwin",
+    "linux"
+  ],
   "engines": {
     "node": ">=8.9.3"
   },
   "contributors": [
     {
-     "name": "RygarNelson",
-     "email": "danielemoscati96@hotmail.it",
-     "url": "https://github.com/RygarNelson"
+      "name": "RygarNelson",
+      "email": "danielemoscati96@hotmail.it",
+      "url": "https://github.com/RygarNelson"
     },
     {
       "name": "IU6FZL",
       "email": "andrea.salvatori92@gmail.com",
       "url": "https://github.com/Sonic0"
-    }],
+    }
+  ],
   "scripts": {
     "setup": "npm install && cd client && npm install",
     "setup-production": "npm install --only=production && cd client && npm install --only=production",
