@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
+import './../styles/LoginForm.css'
 
 class LoginForm extends Component {
   constructor (props) {
@@ -8,6 +9,7 @@ class LoginForm extends Component {
     this.state = {
       data: {},
       loading: false,
+      disabledButton: false,
       errors: {}
     }
 
@@ -40,7 +42,7 @@ class LoginForm extends Component {
         <br />
         <TextField floatingLabelText='Password' errorText={this.state.errors.password} name='password' type='password' hintText='Enter your password' onChange={this.handleChange} />
         <br />
-        <RaisedButton primary label='Login' onClick={this.handleSubmit} />
+        <RaisedButton primary className='submitButton' disabled={!(!!this.state.data.username || !!this.state.data.password)} label='Login' onClick={this.handleSubmit} />
       </div>
     )
   }
