@@ -43,6 +43,7 @@ class LoginForm extends Component {
         <div style={styles.general}>
           <form>
             <TextField
+              style={styles.textField}
               floatingLabelText='Username'
               errorText={this.state.errors.username}
               name='username'
@@ -51,6 +52,7 @@ class LoginForm extends Component {
               onChange={this.handleChange} />
             <br />
             <TextField floatingLabelText='Password'
+              style={styles.textField}
               errorText={this.state.errors.password}
               name='password'
               type='password'
@@ -74,10 +76,14 @@ class LoginForm extends Component {
 
 const styles = {
   general: {
+    marginTop: '60px',
     textAlign: 'center'
   },
   submitButton: {
     margin: '15px'
+  },
+  textField: {
+    width: '400px'
   }
 }
 

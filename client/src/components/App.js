@@ -1,12 +1,17 @@
 import React from 'react'
+import {Switch, Route} from 'react-router-dom'
 
-import Login from './Login'
 import Header from './Header'
+import LoginForm from './LoginForm'
+import NotFound from './NotFound'
 
 const App = () => (
   <div>
     <Header />
-    <Login />
+    <Switch>
+      <Route exact path='/' component={LoginForm} />
+      <Route component={NotFound} />
+    </Switch>
   </div>
 )
 
