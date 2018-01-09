@@ -41,7 +41,7 @@
     "server": "cd server && nodemon server",
     "start": "concurrently \"npm run server\" \"npm run client\" ",
     "build": "cd client && npm run build",
-    "test": "export NODE_CONFIG_DIR=./server/config && nyc --reporter=html --reporter=text mocha server/src/**/* --exit && cd client && npm test && cd ..",
+    "test": "export NODE_CONFIG_DIR=./server/config && nyc --reporter=html --reporter=text mocha server/src/**/* --exit",
     "test-vuln": "snyk test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard | snazzy",
@@ -73,6 +73,7 @@
     "lodash": "^4.17.4",
     "mongodb": "^3.0.1",
     "mongoose": "^5.0.0-rc0",
+    "morgan": "^1.9.0",
     "validator": "^9.2.0"
   },
   "devDependencies": {

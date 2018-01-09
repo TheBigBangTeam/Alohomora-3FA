@@ -2,7 +2,7 @@ import React from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 import Header from './Header'
-import LoginForm from './LoginForm'
+import LoginPage from './LoginPage'
 import NotFound from './NotFound'
 
 const App = () => (
@@ -11,7 +11,7 @@ const App = () => (
       <div>
         <Header />
         <Switch>
-          <Route exact path='/' component={LoginForm} />
+          <Route exact path='/' component={LoginPage} />
           <Route component={NotFound} />
         </Switch>
       </div>

@@ -4,7 +4,6 @@ const fs = require('fs')
 const config = require('config')
 
 const {app} = require('./src/app')
-
 if (process.env.NODE_ENV === 'production') {
       /* HTTPS PRODUCTION SERVER */
 

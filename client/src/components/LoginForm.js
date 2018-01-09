@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -28,6 +29,9 @@ class LoginForm extends Component {
     e.preventDefault()
     const errors = this.validate(this.state.data)
     this.setState({ errors })
+    if (Object.keys(errors).length === 0) {
+      this.props.submit(this.state.data)
+    }
   }
 
   validate (data) {
@@ -85,6 +89,10 @@ const styles = {
   textField: {
     width: '400px'
   }
+}
+
+LoginForm.propTypes = {
+  submit: PropTypes.func.isRequired
 }
 
 export default LoginForm
