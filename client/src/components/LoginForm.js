@@ -38,15 +38,6 @@ class LoginForm extends Component {
   }
 
   render () {
-    const styles = {
-      general: {
-        textAlign: 'center'
-      },
-      submitButton: {
-        margin: '15px'
-      }
-    }
-
     return (
       <MuiThemeProvider>
         <div style={styles.general}>
@@ -78,6 +69,15 @@ class LoginForm extends Component {
         </div>
       </MuiThemeProvider>
     )
+  }
+}
+
+const styles = {
+  general: {
+    textAlign: 'center'
+  },
+  submitButton: {
+    margin: '15px'
   }
 }
 
