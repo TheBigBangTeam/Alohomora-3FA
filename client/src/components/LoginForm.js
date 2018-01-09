@@ -39,13 +39,17 @@ class LoginForm extends Component {
 
   render () {
     const styles = {
-      margin: '15px',
-      marginLeft: '80px'
+      general: {
+        textAlign: 'center'
+      },
+      submitButton: {
+        margin: '15px'
+      }
     }
 
     return (
       <MuiThemeProvider>
-        <div>
+        <div style={styles.general}>
           <form>
             <TextField
               floatingLabelText='Username'
@@ -64,7 +68,7 @@ class LoginForm extends Component {
             <br />
             <RaisedButton
               primary
-              style={styles}
+              style={styles.submitButton}
               type='submit'
               className='submitButton'
               disabled={!(!!this.state.data.username || !!this.state.data.password)}
