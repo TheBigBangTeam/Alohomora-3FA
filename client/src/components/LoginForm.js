@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import './../styles/LoginForm.css'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class LoginForm extends Component {
   constructor (props) {
@@ -39,6 +38,11 @@ class LoginForm extends Component {
   }
 
   render () {
+    const styles = {
+      margin: '15px',
+      marginLeft: '80px'
+    }
+
     return (
       <MuiThemeProvider>
         <div>
@@ -60,6 +64,7 @@ class LoginForm extends Component {
             <br />
             <RaisedButton
               primary
+              style={styles}
               type='submit'
               className='submitButton'
               disabled={!(!!this.state.data.username || !!this.state.data.password)}
