@@ -9,7 +9,6 @@ class LoginForm extends Component {
     this.state = {
       data: {},
       loading: false,
-      disabledButton: false,
       errors: {}
     }
 
@@ -18,8 +17,10 @@ class LoginForm extends Component {
   }
 
   handleChange (e) {
+    let value
+    e.target.name === 'username' ? value = e.target.value.trim() : value = e.target.value
     this.setState({
-      data: {...this.state.data, [e.target.name]: e.target.value}
+      data: {...this.state.data, [e.target.name]: value}
     })
   }
 
@@ -38,11 +39,26 @@ class LoginForm extends Component {
   render () {
     return (
       <div>
-        <TextField floatingLabelText='Username' errorText={this.state.errors.username} name='username' type='text' hintText='Enter your username' onChange={this.handleChange} />
+        <TextField
+          floatingLabelText='Username'
+          errorText={this.state.errors.username}
+          name='username'
+          type='text'
+          hintText='Enter your username'
+          onChange={this.handleChange} />
         <br />
-        <TextField floatingLabelText='Password' errorText={this.state.errors.password} name='password' type='password' hintText='Enter your password' onChange={this.handleChange} />
+        <TextField floatingLabelText='Password'
+          errorText={this.state.errors.password}
+          name='password'
+          type='password'
+          hintText='Enter your password'
+          onChange={this.handleChange} />
         <br />
-        <RaisedButton primary className='submitButton' disabled={!(!!this.state.data.username || !!this.state.data.password)} label='Login' onClick={this.handleSubmit} />
+        <RaisedButton
+          primary
+          className='submitButton'
+          disabled={!(!!this.state.data.username || !!this.state.data.password)}
+          label='Login' onClick={this.handleSubmit} />
       </div>
     )
   }
