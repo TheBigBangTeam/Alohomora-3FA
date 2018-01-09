@@ -18,5 +18,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3001/"
+  "proxy": "http://localhost:3001/",
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.2"
+  }
 }
