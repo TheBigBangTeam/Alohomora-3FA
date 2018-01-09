@@ -38,7 +38,7 @@ const users = [{
   name: 'Adminio',
   surname: 'Surminio',
   email: 'admin@expample.com',
-  password: 'adminpasswordislongest',
+  password: 'longpassword',
   privileges: ['admin'],
   pin: '1337',
   rfidTag: '1377'
