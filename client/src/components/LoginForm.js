@@ -22,15 +22,23 @@ class LoginForm extends Component {
   }
 
   handleSubmit (e) {
-    console.log(this.state.data)
+    const errors = this.validate(this.state.data)
+    this.setState({ errors })
+  }
+
+  validate (data) {
+    const errors = {}
+    if (!data.username) errors.username = 'Missing username'
+    if (!data.password) errors.password = 'Missing password'
+    return errors
   }
 
   render () {
     return (
       <div>
-        <TextField floatingLabelText='Username' name='username' type='text' hintText='Enter your username' onChange={this.handleChange} />
+        <TextField floatingLabelText='Username' errorText={this.state.errors.username} name='username' type='text' hintText='Enter your username' onChange={this.handleChange} />
         <br />
-        <TextField floatingLabelText='Password' name='password' type='password' hintText='Enter your password' onChange={this.handleChange} />
+        <TextField floatingLabelText='Password' errorText={this.state.errors.password} name='password' type='password' hintText='Enter your password' onChange={this.handleChange} />
         <br />
         <RaisedButton primary label='Login' onClick={this.handleSubmit} />
       </div>
