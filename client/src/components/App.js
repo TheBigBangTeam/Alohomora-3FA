@@ -1,12 +1,13 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import Login from './Login'
+import Header from './Header'
 
 const App = () => (
-  <MuiThemeProvider>
+  <div>
+    <Header />
     <Login />
-  </MuiThemeProvider>
+  </div>
 )
 
 export default App
