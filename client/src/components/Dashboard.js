@@ -5,8 +5,9 @@ import { connect } from 'react-redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {Card, CardActions, CardHeader} from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
+import * as actions from '../actions/auth'
 
-const Dashboard = ({isAuthenticated}) => (
+const Dashboard = ({isAuthenticated, logout}) => (
   <div>
     <MuiThemeProvider>
       <Card>
@@ -16,7 +17,7 @@ const Dashboard = ({isAuthenticated}) => (
           title='Dashboard'
         />
         <CardActions>
-        {isAuthenticated ? <FlatButton label='Logout' /> : 
+        {isAuthenticated ? <FlatButton onClick={() => logout()} label='Logout' /> : 
           <Link to='/'>
             <FlatButton label='Return home' />
         </Link> }
@@ -27,7 +28,8 @@ const Dashboard = ({isAuthenticated}) => (
 )
 
 Dashboard.propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired
 }
 
 function mapStateToProps (state) {
@@ -36,4 +38,4 @@ function mapStateToProps (state) {
   }
 }
 
-export default connect(mapStateToProps)(Dashboard)
+export default connect(mapStateToProps, {logout: actions.logout})(Dashboard)
