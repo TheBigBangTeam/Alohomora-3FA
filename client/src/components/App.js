@@ -1,5 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import UserRoute from '../routes/UserRoute'
 
 import Header from './Header'
 import LoginPage from './LoginPage'
@@ -13,7 +14,7 @@ const App = () => (
         <Header />
         <Switch>
           <Route exact path='/' component={LoginPage} />
-          <Route exact path='/dashboard' component={Dashboard} />
+          <UserRoute exact path='/dashboard' component={Dashboard} />
           <Route component={NotFound} />
         </Switch>
       </div>
