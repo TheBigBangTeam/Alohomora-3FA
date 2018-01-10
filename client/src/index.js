@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './components/App'
 import { BrowserRouter, Route } from 'react-router-dom'
-import registerServiceWorker from './registerServiceWorker'
-import {createStore, applyMiddleware} from 'redux'
-import {Provider} from 'react-redux'
-import thunk from 'redux-thunk'
-import {composeWithDevTools} from 'redux-devtools-extension'
-import rootReducer from './rootReducer'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import { userLoggedIn } from './actions/auth'
+import App from './components/App'
+import registerServiceWorker from './registerServiceWorker'
+import thunk from 'redux-thunk'
+import rootReducer from './rootReducer'
 
 const store = createStore(
   rootReducer,

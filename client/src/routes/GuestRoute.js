@@ -1,22 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-const GuestRoute = ({isAuthenticated, component: Component, ...rest}) =>(
-    <Route {...rest} render={props => !isAuthenticated ? <Component {...props} /> : <Redirect to="/dashboard"/>}/>
+const GuestRoute = ({isAuthenticated, component: Component, ...rest}) => (
+  <Route {...rest} render={props => !isAuthenticated ? <Component {...props} /> : <Redirect to='/dashboard' />} />
 )
 
 GuestRoute.PropTypes = {
-    component: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
-
+  component: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 }
 
 function mapStateToProps (state) {
-    return {
-        isAuthenticated: !!state.user.email
-    }
+  return {
+    isAuthenticated: !!state.user.email
+  }
 }
 
 export default connect(mapStateToProps)(GuestRoute)

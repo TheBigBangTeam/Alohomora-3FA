@@ -3,7 +3,6 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import UserRoute from '../routes/UserRoute'
 import GuestRoute from '../routes/GuestRoute'
-
 import Header from './Header'
 import LoginPage from './LoginPage'
 import Dashboard from './Dashboard'
