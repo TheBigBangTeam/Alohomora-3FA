@@ -11,6 +11,9 @@ export const userLoggedOut = () => ({
 })
 
 export const login = (credentials) => (dispatch) => api.user.login(credentials).then(user => {
+  user = {
+    email: user
+  }
   localStorage.alohomoraLog = user.email
   dispatch(userLoggedIn(user))
 })
