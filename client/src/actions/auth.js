@@ -10,10 +10,10 @@ export const userLoggedOut = () => ({
   type: USER_LOGGED_OUT
 })
 
-export const login = (credentials) => (dispatch) => api.user.login(credentials).then((user) => {
-  localStorage.alohomoraLog = JSON.stringify(user.user)
-  localStorage.alohomoraToken = user.token
-  dispatch(userLoggedIn(user))
+export const login = (credentials) => (dispatch) => api.user.login(credentials).then((data) => {
+  localStorage.alohomoraLog = JSON.stringify(data.user)
+  localStorage.alohomoraToken = data.token
+  dispatch(userLoggedIn(data))
 })
 
 export const logout = () => (dispatch) => {
