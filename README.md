@@ -12,13 +12,13 @@ A smart IoT based entrance unlock system which comprises full fledged logging, s
 
 ## Prerequisites
 HARDWARE:
-  - Arduino (sketches and schematics will be provided in the final release)
-  - NodeMcu (same as arduino regarding sketches)
+  - Arduino (sketches and schematics will be provided in the final release).
+  - NodeMcu (same as arduino regarding sketches).
   - RFID tag(s) and reader(s).
 
 SOFTWARE:
- - To run the server you need Node.js installed ( > v8.x)
- - Run `npm run setup` inside the project folder to receive dependencies.
+ - To run the server you need Node.js installed ( > v8.x).
+ - Run `npm install` inside the project folder to receive dependencies.
 
 ## Install dependencies
 Run `npm run setup` to install both dependencies for client and server.
