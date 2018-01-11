@@ -18,7 +18,7 @@ HARDWARE:
 
 SOFTWARE:
  - To run the server you need Node.js installed ( > v8.x)
- - Run `npm install` inside the project folder to receive dependencies.
+ - Run `npm run setup` inside the project folder to receive dependencies.
 
 ## Install dependencies
 Run `npm run setup` to install both dependencies for client and server.
