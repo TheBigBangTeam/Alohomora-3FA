@@ -17,7 +17,8 @@ const store = createStore(
 
 if (localStorage.alohomoraLog) {
   const user = {
-    email: localStorage.alohomoraLog
+    user: JSON.parse(localStorage.alohomoraLog),
+    token: localStorage.alohomoraToken
   }
   store.dispatch(userLoggedIn(user))
 }

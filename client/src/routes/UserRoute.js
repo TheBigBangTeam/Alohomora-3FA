@@ -7,7 +7,7 @@ const UserRoute = ({isAuthenticated, component: Component, ...rest}) =>(
     <Route {...rest} render={props => isAuthenticated ? <Component {...props} /> : <Redirect to="/"/>}/>
 )
 
-UserRoute.PropTypes = {
+UserRoute.propTypes = {
     component: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired
 
