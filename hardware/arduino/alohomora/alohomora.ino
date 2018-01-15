@@ -99,8 +99,7 @@ void loop() {
   delay(10000);
   myServo.write(0);
   delay(10000);  
-  /*Serial.println("Servo tested and sets to the default position");
+  Serial.println("Servo tested and sets to the default position");
   Serial.println("");
-  */
 
 }
