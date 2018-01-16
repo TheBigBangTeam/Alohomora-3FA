@@ -13,6 +13,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Menu from 'material-ui/svg-icons/navigation/menu'
 import ViewModule from 'material-ui/svg-icons/action/view-module'
 import AccountBox from 'material-ui/svg-icons/action/account-box'
+import StatsBox from 'material-ui/svg-icons/editor/format-list-numbered'
 import LogsBox from 'material-ui/svg-icons/action/pageview'
 import {white} from 'material-ui/styles/colors'
 import {deepOrange300, purple500} from 'material-ui/styles/colors'
@@ -51,6 +52,15 @@ class Header extends Component {
             }
             iconElementRight={
               <div style={style.iconsRightContainer}>
+                <IconMenu color={white}
+                  iconButtonElement={
+                    <IconButton><StatsBox color={white}/></IconButton>
+                  }
+                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                >
+                  <MenuItem key={1} primaryText="View Statistics"/>
+                </IconMenu>
                 <IconMenu color={white}
                   iconButtonElement={
                     <IconButton><LogsBox color={white}/></IconButton>
