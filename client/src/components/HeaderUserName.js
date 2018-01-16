@@ -1,19 +1,18 @@
 import React, {Component} from 'react'
-import Avatar from 'material-ui/Avatar'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-class HeaderAvatar extends Component {
+class HeaderUserName extends Component {
 
     render() {
         const name = this.props.name
         return(
-            <Avatar size={33}>{name[0]}</Avatar>
+            <font color="white">{name}</font>
         )
     }
 }
 
-HeaderAvatar.propTypes = {
+HeaderUserName.propTypes = {
     name: PropTypes.string
 }
 
@@ -23,4 +22,4 @@ function mapStateToProps (state) {
     }
 }
 
-export default connect(mapStateToProps)(HeaderAvatar)
+export default connect(mapStateToProps)(HeaderUserName)

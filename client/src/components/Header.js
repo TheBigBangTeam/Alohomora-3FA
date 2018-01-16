@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
 import HeaderButtons from './HeaderButtons'
 import HeaderAvatar from './HeaderAvatar'
+import HeaderUserName from './HeaderUserName'
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications'
 import MessagesIcon from 'material-ui/svg-icons/communication/message'
 import {white} from 'material-ui/styles/colors'
@@ -48,6 +49,7 @@ class Header extends Component {
                 <NotificationsIcon color={white} style={style.icons} />
                 <MessagesIcon color={white} style={style.icons} />
                 <HeaderAvatar />
+                <HeaderUserName />
               </div>
             }
           />
