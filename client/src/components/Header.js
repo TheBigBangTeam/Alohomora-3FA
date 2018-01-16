@@ -30,17 +30,14 @@ class Header extends Component {
         position: 'fixed',
         top: 0,
         overflow: 'hidden',
-        maxHeight: 57
       },
       menuButton: {
         marginLeft: 10
       },
       iconsRightContainer: {
-        marginLeft: 20
+        marginLeft: 20,
+        marginRight: 20
       },
-      avatar: {
-        marginBottom: 15
-      }
     }
 
     return(
@@ -83,11 +80,15 @@ class Header extends Component {
                   <MenuItem key={3} primaryText="Eliminate user"/>
                 </IconMenu>
                 <NotificationsIcon color={white} />
-                <Avatar
-                  style={style.avatar}
-                >
-                  A
-                </Avatar>
+                <IconMenu color={white}
+                  iconButtonElement={
+                    <IconButton>
+                      <Avatar> A </Avatar>
+                    </IconButton>
+                  }
+                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                />
               </div>
             }
           />
