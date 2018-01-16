@@ -15,6 +15,7 @@ import ViewModule from 'material-ui/svg-icons/action/view-module'
 import AccountBox from 'material-ui/svg-icons/action/account-box'
 import StatsBox from 'material-ui/svg-icons/editor/format-list-numbered'
 import LogsBox from 'material-ui/svg-icons/action/pageview'
+import NotificationsIcon from 'material-ui/svg-icons/social/notifications'
 import {white} from 'material-ui/styles/colors'
 import {deepOrange300, purple500} from 'material-ui/styles/colors'
 
@@ -81,6 +82,7 @@ class Header extends Component {
                   <MenuItem key={2} primaryText="Modify User"/>
                   <MenuItem key={3} primaryText="Eliminate user"/>
                 </IconMenu>
+                <NotificationsIcon color={white} />
                 <Avatar
                   style={style.avatar}
                 >
