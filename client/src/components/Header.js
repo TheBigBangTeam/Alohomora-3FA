@@ -16,6 +16,7 @@ import AccountBox from 'material-ui/svg-icons/action/account-box'
 import StatsBox from 'material-ui/svg-icons/editor/format-list-numbered'
 import LogsBox from 'material-ui/svg-icons/action/pageview'
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications'
+import MessagesIcon from 'material-ui/svg-icons/communication/message'
 import {white} from 'material-ui/styles/colors'
 import {deepOrange300, purple500} from 'material-ui/styles/colors'
 
@@ -38,6 +39,13 @@ class Header extends Component {
         marginLeft: 20,
         marginRight: 20
       },
+      firstIcon: {
+        marginLeft: 70,
+        marginRight: 35
+      },
+      icons: {
+        marginRight: 35
+      }
     }
 
     return(
@@ -54,8 +62,8 @@ class Header extends Component {
                   iconButtonElement={
                     <IconButton><StatsBox color={white}/></IconButton>
                   }
-                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                  targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                  anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 >
                   <MenuItem key={1} primaryText="View Statistics"/>
                 </IconMenu>
@@ -63,8 +71,8 @@ class Header extends Component {
                   iconButtonElement={
                     <IconButton><LogsBox color={white}/></IconButton>
                   }
-                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                  targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                  anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 >
                   <MenuItem key={1} primaryText="View Logs"/>
                 </IconMenu>
@@ -72,14 +80,15 @@ class Header extends Component {
                   iconButtonElement={
                     <IconButton><AccountBox color={white}/></IconButton>
                   }
-                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                  targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                  anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 >
                   <MenuItem key={1} primaryText="Insert User"/>
                   <MenuItem key={2} primaryText="Modify User"/>
                   <MenuItem key={3} primaryText="Eliminate user"/>
                 </IconMenu>
-                <NotificationsIcon color={white} />
+                <NotificationsIcon color={white} style={style.firstIcon} />
+                <MessagesIcon color={white} style={style.icons} />
                 <IconMenu color={white}
                   iconButtonElement={
                     <IconButton>
