@@ -13,6 +13,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import Menu from 'material-ui/svg-icons/navigation/menu'
 import ViewModule from 'material-ui/svg-icons/action/view-module'
 import HeaderButtons from './HeaderButtons'
+import HeaderAvatar from './HeaderAvatar'
 import AccountBox from 'material-ui/svg-icons/action/account-box'
 import StatsBox from 'material-ui/svg-icons/editor/format-list-numbered'
 import LogsBox from 'material-ui/svg-icons/action/pageview'
@@ -59,15 +60,7 @@ class Header extends Component {
               <div style={style.iconsRightContainer}>
                 <NotificationsIcon color={white} style={style.icons} />
                 <MessagesIcon color={white} style={style.icons} />
-                <IconMenu color={white}
-                  iconButtonElement={
-                    <IconButton>
-                      <Avatar>A</Avatar>
-                    </IconButton>
-                  }
-                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                />
+                <HeaderAvatar />
               </div>
             }
           />
@@ -94,7 +87,27 @@ Header.propTypes = {
 
 function mapStateToProps (state) {
   return {
-    isAuthenticated: state.user.token
+    isAuthenticated: state.user.token,
+    name: {
+      if(state){
+        state.user.user.name
+      }
+    },
+    surname: {
+      if(state){
+        state.user.user.surname
+      }
+    },
+    email: {
+      if(state){
+        state.user.user.email
+      }
+    },
+    username: {
+      if(state){
+        state.user.user.username
+      }
+    }
   }
 }
 
