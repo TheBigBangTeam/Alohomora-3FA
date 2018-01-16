@@ -18,12 +18,7 @@ class Header extends Component {
 
     const style = {
       appBar: {
-        position: 'fixed',
-        top: 0,
-        overflow: 'hidden',
-      },
-      menuButton: {
-        marginLeft: 10
+        maxHeight: 57
       },
       iconsRightContainer: {
         marginLeft: 20,
@@ -45,10 +40,11 @@ class Header extends Component {
               <HeaderButtons />
             }
             iconElementRight={
-              <div style={style.iconsRightContainer}>
-                <NotificationsIcon color={white} style={style.icons} />
-                <MessagesIcon color={white} style={style.icons} />
+              <div style={{...styles, ...style.iconsRightContainer}}>
+                <NotificationsIcon color={white} style={{...styles, ...style.icons}} />
+                <MessagesIcon color={white} style={{...styles, ...style.icons}} />
                 <HeaderAvatar />
+                <font> </font>
                 <HeaderUserName />
               </div>
             }

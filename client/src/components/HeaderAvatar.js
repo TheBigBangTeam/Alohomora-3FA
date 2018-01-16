@@ -6,14 +6,24 @@ import { connect } from 'react-redux'
 class HeaderAvatar extends Component {
 
     render() {
+        const {styles} = this.props
         const name = this.props.name
+
+        const style = {
+            avatar: {
+                margintop: -12,
+                marginBottom: 30
+            }
+        }
+
         return(
-            <Avatar size={33}>{name[0]}</Avatar>
+            <Avatar style={{...styles, ...style.avatar}} >{name[0]}</Avatar>
         )
     }
 }
 
 HeaderAvatar.propTypes = {
+    styles: PropTypes.object,
     name: PropTypes.string
 }
 

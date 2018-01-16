@@ -15,11 +15,10 @@ class HeaderButtons extends Component {
         const style = {
             buttonsContainer: {
               marginLeft: 20,
-              marginTop: 3.3
             },
         }
         return(
-            <div>
+            <a>
                 Alohomora3FA
                 <IconMenu color={white} style={{...styles, ...style.buttonsContainer}}
                     iconButtonElement={
@@ -50,7 +49,7 @@ class HeaderButtons extends Component {
                     <MenuItem key={2} primaryText="Modify User"/>
                     <MenuItem key={3} primaryText="Eliminate user"/>
                 </IconMenu>
-            </div>
+            </a>
         )
     }
 }
