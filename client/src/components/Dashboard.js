@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {Card, CardActions, CardHeader} from 'material-ui/Card'
 import PropTypes from 'prop-types'
