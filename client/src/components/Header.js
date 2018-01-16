@@ -48,6 +48,8 @@ class Header extends Component {
     return(
       <div>
         <MuiThemeProvider>
+        {this.props.isAuthenticated ? 
+        <div>
           <AppBar
             style={{...styles, ...style.appBar}}
             title={
@@ -69,6 +71,14 @@ class Header extends Component {
               </div>
             }
           />
+        </div>
+          :
+        <div>
+          <AppBar
+            style={{...styles, ...style.appBar}}
+            title="Alohomora3FA"
+          />
+        </div>}
         </MuiThemeProvider>
       </div>
     )
@@ -77,7 +87,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool,
   styles: PropTypes.object,
   handleChangeRequestNavDrawer: PropTypes.func
 }
