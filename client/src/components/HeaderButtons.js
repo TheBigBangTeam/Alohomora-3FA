@@ -11,7 +11,7 @@ import {white} from 'material-ui/styles/colors'
 class HeaderButtons extends Component {
 
     render() {
-        const {styles, handleChangeRequestNavDrawer} = this.props
+        const {styles} = this.props
         const style = {
             buttonsContainer: {
               marginLeft: 20,
@@ -21,7 +21,7 @@ class HeaderButtons extends Component {
         return(
             <div>
                 Alohomora3FA
-                <IconMenu color={white} style={style.buttonsContainer}
+                <IconMenu color={white} style={{...styles, ...style.buttonsContainer}}
                     iconButtonElement={
                     <IconButton><StatsBox color={white}/></IconButton>
                     }
