@@ -16,14 +16,23 @@ class HeaderButtons extends Component {
             link: {
                 textDecoration: 'none',
                 color: '#FFF'
+            },
+            buttonsStyle: {
+                buttonsContainer: {
+                    marginLeft: 20,
+                  },
+                  link: {
+                      textDecoration: 'none',
+                      color: '#FFF'
+                  }
             }
         }
         return(
             <div>
                 <Link to='/' style={{...style.link}}>Alohomora3FA</Link>
-                { (privileges.includes("admin") || privileges.includes("stats")) && <HeaderButtonsStats /> }
-                { (privileges.includes("admin") || privileges.includes("logs")) && <HeaderButtonsLogs />}
-                { privileges.includes("admin") && <HeaderButtonsAdmin /> }
+                { (privileges.includes("admin") || privileges.includes("stats")) && <HeaderButtonsStats style={style.buttonsStyle}/> }
+                { (privileges.includes("admin") || privileges.includes("logs")) && <HeaderButtonsLogs style={style.buttonsStyle}/>}
+                { privileges.includes("admin") && <HeaderButtonsAdmin style={style.buttonsStyle}/> }
             </div>
         )
     }

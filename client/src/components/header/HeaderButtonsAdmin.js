@@ -9,15 +9,7 @@ import {white} from 'material-ui/styles/colors'
 class HeaderButtonsAdmin extends Component {
 
     render() {
-        const style = {
-            buttonsContainer: {
-              marginLeft: 20,
-            },
-            link: {
-                textDecoration: 'none',
-                color: '#FFF'
-            }
-        }
+        const style = this.props.style
         return(
                 <IconMenu color={white} style={{...style.buttonsContainer}}
                     iconButtonElement={
