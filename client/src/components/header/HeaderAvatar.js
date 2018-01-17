@@ -6,18 +6,15 @@ import { connect } from 'react-redux'
 class HeaderAvatar extends Component {
 
     render() {
-        const {styles} = this.props
         const name = this.props.name
-
         const style = {
             avatar: {
                 margintop: -12,
                 marginBottom: 30
             }
         }
-
         return(
-            <Avatar style={{...styles, ...style.avatar}} >{name[0]}</Avatar>
+            <Avatar style={{...style.avatar}} >{name[0]}</Avatar>
         )
     }
 }
