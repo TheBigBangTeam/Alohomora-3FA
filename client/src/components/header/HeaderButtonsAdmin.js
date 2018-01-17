@@ -1,12 +1,9 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import AccountBox from 'material-ui/svg-icons/action/account-box'
-import StatsBox from 'material-ui/svg-icons/editor/format-list-numbered'
-import LogsBox from 'material-ui/svg-icons/action/pageview'
 import {white} from 'material-ui/styles/colors'
 
 class HeaderButtonsAdmin extends Component {
