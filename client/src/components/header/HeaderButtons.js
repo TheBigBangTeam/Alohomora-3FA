@@ -22,9 +22,9 @@ class HeaderButtons extends Component {
         return(
             <div>
                 <Link to='/' style={{...styles, ...style.link}}>Alohomora3FA</Link>
-                { privileges.includes("admin") || privileges.includes("stats") ? <HeaderButtonsStats /> : null }
-                { privileges.includes("admin") || privileges.includes("logs") ? <HeaderButtonsLogs /> : null }
-                { privileges.includes("admin") ? <HeaderButtonsAdmin /> : null }
+                { (privileges.includes("admin") || privileges.includes("stats")) && <HeaderButtonsStats /> }
+                { (privileges.includes("admin") || privileges.includes("logs")) && <HeaderButtonsLogs />}
+                { privileges.includes("admin") && <HeaderButtonsAdmin /> }
             </div>
         )
     }
