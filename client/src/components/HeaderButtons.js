@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import HeaderButtonsAdmin from './HeaderButtonsAdmin'
 import HeaderButtonsLogs from './HeaderButtonsLogs'
-import headerButtonsStats from './HeaderButtonsStats'
+import HeaderButtonsStats from './HeaderButtonsStats'
 
 class HeaderButtons extends Component {
 
@@ -20,9 +20,17 @@ class HeaderButtons extends Component {
         return(
             <a>
                 <Link to='/' style={{...styles, ...style.link}}>Alohomora3FA</Link>
-                { privileges==="admin" ? <HeaderButtonsAdmin /> : 
-                    privileges ==="logs" ? <HeaderButtonsLogs /> :
-                                            <headerButtonsStats /> }
+                { privileges.includes("admin") ? <HeaderButtonsAdmin /> : 
+                    privileges.includes("logs") ? <HeaderButtonsLogs /> :
+                    privileges.includes("stats") ? <HeaderButtonsStats /> :
+                    privileges.includes("stats") && privileges.includes("logs") ?
+                    <a>
+                    <HeaderButtonsStats />
+                    <HeaderButtonsLogs />
+                    </a>
+                    :
+                    <a>Case not considered</a>
+                }
             </a>
         )
     }
@@ -34,7 +42,7 @@ HeaderButtons.propTypes = {
 }
 function mapStateToProps (state) {
     return {
-      privileges: state.user.user.privileges[0]
+      privileges: state.user.user.privileges
     }
   }
 
