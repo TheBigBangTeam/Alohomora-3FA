@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {Card, CardActions, CardHeader} from 'material-ui/Card'
 import PropTypes from 'prop-types'
@@ -7,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import FlatButton from 'material-ui/FlatButton'
 import * as actions from '../actions/auth'
 
-const Dashboard = ({isAuthenticated, logout}) => (
+const Dashboard = ({logout}) => (
   <div>
     <MuiThemeProvider>
       <Card>
@@ -17,10 +16,7 @@ const Dashboard = ({isAuthenticated, logout}) => (
           title='Dashboard'
         />
         <CardActions>
-          {isAuthenticated ? <FlatButton onClick={() => logout()} label='Logout' /> : 
-          <Link to='/'>
-            <FlatButton label='Return home' />
-          </Link> }
+          <FlatButton onClick={() => logout()} label='Logout' /> 
         </CardActions>
       </Card>
     </MuiThemeProvider>
