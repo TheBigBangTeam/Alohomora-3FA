@@ -20,7 +20,6 @@ class HeaderButtonslogs extends Component {
             }
         }
         return(
-            <a>
                 <IconMenu color={white} style={{...style.buttonsContainer}}
                     iconButtonElement={
                     <IconButton><LogsBox color={white}/></IconButton>
@@ -30,7 +29,6 @@ class HeaderButtonslogs extends Component {
                 >
                     <Link to='/logs' style={style.link}><MenuItem key={1} primaryText="View Logs"/></Link>
                 </IconMenu>
-            </a>
         )
     }
 }

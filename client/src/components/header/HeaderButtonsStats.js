@@ -20,7 +20,6 @@ class HeaderButtonsStats extends Component {
             }
         }
         return(
-            <a>
                 <IconMenu color={white} style={{...style.buttonsContainer}}
                     iconButtonElement={
                     <IconButton><StatsBox color={white}/></IconButton>
@@ -30,7 +29,6 @@ class HeaderButtonsStats extends Component {
                 >
                     <Link to='/statistics' style={style.link}><MenuItem key={1} primaryText="View Statistics"/></Link>
                 </IconMenu>
-            </a>
         )
     }
 }

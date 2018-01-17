@@ -8,6 +8,8 @@ import HeaderButtonsStats from './HeaderButtonsStats'
 
 class HeaderButtons extends Component {
 
+    
+
     render() {
         const {styles} = this.props
         const privileges = this.props.privileges
@@ -18,27 +20,19 @@ class HeaderButtons extends Component {
             }
         }
         return(
-            <a>
+            <div>
                 <Link to='/' style={{...styles, ...style.link}}>Alohomora3FA</Link>
-                { privileges.includes("admin") ? <HeaderButtonsAdmin /> : 
-                    privileges.includes("logs") ? <HeaderButtonsLogs /> :
-                    privileges.includes("stats") ? <HeaderButtonsStats /> :
-                    privileges.includes("stats") && privileges.includes("logs") ?
-                    <a>
-                    <HeaderButtonsStats />
-                    <HeaderButtonsLogs />
-                    </a>
-                    :
-                    <a>Case not considered</a>
-                }
-            </a>
+                { privileges.includes("admin") || privileges.includes("stats") ? <HeaderButtonsStats /> : null }
+                { privileges.includes("admin") || privileges.includes("logs") ? <HeaderButtonsLogs /> : null }
+                { privileges.includes("admin") ? <HeaderButtonsAdmin /> : null }
+            </div>
         )
     }
 }
 
 HeaderButtons.propTypes = {
     styles: PropTypes.object,
-    privileges: PropTypes.object,
+    privileges: PropTypes.array,  // This is for typechecking, check console for errors
 }
 function mapStateToProps (state) {
     return {

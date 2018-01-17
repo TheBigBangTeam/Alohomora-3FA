@@ -22,25 +22,6 @@ class HeaderButtonsAdmin extends Component {
             }
         }
         return(
-            <a>
-                <IconMenu color={white} style={{...style.buttonsContainer}}
-                    iconButtonElement={
-                    <IconButton><StatsBox color={white}/></IconButton>
-                    }
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                    anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                >
-                    <Link to='/statistics' style={style.link}><MenuItem key={1} primaryText="View Statistics"/></Link>
-                </IconMenu>
-                <IconMenu color={white} style={{...style.buttonsContainer}}
-                    iconButtonElement={
-                    <IconButton><LogsBox color={white}/></IconButton>
-                    }
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                    anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                >
-                    <Link to='/logs' style={style.link}><MenuItem key={1} primaryText="View Logs"/></Link>
-                </IconMenu>
                 <IconMenu color={white} style={{...style.buttonsContainer}}
                     iconButtonElement={
                     <IconButton><AccountBox color={white}/></IconButton>
@@ -52,7 +33,6 @@ class HeaderButtonsAdmin extends Component {
                     <Link to='/modify_user' style={style.link}><MenuItem key={2} primaryText="Modify User"/></Link>
                     <Link to='/delete_user' style={style.link}><MenuItem key={3} primaryText="Eliminate user"/></Link>
                 </IconMenu>
-            </a>
         )
     }
 }
