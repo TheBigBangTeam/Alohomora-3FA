@@ -11,7 +11,6 @@ class HeaderButtons extends Component {
     
 
     render() {
-        const {styles} = this.props
         const privileges = this.props.privileges
         const style = {
             link: {
@@ -21,7 +20,7 @@ class HeaderButtons extends Component {
         }
         return(
             <div>
-                <Link to='/' style={{...styles, ...style.link}}>Alohomora3FA</Link>
+                <Link to='/' style={{...style.link}}>Alohomora3FA</Link>
                 { (privileges.includes("admin") || privileges.includes("stats")) && <HeaderButtonsStats /> }
                 { (privileges.includes("admin") || privileges.includes("logs")) && <HeaderButtonsLogs />}
                 { privileges.includes("admin") && <HeaderButtonsAdmin /> }
