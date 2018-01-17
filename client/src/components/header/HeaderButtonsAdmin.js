@@ -12,7 +12,6 @@ import {white} from 'material-ui/styles/colors'
 class HeaderButtonsAdmin extends Component {
 
     render() {
-        const {styles} = this.props
         const style = {
             buttonsContainer: {
               marginLeft: 20,
@@ -24,7 +23,7 @@ class HeaderButtonsAdmin extends Component {
         }
         return(
             <a>
-                <IconMenu color={white} style={{...styles, ...style.buttonsContainer}}
+                <IconMenu color={white} style={{...style.buttonsContainer}}
                     iconButtonElement={
                     <IconButton><StatsBox color={white}/></IconButton>
                     }
@@ -33,7 +32,7 @@ class HeaderButtonsAdmin extends Component {
                 >
                     <Link to='/statistics' style={style.link}><MenuItem key={1} primaryText="View Statistics"/></Link>
                 </IconMenu>
-                <IconMenu color={white} style={{...styles, ...style.buttonsContainer}}
+                <IconMenu color={white} style={{...style.buttonsContainer}}
                     iconButtonElement={
                     <IconButton><LogsBox color={white}/></IconButton>
                     }
@@ -42,7 +41,7 @@ class HeaderButtonsAdmin extends Component {
                 >
                     <Link to='/logs' style={style.link}><MenuItem key={1} primaryText="View Logs"/></Link>
                 </IconMenu>
-                <IconMenu color={white} style={{...styles, ...style.buttonsContainer}}
+                <IconMenu color={white} style={{...style.buttonsContainer}}
                     iconButtonElement={
                     <IconButton><AccountBox color={white}/></IconButton>
                     }
@@ -56,10 +55,6 @@ class HeaderButtonsAdmin extends Component {
             </a>
         )
     }
-}
-
-HeaderButtonsAdmin.propTypes = {
-    styles: PropTypes.object,
 }
 
 
