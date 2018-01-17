@@ -66,12 +66,29 @@ Servo myServo;  //tramite questo oggetto controllerò il mio Servo motore
 
 //  Creo una istanza della libreria SoftwareSerial
 SoftwareSerial nodeMCU(5, 6); // RX, TX
-int angle = 0;
+
+/*--------------- Definizione variabili globali --------- */
+long serialRfidFeedTime = 2000;
+long serialPinFeedTime = 3000;
+//metodo per il lampeggio
+void blink(int count, int led)
+    {
+    while(count > 0){
+      digitalWrite(led, HIGH);
+      delay(500);
+      digitalWrite(led, LOW);
+      delay(500);
+      count--;
+    }
+    }
 
 /*------------------ SETUP ------------------------*/
 void setup() {
   Serial.begin(9600); // Initialize serial communications with PC
   SPI.begin(); // MFRC522 Hardware uses SPI protocol
+
+  nodeMCU.begin(11500); // Inizialize communicatins with nodeMCU
+  
   mfrc522.PCD_Init(); // Initialize MFRC522 Hardware
   mfrc522.PCD_SetAntennaGain(mfrc522.RxGain_max); //If you set Antenna Gain to Max it will increase reading distance
  
@@ -119,7 +136,7 @@ void loop() {
   
   String rfidCode= "";
   byte letter;
-  // Viene caricato il codice della tessera, all'interno di una Stringa
+  // Viene caricato il codice della tessera diviso in blocchi esadecimali da 2 separati da un "-"(trattino), all'interno di una Stringa
   for( byte i = 0; i < mfrc522.uid.size; i++ ){
      rfidCode.concat(String(mfrc522.uid.uidByte[i], HEX));
      if( i < mfrc522.uid.size-1 ) rfidCode+="-";
@@ -128,7 +145,80 @@ void loop() {
   Serial.println("");
   Serial.println("UID tag :");
   Serial.println("'"+ rfidCode + "'");
+  nodeMCU.println("'"+ rfidCode + "'"); //  Stampo nella seriale di nodeMCU l'uid della carta rfid letta
+  
+  unsigned long startTime1 = millis(); // Variabile per tenere il tempo 
+  String nodeMCUfeedRfid = ""; // variabile dove salvare il feedback da nodeMCU per l'rfid
+  String nodeMCUfeedPin = ""; // Stringa per memorizzare il feedback da nodeMCU per il pin
+  
+  /*---- Ciclo per attendere la verifica dell'Rfid e orario per 2 secondi ----------- */
+    do { // fino a quando startTime non arriva a 2 secondi trascorsi cicla. QUesto serve per attendere la ricezione del feeedback da parte del nodeMCU
+      if (nodeMCU.available() > 0){ //è arrivato qualche carattere?
+        nodeMCUfeedRfid = nodeMCU.read(); //  Legge la seriale da nodeMCU
+        if ( nodeMCUfeedRfid == 'ok_rfid_and_time'){ //  Se arriva la conferma di rfid e orario corretti allora....
+          nodeMCU.println("pin_on");  //  Dato che l'rfid è OK mando il comando per accendere il PIN
+          Serial.println(nodeMCUfeedRfid);  //  Stampo la risposta, in questo caso errata
+          digitalWrite(LedG_PIN, HIGH); //  Accendo il led verde per 2 secondi per dare conferma visiva
+          delay(2000);
+          digitalWrite(LedG_PIN, LOW);
+        }
+        if ( nodeMCUfeedRfid == 'wrong_rfid_or_time'){
+          Serial.println(nodeMCUfeedRfid);  //  Stampo la risposta, in questo caso errata
+          digitalWrite(LedR_PIN, HIGH);
+          delay(2000);
+          digitalWrite(LedR_PIN, LOW);
+          Serial.println("Reset");
+          return loop();  //  Ricomincio da capo
+        }
+      }
+    }while (startTime1 + serialRfidFeedTime > millis());
+    //  Se è passato il tempo limite per aspettare una risposta dal nodeMCU, resetta e torna all'inizio del loop
+    if (startTime1 + serialRfidFeedTime <= millis()){
+      Serial.println("nodeMCU impiega troppo tempo per rispondere la conferma dell'rfid...");
+      Serial.println("Reset");
+      return loop();  //commentare per test *********
+      
+    }
 
+  /*---- Ora si aspetta finchè il nodeMCU non manda la risposta del controllo pin giusto o errato */
+    unsigned long startTime2 = millis();
+    while ( !nodeMCU.available() > 0){
+      if (millis() - startTime2 > serialPinFeedTime){
+        Serial.println("nodeMCU impiega troppo tempo per rispondere la conferma pin...");
+        Serial.println("Reset");
+        return loop();
+      }else {Serial.println("Aspetto...");}
+    }
+    
+    nodeMCUfeedPin = nodeMCU.read();
+    
+   if (nodeMCUfeedPin == "ok_pin"){
+    Serial.println("Authorized access");
+    myServo.write( 30 );
+    blink(5, LedG_PIN);
+    delay(10000);
+    myServo.write( 120 );
+  }else{
+    Serial.println("Access denied");
+    blink(5, LedR_PIN);
+  }
+
+  
+
+
+ delay(1000);
+
+
+ /* // Con questi cicli if avremmo tutto quello stampato in seriale nella seriale del nodemCU e quello che arriva dal nodeMCU stampato in seriale
+  if (nodeMCU.available()) {
+    Serial.write(nodeMCU.read());
+  }
+  if (Serial.available()) {
+    nodeMCU.write(Serial.read());
+  }
+*/
+
+/*
 //in questa parte bisogna inserire il codice che aprirà la porta una volta che nodeMCU ci ha detto che anche il PIN va bene
   if( rfidCode == "2C-7D-7F-39" ){
     Serial.println("Authorized access");
@@ -146,13 +236,7 @@ void loop() {
   }
   
   delay(1000);
-  /*---------- SERVO RESET ----- */
-  /*myServo.write(120);
-  delay(2000);
-  myServo.write(30);
-  delay(2000);  
-  Serial.println("Servo tested and sets to the default position");
-  Serial.println("");
+
   */
 
   
