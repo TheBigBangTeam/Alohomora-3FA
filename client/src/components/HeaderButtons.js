@@ -1,22 +1,17 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
-import IconButton from 'material-ui/IconButton'
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
-import AccountBox from 'material-ui/svg-icons/action/account-box'
-import StatsBox from 'material-ui/svg-icons/editor/format-list-numbered'
-import LogsBox from 'material-ui/svg-icons/action/pageview'
-import {white} from 'material-ui/styles/colors'
+import HeaderButtonsAdmin from './HeaderButtonsAdmin'
+import HeaderButtonsLogs from './HeaderButtonsLogs'
+import headerButtonsStats from './HeaderButtonsStats'
 
 class HeaderButtons extends Component {
 
     render() {
         const {styles} = this.props
+        const privileges = this.props.privileges
         const style = {
-            buttonsContainer: {
-              marginLeft: 20,
-            },
             link: {
                 textDecoration: 'none',
                 color: '#FFF'
@@ -24,36 +19,10 @@ class HeaderButtons extends Component {
         }
         return(
             <a>
-                <Link to='/' style={style.link}>Alohomora3FA</Link>
-                <IconMenu color={white} style={{...styles, ...style.buttonsContainer}}
-                    iconButtonElement={
-                    <IconButton><StatsBox color={white}/></IconButton>
-                    }
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                    anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                >
-                    <Link to='/statistics' style={style.link}><MenuItem key={1} primaryText="View Statistics"/></Link>
-                </IconMenu>
-                <IconMenu color={white}
-                    iconButtonElement={
-                    <IconButton><LogsBox color={white}/></IconButton>
-                    }
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                    anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                >
-                    <Link to='/logs' style={style.link}><MenuItem key={1} primaryText="View Logs"/></Link>
-                </IconMenu>
-                <IconMenu color={white}
-                    iconButtonElement={
-                    <IconButton><AccountBox color={white}/></IconButton>
-                    }
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                    anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-                >
-                    <Link to='/insert_user' style={style.link}><MenuItem key={1} primaryText="Insert User"/></Link>
-                    <Link to='/modify_user' style={style.link}><MenuItem key={2} primaryText="Modify User"/></Link>
-                    <Link to='/delete_user' style={style.link}><MenuItem key={3} primaryText="Eliminate user"/></Link>
-                </IconMenu>
+                <Link to='/' style={{...styles, ...style.link}}>Alohomora3FA</Link>
+                { privileges==="admin" ? <HeaderButtonsAdmin /> : 
+                    privileges ==="logs" ? <HeaderButtonsLogs /> :
+                                            <headerButtonsStats /> }
             </a>
         )
     }
@@ -61,7 +30,13 @@ class HeaderButtons extends Component {
 
 HeaderButtons.propTypes = {
     styles: PropTypes.object,
-    handleChangeRequestNavDrawer: PropTypes.func
+    privileges: PropTypes.object,
 }
+function mapStateToProps (state) {
+    return {
+      privileges: state.user.user.privileges[0]
+    }
+  }
 
-export default HeaderButtons
+
+export default connect(mapStateToProps)(HeaderButtons)
