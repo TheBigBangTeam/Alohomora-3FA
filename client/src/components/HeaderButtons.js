@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
@@ -16,10 +17,14 @@ class HeaderButtons extends Component {
             buttonsContainer: {
               marginLeft: 20,
             },
+            link: {
+                textDecoration: 'none',
+                color: '#FFF'
+            }
         }
         return(
             <a>
-                Alohomora3FA
+                <Link to='/' style={style.link}>Alohomora3FA</Link>
                 <IconMenu color={white} style={{...styles, ...style.buttonsContainer}}
                     iconButtonElement={
                     <IconButton><StatsBox color={white}/></IconButton>
@@ -27,7 +32,7 @@ class HeaderButtons extends Component {
                     targetOrigin={{horizontal: 'left', vertical: 'top'}}
                     anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 >
-                    <MenuItem key={1} primaryText="View Statistics"/>
+                    <Link to='/statistics' style={style.link}><MenuItem key={1} primaryText="View Statistics"/></Link>
                 </IconMenu>
                 <IconMenu color={white}
                     iconButtonElement={
@@ -36,7 +41,7 @@ class HeaderButtons extends Component {
                     targetOrigin={{horizontal: 'left', vertical: 'top'}}
                     anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 >
-                    <MenuItem key={1} primaryText="View Logs"/>
+                    <Link to='/logs' style={style.link}><MenuItem key={1} primaryText="View Logs"/></Link>
                 </IconMenu>
                 <IconMenu color={white}
                     iconButtonElement={
@@ -45,9 +50,9 @@ class HeaderButtons extends Component {
                     targetOrigin={{horizontal: 'left', vertical: 'top'}}
                     anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
                 >
-                    <MenuItem key={1} primaryText="Insert User"/>
-                    <MenuItem key={2} primaryText="Modify User"/>
-                    <MenuItem key={3} primaryText="Eliminate user"/>
+                    <Link to='/insert_user' style={style.link}><MenuItem key={1} primaryText="Insert User"/></Link>
+                    <Link to='/modify_user' style={style.link}><MenuItem key={2} primaryText="Modify User"/></Link>
+                    <Link to='/delete_user' style={style.link}><MenuItem key={3} primaryText="Eliminate user"/></Link>
                 </IconMenu>
             </a>
         )
