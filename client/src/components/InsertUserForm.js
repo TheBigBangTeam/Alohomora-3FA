@@ -30,7 +30,8 @@ class InsertUserForm extends Component {
     const errors = this.validate(this.state.data)
     this.setState({ errors })
     if (Object.keys(errors).length === 0) {
-      this.props.submit(this.state.data)
+        this.state.data.privileges = this.state.data.privileges.split(" ")
+        this.props.submit(this.state.data)
     }
   }
 
