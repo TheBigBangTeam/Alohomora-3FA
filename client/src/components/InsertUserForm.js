@@ -36,6 +36,12 @@ class InsertUserForm extends Component {
 
   validate (data) {
     const errors = {}
+    if (!data.name) errors.name = 'Missing name'
+    if (!data.surname) errors.surname = 'Missing surname'
+    if (!data.email) errors.email = 'Missing email'
+    if (!data.privileges) errors.privileges = 'Missing privileges'
+    if (!data.rfidTag) errors.rfidTag = 'Missing rfidTag'
+    if (!data.pin) errors.pin = 'Missing PIN'
     if (!data.username) errors.username = 'Missing username'
     if (!data.password) errors.password = 'Missing password'
     return errors
@@ -46,6 +52,60 @@ class InsertUserForm extends Component {
       <MuiThemeProvider>
         <div style={styles.general}>
           <form>
+            <TextField
+              style={styles.textField}
+              floatingLabelText='Name'
+              errorText={this.state.errors.name}
+              name='name'
+              type='text'
+              hintText='Enter the name'
+              onChange={this.handleChange} />
+            <br />
+            <TextField
+              style={styles.textField}
+              floatingLabelText='Surname'
+              errorText={this.state.errors.surname}
+              name='surname'
+              type='text'
+              hintText='Enter the surname'
+              onChange={this.handleChange} />
+            <br />
+            <TextField
+              style={styles.textField}
+              floatingLabelText='Email'
+              errorText={this.state.errors.email}
+              name='email'
+              type='email'
+              hintText='Enter the email'
+              onChange={this.handleChange} />
+            <br />
+            <TextField
+              style={styles.textField}
+              floatingLabelText='Privileges'
+              errorText={this.state.errors.privileges}
+              name='privileges'
+              type='text'
+              hintText='Enter the privileges'
+              onChange={this.handleChange} />
+            <br />
+            <TextField
+              style={styles.textField}
+              floatingLabelText='Tag RFID'
+              errorText={this.state.errors.rfidTag}
+              name='rfidTag'
+              type='text'
+              hintText='Enter the RFID tag'
+              onChange={this.handleChange} />
+            <br />
+            <TextField
+              style={styles.textField}
+              floatingLabelText='PIN'
+              errorText={this.state.errors.pin}
+              name='pin'
+              type='text'
+              hintText='Enter the PIN'
+              onChange={this.handleChange} />
+            <br />
             <TextField
               style={styles.textField}
               floatingLabelText='Username'
@@ -68,8 +128,17 @@ class InsertUserForm extends Component {
               style={styles.submitButton}
               type='submit'
               className='submitButton'
-              disabled={!(!!this.state.data.username || !!this.state.data.password)}
-              label='Login'
+              disabled={!(
+                  !!this.state.name ||
+                  !!this.state.username ||
+                  !!this.state.email ||
+                  !!this.state.privileges ||
+                  !!this.state.rfidTag ||
+                  !!this.state.pin ||
+                  !!this.state.data.username ||
+                  !!this.state.data.password
+                )}
+              label='Submit'
               onClick={this.handleSubmit} />
           </form>
         </div>
