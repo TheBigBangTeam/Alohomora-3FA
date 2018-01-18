@@ -1,3 +1,3 @@
 import api from '../api'
 
-export const insertUser = (data) => () => api.user.insertUser(credentials)
+export const insertUser = (data) => () => api.user.insertUser(data)

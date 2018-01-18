@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import InsertUserForm from './InsertUserForm'
-import {InsertUser} from '../actions/insertion'
+import {insertUser} from '../actions/insertion'
 
-class InsertUser extends Component {
+class InsertUserPage extends Component {
 
     constructor (props) {
         super(props)
@@ -24,11 +24,11 @@ class InsertUser extends Component {
 
 }
 
-LoginPage.propTypes = {
+InsertUserPage.propTypes = {
     history: PropTypes.shape({
       push: PropTypes.func.isRequired
     }).isRequired,
     insertUser: PropTypes.func.isRequired
 }
 
-export default connect(null, {insertUser})(InsertUser)
+export default connect(null, {insertUser})(InsertUserPage)
