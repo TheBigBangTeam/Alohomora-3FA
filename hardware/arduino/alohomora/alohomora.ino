@@ -161,6 +161,9 @@ void loop() {
         digitalWrite(LedG_PIN, HIGH); //  Accendo il led verde per 2 secondi per dare conferma visiva
         delay(2000);
         digitalWrite(LedG_PIN, LOW);
+        digitalWrite(Buzzer_PIN, HIGH);
+        delay(200);
+        digitalWrite(Buzzer_PIN, LOW);
       }
       if ( nodeMCUfeedRfid == 'wrong_rfid_or_time') {
         Serial.println(nodeMCUfeedRfid);  //  Stampo la risposta, in questo caso errata
