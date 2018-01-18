@@ -11,7 +11,7 @@ class InsertUserPage extends Component {
         this.submit = this.submit.bind(this)
     }
     submit (data) {
-    this.props.login(data).then(() => this.props.history.push('/dashboard'))
+    this.props.insertUser(data).then(() => this.props.history.push('/dashboard'))
     }
 
     render() {

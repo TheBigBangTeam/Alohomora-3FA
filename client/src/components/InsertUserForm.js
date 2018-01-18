@@ -20,6 +20,7 @@ class InsertUserForm extends Component {
   handleChange (e) {
     let value
     e.target.name === 'username' ? value = e.target.value.trim() : value = e.target.value
+    e.target.name === 'privileges' ? value = e.target.value.split(" ") : value = e.target.value
     this.setState({
       data: {...this.state.data, [e.target.name]: value}
     })
@@ -30,7 +31,6 @@ class InsertUserForm extends Component {
     const errors = this.validate(this.state.data)
     this.setState({ errors })
     if (Object.keys(errors).length === 0) {
-        this.state.data.privileges = this.state.data.privileges.split(" ")
         this.props.submit(this.state.data)
     }
   }
