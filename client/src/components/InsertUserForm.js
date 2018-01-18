@@ -40,7 +40,6 @@ class InsertUserForm extends Component {
     if (!data.name) errors.name = 'Missing name'
     if (!data.surname) errors.surname = 'Missing surname'
     if (!data.email) errors.email = 'Missing email'
-    if (!data.privileges) errors.privileges = 'Missing privileges'
     if (!data.rfidTag) errors.rfidTag = 'Missing rfidTag'
     if (!data.pin) errors.pin = 'Missing PIN'
     if (!data.username) errors.username = 'Missing username'
@@ -133,7 +132,6 @@ class InsertUserForm extends Component {
                   !!this.state.name ||
                   !!this.state.username ||
                   !!this.state.email ||
-                  !!this.state.privileges ||
                   !!this.state.rfidTag ||
                   !!this.state.pin ||
                   !!this.state.data.username ||
