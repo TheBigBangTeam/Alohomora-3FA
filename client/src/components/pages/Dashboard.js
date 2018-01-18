@@ -4,7 +4,7 @@ import {Card, CardActions, CardHeader} from 'material-ui/Card'
 import PropTypes from 'prop-types'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import FlatButton from 'material-ui/FlatButton'
-import * as actions from '../actions/auth'
+import * as actions from '../../actions/auth'
 
 const Dashboard = ({logout}) => (
   <div>

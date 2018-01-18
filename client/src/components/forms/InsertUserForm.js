@@ -9,14 +9,11 @@ class InsertUserForm extends Component {
     super(props)
     this.state = {
       data: {},
-      loading: false,
       errors: {}
     }
-
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
   handleChange (e) {
     let value
     e.target.name === 'username' ? value = e.target.value.trim() : value = e.target.value
@@ -25,7 +22,6 @@ class InsertUserForm extends Component {
       data: {...this.state.data, [e.target.name]: value}
     })
   }
-
   handleSubmit (e) {
     e.preventDefault()
     const errors = this.validate(this.state.data)
@@ -34,7 +30,6 @@ class InsertUserForm extends Component {
         this.props.submit(this.state.data)
     }
   }
-
   validate (data) {
     const errors = {}
     if (!data.name) errors.name = 'Missing name'
@@ -46,7 +41,6 @@ class InsertUserForm extends Component {
     if (!data.password) errors.password = 'Missing password'
     return errors
   }
-
   render () {
     return (
       <MuiThemeProvider>

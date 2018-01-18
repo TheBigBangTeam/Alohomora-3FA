@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import InsertUserForm from './InsertUserForm'
-import {insertUser} from '../actions/insertion'
+import PropTypes from 'prop-types'
+import InsertUserForm from '../forms/InsertUserForm'
+import {insertUser} from '../../actions/insertion'
 
 class InsertUserPage extends Component {
-
     constructor (props) {
         super(props)
         this.submit = this.submit.bind(this)
@@ -13,7 +12,6 @@ class InsertUserPage extends Component {
     submit (data) {
     this.props.insertUser(data).then(() => this.props.history.push('/dashboard'))
     }
-
     render() {
         return(
             <div>
@@ -21,7 +19,6 @@ class InsertUserPage extends Component {
             </div>
         )
     }
-
 }
 
 InsertUserPage.propTypes = {
