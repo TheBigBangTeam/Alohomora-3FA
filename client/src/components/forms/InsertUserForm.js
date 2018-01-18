@@ -16,8 +16,17 @@ class InsertUserForm extends Component {
   }
   handleChange (e) {
     let value
-    e.target.name === 'username' ? value = e.target.value.trim() : value = e.target.value
-    e.target.name === 'privileges' ? value = e.target.value.split(" ") : value = e.target.value
+    switch (e.target.name) {
+      case 'username':
+        value = e.target.value.trim()
+        break;
+      case 'privileges':
+        value = e.target.value.split(" ")
+        break;
+      default:
+        value = e.target.value
+        break;
+    }
     this.setState({
       data: {...this.state.data, [e.target.name]: value}
     })
