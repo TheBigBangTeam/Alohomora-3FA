@@ -112,7 +112,7 @@ UserSchema.statics.findByCredentials = async function (username, password) {
     throw new Error()
   }
 
-  const match = await verifyPBKDF2(password, user.password)
+  const match = await verifyPBKDF2(user.password, password)
   if (!match) {
     throw new Error()
   }
