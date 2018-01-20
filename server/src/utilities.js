@@ -34,7 +34,7 @@ const decryptAES = (length, mode, secret, ciphertext) => {
 
 const hashPBKDF2 = (password) => {
   return new Promise((resolve, reject) => {
-    crypto.pbkdf2(password, config.get("Settings.PBKDF2.salt"), 1000, 64, 'sha512', (err, derivedKey) => {
+    crypto.pbkdf2(password, config.get("Settings.PBKDF2.salt"), parseInt(config.get("Settings.PBKDF2.iterations")), parseInt(config.get("Settings.PBKDF2.keylen")), config.get("Settings.PBKDF2.digest"), (err, derivedKey) => {
       if (err) return reject(err);
       return resolve(derivedKey.toString('hex'))
     })
@@ -44,7 +44,7 @@ const hashPBKDF2 = (password) => {
 
 const verifyPBKDF2 = (password, hash) => {
   return new Promise((resolve,reject) => {
-    crypto.pbkdf2(password, config.get("Settings.PBKDF2.salt"), 1000, 64, 'sha512', (err, derivedKey) => {
+    crypto.pbkdf2(password, config.get("Settings.PBKDF2.salt"),parseInt(config.get("Settings.PBKDF2.iterations")), parseInt(config.get("Settings.PBKDF2.keylen")), config.get("Settings.PBKDF2.digest"), (err, derivedKey) => {
       if (err) return reject(err);
       return resolve(hash === derivedKey.toString('hex'))
     });

@@ -2,7 +2,10 @@
   "Settings": {
     "db": "mongodb://localhost/alohomora-db-devel",
     "PBKDF2": {
-      "salt": "passwordsalt"
+      "salt": "passwordsalt",
+      "iterations": "1000",
+      "keylen": "64",
+      "digest": "sha512"
     },
     "JWT": {
       "secret": "This-Should-Be-Changed",
