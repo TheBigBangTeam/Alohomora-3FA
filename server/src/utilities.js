@@ -31,7 +31,29 @@ const decryptAES = (length, mode, secret, ciphertext) => {
   return decrypted
 }
 
+const hashPBKDF2 = (password, salt) => {
+  return new Promise((resolve, reject) => {
+    crypto.pbkdf2(password, salt, 100000, 64, 'sha512', (err, derivedKey) => {
+      if (err) return reject(err);
+      return resolve(derivedKey.toString('hex'))
+    })
+  })
+  
+}
+
+const verifyPBKDF2 = (password,hash,salt) => {
+  return new Promise((resolve,reject) => {
+    crypto.pbkdf2(password, salt, 100000, 64, 'sha512', (err, derivedKey) => {
+      if (err) return reject(err);
+      return resolve(hash === derivedKey.toString('hex'))
+    });
+  })
+  
+}
+
 module.exports = {
   encryptAES,
-  decryptAES
+  decryptAES,
+  hashPBKDF2,
+  verifyPBKDF2
 }
