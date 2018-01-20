@@ -11,18 +11,15 @@ const {encryptAES, decryptAES} = require('./../utilities')
 describe('[*] UTILITIES TEST:', () => {
   beforeEach(populateUsers)
 
-  it('should hash user password with Argon2 algorithm', (done) => {
+  it('should hash user password with PBKFD2 algorithm', (done) => {
     User.findById(users[0]._id)
     .then((user) => {
       if (!user) {
         return done('Cannot find user')
       }
 
-      if (user.password.includes('argon2')) {
-        return done()
-      } else {
-        return done(new Error('Password NOT hashed, or hashed with a different algorithm'))
-      }
+      expect(user.password.length).to.equal(128)
+      done()
     })
     .catch((err) => {
       return done(err)
