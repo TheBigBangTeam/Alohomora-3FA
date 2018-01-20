@@ -1,6 +1,7 @@
 'use strict'
 
 const crypto = require('crypto')
+const config = require('config')
 
 const encryptAES = (length, mode, secret, plaintext) => {
   let cipher
@@ -31,8 +32,25 @@ const decryptAES = (length, mode, secret, ciphertext) => {
   return decrypted
 }
 
+const hashPBKDF2 = (password) => {
+  return new Promise((resolve, reject) => {
+    crypto.pbkdf2(password, config.get("Settings.PBKDF2.salt"), parseInt(config.get("Settings.PBKDF2.iterations")), parseInt(config.get("Settings.PBKDF2.keylen")), config.get("Settings.PBKDF2.digest"), (err, derivedKey) => {
+      if (err) return reject(err);
+      return resolve(derivedKey.toString('hex'))
+    })
+  })
+  
+}
+
+const verifyPBKDF2 = async (hash, password) => {
+  let hashed = await hashPBKDF2(password)
+  return hashed === hash
+  
+}
+
 module.exports = {
   encryptAES,
-  decryptAES
-  
+  decryptAES,
+  hashPBKDF2,
+  verifyPBKDF2
 }

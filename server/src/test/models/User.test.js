@@ -15,7 +15,6 @@ describe('[*] User Model test', () => {
           let pin = user.pin = `${users[0].pin}changed`
           user.save((err, saved) => {
             if (err) { return done(err) };
-            if (!saved.password.includes('argon2')) return done('Password not hashed')
             expect(saved.rfidTag.length).to.equal(32)
             expect(saved.pin.length).to.equal(32)
             expect(saved.password).to.not.equal(password)
