@@ -131,4 +131,4 @@ const populateTokens = () => {
   return {tokenAdmin, notAuthorizedToken, authorizedToken, nonExistentUserToken}
 }
 
-module.exports = {users, devices, logs, populateUsers, populateDevices, populateLogs, populateTokens, createTestTransporter}
+module.exports = {users, devices, logs, populateUsers, populateDevices, populateLogs, populateTokens}
