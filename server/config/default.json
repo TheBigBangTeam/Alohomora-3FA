@@ -1,11 +1,8 @@
 {
   "Settings": {
     "db": "mongodb://localhost/alohomora-db-devel",
-    "argon2": {
-    "timeCost": "1",
-    "memoryCost": "13",
-    "parallelism": "1",
-    "type": "2"
+    "PBKDF2": {
+      "salt": "passwordsalt"
     },
     "JWT": {
       "secret": "This-Should-Be-Changed",
