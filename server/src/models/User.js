@@ -42,7 +42,7 @@ const UserSchema = new mongoose.Schema({
   },
   privileges: [{
     type: String,
-    enum: ['admin', 'logs', 'stats']
+    enum: ['admin', 'logs', 'stats','security']
   }],
   pin: { // Access pin stored as encrypted value
     type: String,
@@ -88,6 +88,11 @@ UserSchema.methods.hasStatsPermission = function () {
   return user.privileges.includes('stats')
 }
 
+UserSchema.methods.hasSecurityPermission = function () {
+  let user = this
+  return user.privileges.includes('security')
+}
+
 UserSchema.statics.findByRfid = async function (rfid) {
   const User = this
 
@@ -119,6 +124,12 @@ UserSchema.statics.findByCredentials = async function (username, password) {
   }
 
   return user
+}
+
+UserSchema.statics.findByPrivileges = async function (privileges) {
+  const User = this
+  const users = await User.find({privileges: {"$in": privileges }})
+  return users
 }
 
 UserSchema.statics.findByToken = async function (token) {

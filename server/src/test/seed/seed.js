@@ -19,7 +19,7 @@ const users = [{
   surname: 'zero',
   email: 'user0@example.com',
   password: 'longpassword',
-  privileges: [],
+  privileges: ['security'],
   pin: '1234',
   rfidTag: '1'
 }, {
