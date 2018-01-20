@@ -14,11 +14,12 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const notifyMail = async (receivers,subject, text) => {
+const notifyMail = async (subject, text) => {
   
+  const users = await User.find({})
   let message = {
     from: 'Alohomora Notice',
-    to: receivers,
+    to: users.map( user => user.isAdmin || user.hasSecurityPermission),
     subject: subject,
     text: text
   };
