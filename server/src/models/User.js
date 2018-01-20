@@ -126,6 +126,12 @@ UserSchema.statics.findByCredentials = async function (username, password) {
   return user
 }
 
+UserSchema.statics.findByPrivileges = async function (privileges) {
+  const User = this
+  const users = await User.find({privileges: {"$in": privileges }})
+  return users
+}
+
 UserSchema.statics.findByToken = async function (token) {
   const User = this
   let decoded

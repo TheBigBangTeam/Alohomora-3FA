@@ -16,10 +16,10 @@ const transporter = nodemailer.createTransport({
 
 const notifyMail = async (subject, text) => {
   
-  const users = await User.find({})
+  const receivers = await User.findByPrivileges(['admin', 'security'])
   let message = {
     from: 'Alohomora Notice',
-    to: users.map( user => user.isAdmin || user.hasSecurityPermission),
+    to: receivers,
     subject: subject,
     text: text
   };
