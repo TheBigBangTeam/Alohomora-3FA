@@ -3,6 +3,8 @@
 const config = require('config')
 const nodemailer = require('nodemailer')
 
+const User = require('./models/User')
+
 const transporter = nodemailer.createTransport({
   host: config.get('Settings.mail.host'),
   port: config.get('Settings.mail.port'),
@@ -12,11 +14,11 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const mail = (receiver, subject, text) => {
-  // Message object
+const notifyMail = async (receivers,subject, text) => {
+  
   let message = {
     from: 'Alohomora Notice',
-    to: receiver,
+    to: receivers,
     subject: subject,
     text: text
   };
@@ -24,4 +26,4 @@ const mail = (receiver, subject, text) => {
   return transporter.sendMail(message)
 }
 
-module.exports = { mail }
+module.exports = { notifyMail }
