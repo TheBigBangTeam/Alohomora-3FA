@@ -10,7 +10,7 @@ import Statistics from './pages/Statistics'
 import Logs from './pages/Logs'
 import InsertUser from './pages/InsertUserPage'
 import ModifyUser from './pages/ModifyUser'
-import DeleteUser from './pages/DeleteUser'
+import DeleteUser from './pages/DeleteUserPage'
 import NotFound from './pages/NotFound'
 
 const App = ({location}) => (

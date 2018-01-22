@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-class DeleteUser extends Component {
+class DeleteUserPage extends Component {
 
     render() {
         return(
@@ -12,4 +12,4 @@ class DeleteUser extends Component {
 
 }
 
-export default DeleteUser
+export default DeleteUserPage
