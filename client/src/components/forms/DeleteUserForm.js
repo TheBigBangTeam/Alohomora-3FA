@@ -18,6 +18,7 @@ class DeleteUserForm extends Component {
 
   handleChange (e) {
     let value
+    e.target.name === 'id' ? value = e.target.value.trim() : value = e.target.value
     this.setState({
       data: {...this.state.data, [e.target.name]: value}
     })
@@ -34,7 +35,7 @@ class DeleteUserForm extends Component {
 
   validate (data) {
     const errors = {}
-    if (!data.id) errors.username = 'Missing ID'
+    if (!data.id) errors.id = 'Missing id'
     return errors
   }
 
@@ -49,7 +50,7 @@ class DeleteUserForm extends Component {
               errorText={this.state.errors.id}
               name='id'
               type='text'
-              hintText='Enter the ID'
+              hintText='Enter the id'
               onChange={this.handleChange} />
             <br />
             <RaisedButton
