@@ -5,6 +5,6 @@ export const userEliminated = () => ({
     type: USER_ELIMINATED
 })
 
-export const deleteUser = (id) => (dispatch) => api.user.deleteUser(id).then((data) => {
+export const deleteUser = (data) => (dispatch) => api.user.deleteUser(data).then((data) => {
     dispatch(userEliminated())
 })
