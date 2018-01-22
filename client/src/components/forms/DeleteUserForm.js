@@ -45,7 +45,7 @@ class DeleteUserForm extends Component {
           <form>
             <TextField
               style={styles.textField}
-              floatingLabelText='Username'
+              floatingLabelText='ID'
               errorText={this.state.errors.username}
               name='id'
               type='text'
