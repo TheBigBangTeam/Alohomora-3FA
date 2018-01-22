@@ -8,5 +8,10 @@ export default {
         'Authorization' : 'Bearer ' + localStorage.alohomoraToken
       }
     }).then(res => res.data),
+    deleteUser: (id) => axios.delete('/api/admin/users/{id}', {
+      'headers': {
+        'Authorization' : 'Bearer ' + localStorage.alohomoraToken
+      }
+    }).then(res => res.data)
   }
 }
