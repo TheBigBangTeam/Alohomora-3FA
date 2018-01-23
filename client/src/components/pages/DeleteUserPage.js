@@ -43,6 +43,9 @@ class DeleteUserPage extends Component {
         return(
             <MuiThemeProvider>
                 <div>
+                    <font face="Roboto">
+                    <h2>Select a user</h2>
+                    </font>
                     <List>
                     {this.state.users.map(user =>
                     <ListItem
