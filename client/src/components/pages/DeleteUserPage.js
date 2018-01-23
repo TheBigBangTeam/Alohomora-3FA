@@ -1,5 +1,10 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import {List, ListItem} from 'material-ui/List'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import ActionGrade from 'material-ui/svg-icons/action/grade'
+import Avatar from 'material-ui/Avatar'
+import {pinkA200, transparent} from 'material-ui/styles/colors'
 
 class DeleteUserPage extends Component {
     constructor (props) {
@@ -27,14 +32,16 @@ class DeleteUserPage extends Component {
 
     render() {
         return(
-            <div>
-                <ul>
+            <MuiThemeProvider>
+                <List>
                 {this.state.users.map(user =>
-                <li key={user._id}>
-                { user.name+ " - " + user.surname}
-                </li>)}
-                </ul>
-            </div>
+                <ListItem
+                    primaryText={user.name + " " + user.surname}
+                    rightAvatar={<Avatar>{user.name[0]}</Avatar>}
+                />
+                )}
+                </List>
+            </MuiThemeProvider>
         )
     }
 }
