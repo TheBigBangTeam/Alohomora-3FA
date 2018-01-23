@@ -1,33 +1,42 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import DeleteUserForm from '../forms/DeleteUserForm'
-import {deleteUser} from '../../actions/deletion'
+import axios from 'axios'
 
 class DeleteUserPage extends Component {
     constructor (props) {
         super(props)
-        this.submit = this.submit.bind(this)
+        this.state = {
+            users: []
+        }
     }
 
-    submit (data) {
-        this.props.deleteUser(data).then(() => this.props.history.push('/dashboard'))
+    componentDidMount(){
+        axios.get('/api/admin/users', {
+            'headers': {
+                'Authorization' : 'Bearer ' + localStorage.alohomoraToken
+              }
+        }).then(({data}) => {
+            var array = []
+            for(var i = 0; i<data.users.length; i++) {
+                array.push(data.users[i])
+            }
+            this.setState({
+                users: array
+            })
+        })
     }
 
     render() {
         return(
             <div>
-                <DeleteUserForm submit={this.submit} />
+                <ul>
+                {this.state.users.map(user =>
+                <li key={user._id}>
+                { user.name+ " - " + user.surname}
+                </li>)}
+                </ul>
             </div>
         )
     }
 }
 
-DeleteUserPage.propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    }).isRequired,
-    deleteUser: PropTypes.func.isRequired
-}
-
-export default connect(null, {deleteUser})(DeleteUserPage)
+export default DeleteUserPage
