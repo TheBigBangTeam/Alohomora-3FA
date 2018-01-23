@@ -42,29 +42,31 @@ class DeleteUserPage extends Component {
     render() {
         return(
             <MuiThemeProvider>
-                <List>
-                {this.state.users.map(user =>
-                <ListItem
-                    key={user._id}
-                    primaryText={user.name + " " + user.surname}
-                    rightAvatar={<Avatar>{user.name[0]}</Avatar>}
-                    onClick={() => {
-                        var id2 = user._id.toString()
-                        this.setState({
-                            data: {...this.state.data, id: id2}
-                        })
-                    }}
-                />
-                )}
-                </List>
-                <RaisedButton
-                    primary
-                    type='submit'
-                    className='submitButton'
-                    disabled={!this.state.data.id}
-                    label='Delete'
-                    onClick={this.handleSubmit} 
-                />
+                <div>
+                    <List>
+                    {this.state.users.map(user =>
+                    <ListItem
+                        key={user._id}
+                        primaryText={user.name + " " + user.surname}
+                        rightAvatar={<Avatar>{user.name[0]}</Avatar>}
+                        onClick={() => {
+                            var id2 = user._id.toString()
+                            this.setState({
+                                data: {...this.state.data, id: id2}
+                            })
+                        }}
+                    />
+                    )}
+                    </List>
+                    <RaisedButton
+                        primary
+                        type='submit'
+                        className='submitButton'
+                        disabled={!this.state.data.id}
+                        label='Delete'
+                        onClick={this.handleSubmit} 
+                    />
+                </div>
             </MuiThemeProvider>
         )
     }
