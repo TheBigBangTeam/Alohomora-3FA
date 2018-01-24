@@ -73,7 +73,7 @@ class ModifyUserPage extends Component {
         const errors = this.validate(this.state.data)
         this.setState({ errors })
         if (Object.keys(errors).length === 0) {
-            this.props.ModifyUser(this.state.data).then(() => this.props.history.push('/dashboard'))
+            this.props.modifyUser(this.state.data).then(() => this.props.history.push('/dashboard'))
         }
     }
 
