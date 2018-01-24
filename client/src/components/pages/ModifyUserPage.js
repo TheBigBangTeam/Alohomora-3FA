@@ -16,7 +16,8 @@ class ModifyUserPage extends Component {
         this.state = {
             users: [],
             data: {},
-            errors: {}
+            errors: {},
+            info: {}
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -95,6 +96,10 @@ class ModifyUserPage extends Component {
                             this.setState({
                                 data: {...this.state.data, id: id2}
                             })
+                            this.setState({
+                                info: user
+                            })
+                            console.log(this.state.info)
                         }}
                     />
                     )}

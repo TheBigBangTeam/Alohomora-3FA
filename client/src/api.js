@@ -13,10 +13,14 @@ export default {
         'Authorization' : 'Bearer ' + localStorage.alohomoraToken
       }
     }).then(res => res.data),
-    modifyUser: (data) => axios.put('/api/admin/users/'+data.id, delete data["id"], {
-      'headers': {
-        'Authorization' : 'Bearer ' + localStorage.alohomoraToken
-      }
-    }).then(res => res.data)
+    modifyUser: (data) => {
+      var id = data.id
+      delete data["id"]
+      axios.put('/api/admin/users/'+id, data, {
+        'headers': {
+          'Authorization' : 'Bearer ' + localStorage.alohomoraToken
+        }
+      })
+    }
   }
 }

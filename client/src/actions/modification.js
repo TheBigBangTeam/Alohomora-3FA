@@ -5,6 +5,4 @@ export const userModified = () => ({
     type: USER_MODIFIED
 })
 
-export const modifyUser = (data) => (dispatch) => api.user.modifyUser(data).then((data) => {
-    dispatch(userModified())
-})
+export const modifyUser = (data) => api.user.modifyUser(data)
