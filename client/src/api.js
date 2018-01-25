@@ -12,6 +12,11 @@ export default {
       'headers': {
         'Authorization' : 'Bearer ' + localStorage.alohomoraToken
       }
+    }).then(res => res.data),
+    modifyUser: (data) => axios.put('/api/admin/users/'+data.id, data, {
+      'headers': {
+        'Authorization' : 'Bearer ' + localStorage.alohomoraToken
+      }
     }).then(res => res.data)
   }
 }
