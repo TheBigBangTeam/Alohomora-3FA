@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import {Card, CardMedia} from 'material-ui/Card'
-import Divider from 'material-ui/Divider'
 import Paper from 'material-ui/Paper'
-import TextField from 'material-ui/TextField'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import LogsInfo from './LogsInfo'
 
 class Logs extends Component {
     constructor (props) {
@@ -45,42 +44,12 @@ class Logs extends Component {
                                     <Paper zDepth={2}>
                                     <font color="blue"><h2>{log.severity}</h2></font>
                                     <p style={{paddingLeft: 10}}>
-                                        {log._id ? 
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"ID: "+log._id} 
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
-                                        {log.user ?
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"User: "+log.user}
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
-                                        {log.device ?
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"Device: "+log.device}
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
-                                        {log.description ?
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"Description: "+log.description} 
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
+                                        <LogsInfo 
+                                            id={log._id} 
+                                            user={log.user} 
+                                            device={log.device} 
+                                            description={log.description}
+                                        />
                                     </p>
                                     </Paper>
                                 </div>
@@ -90,42 +59,12 @@ class Logs extends Component {
                                     <Paper>
                                     <font color="orange"><h2>{log.severity}</h2></font>
                                     <p style={{paddingLeft: 10}}>
-                                        {log._id ? 
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"ID: "+log._id} 
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
-                                        {log.user ?
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"User: "+log.user}
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
-                                        {log.device ?
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"Device: "+log.device}
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
-                                        {log.description ?
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"Description: "+log.description} 
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
+                                        <LogsInfo 
+                                            id={log._id} 
+                                            user={log.user} 
+                                            device={log.device} 
+                                            description={log.description}
+                                        />
                                     </p>
                                     </Paper>
                                 </div>
@@ -135,42 +74,12 @@ class Logs extends Component {
                                     <Paper>
                                     <font color="red"><h1>{log.severity}</h1></font>
                                     <p style={{paddingLeft: 10}}>
-                                        {log._id ? 
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"ID: "+log._id} 
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
-                                        {log.user ?
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"User: "+log.user}
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
-                                        {log.device ?
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"Device: "+log.device}
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
-                                        {log.description ?
-                                        <TextField
-                                            disabled={false}
-                                            underlineShow={false}
-                                            defaultValue={"Description: "+log.description} 
-                                            fullWidth={true}
-                                        /> : null
-                                        }
-                                        <Divider />
+                                        <LogsInfo 
+                                            id={log._id} 
+                                            user={log.user} 
+                                            device={log.device} 
+                                            description={log.description}
+                                        />
                                     </p>
                                     </Paper>
                                 </div>
