@@ -17,27 +17,27 @@ class LogsInfo extends Component {
                         defaultValue={"ID: "+id} 
                         fullWidth={true}
                     /> : null
-                    }
-                    <Divider />
-                    {user ?
+                }
+                <Divider />
+                {user ?
                     <TextField
                         disabled={false}
                         underlineShow={false}
                         defaultValue={"User: "+user}
                         fullWidth={true}
                     /> : null
-                    }
-                    <Divider />
-                    {device ?
+                }
+                <Divider />
+                {device ?
                     <TextField
                         disabled={false}
                         underlineShow={false}
                         defaultValue={"Device: "+device}
                         fullWidth={true}
                     /> : null
-                    }
-                    <Divider />
-                    {description ?
+                }
+                <Divider />
+                {description ?
                     <TextField
                         disabled={false}
                         underlineShow={false}
