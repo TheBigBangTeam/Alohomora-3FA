@@ -32,9 +32,6 @@ class Logs extends Component {
             <MuiThemeProvider>
                 <div>
                     <Card>
-                        <CardHeader
-                            title="Logs"
-                        />
                         <CardMedia>
                             {this.state.logs.map(log =>
                             log.severity==='info' ?
