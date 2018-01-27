@@ -146,7 +146,7 @@ void loop() {
   Serial.println("");
   Serial.println("UID tag :");
   Serial.println("'" + rfidCode + "'");
-  nodeMCU.println("'" + rfidCode + "'"); //  Stampo nella seriale di nodeMCU l'uid della carta rfid letta
+  nodeMCU.println("#" +rfidCode+ "#"); //  Stampo nella seriale di nodeMCU l'uid della carta rfid letta
 
   unsigned long startTime1 = millis(); // Variabile per tenere il tempo
   String nodeMCUfeedRfid = ""; // variabile dove salvare il feedback da nodeMCU per l'rfid
@@ -157,7 +157,7 @@ void loop() {
     if (nodeMCU.available() > 0) { //è arrivato qualche carattere?
       nodeMCUfeedRfid = nodeMCU.read(); //  Legge la seriale da nodeMCU
       if ( nodeMCUfeedRfid == 'ok_rfid_and_time') { //  Se arriva la conferma di rfid e orario corretti allora....
-        nodeMCU.println("pin_on");  //  Dato che l'rfid è OK mando il comando per accendere il PIN
+        nodeMCU.println("# pin_on #");  //  Dato che l'rfid è OK mando il comando per accendere il PIN
         Serial.println(nodeMCUfeedRfid);  //  Stampo la risposta, in questo caso corretta
         digitalWrite(LedG_PIN, HIGH); //  Accendo il led verde per 2 secondi per dare conferma visiva
         delay(2000);

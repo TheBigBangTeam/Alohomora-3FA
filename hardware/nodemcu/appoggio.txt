@@ -1,0 +1,17 @@
+--[[ Deve aspettare un ricezione in seriale della stringa contente l'rfid uid (è del tipo "'EE-EE-EE-EE'").
+Presa la stringa, senza i delimitatori, la deve immagazzinare fino a fine iterazione ed immediatamente forwardare al server.
+Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e time.
+Ricevuto il feedback lo deve mandare ad Arduino stampando in seriale l'apposita stringa.
+Ora Arduino risponderà, in seriale, la stringa per abilitare il tastierino numerico.
+Deve quindi abilitare il tastierino numerico per l'inserimento da parte dell'utente e aspettare l'input.
+Il pin deve essere immagazzinato fino a fine iterazione e subito forwardarlo al server insieme al precedente Rfid uid.
+Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e pin.
+Deve quindi inviare, in seriale, ad Arduino la stringa per far aprire la porta.
+Alla fine dell'iterazione (sia se va a termine che no) cancellerà i dati rfid e Pin immagazzinati per questa iterazione.]]--
+
+--[[
+    reference:
+    Lua-matrix-library -->
+    wifi code in init.lua --> nodemcu documentation
+]]--
+

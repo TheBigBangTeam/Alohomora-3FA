@@ -1,2 +1,2 @@
-SSID = "garage"
-PASSWORD = "ma che bravo"
+SSID = "Vorresti????"
+PASSWORD = "laficademammeta"

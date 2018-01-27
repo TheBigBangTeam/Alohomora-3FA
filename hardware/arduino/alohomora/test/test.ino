@@ -46,6 +46,7 @@ void blink(int count, int led)
     count--;
   }
 }
+String temp = "";
 
 /*------------------ SETUP ------------------------*/
 void setup() {
@@ -61,38 +62,21 @@ void setup() {
   Serial.println("");
   myServo.attach(Servo_PIN); //  Setto il pin per il Servo e i limiti entro cui deve agire
   myServo.write(120); // Imposto la posizione di partenza del Servo.
-  /*---------- BUZZER TEST ----- */
-  pinMode(Buzzer_PIN, OUTPUT);
-  digitalWrite(Buzzer_PIN, HIGH);
-  delay(200);
-  digitalWrite(Buzzer_PIN, LOW);
-  Serial.println("Buzzer Tested");
-  Serial.println("");
-  /*---------- LED TEST -------- */
-  pinMode(LedG_PIN, OUTPUT);
-  pinMode(LedR_PIN, OUTPUT);
-  digitalWrite(LedG_PIN, HIGH);
-  delay(500);
-  digitalWrite(LedG_PIN, LOW);
-  digitalWrite(LedR_PIN, HIGH);
-  delay(500);
-  digitalWrite(LedR_PIN, LOW);
-  Serial.println("LED tested");
-  Serial.println("");
-
-  Serial.println("Setup OK");
-  Serial.println("");
-  Serial.println("");
+  Serial.println("Pronto a ricevere");
 }
 
+
 void loop() {
-  if(nodeMCU.available() >0){
-    char temp = "";
+
+  // nodeMCU.println("# pin_on #");
+  
+  if(nodeMCU.available() > 0){
+    Serial.println("CIAO");
     temp = nodeMCU.read();
     Serial.println(temp);
     digitalWrite(Buzzer_PIN, HIGH);
-  delay(200);
-  digitalWrite(Buzzer_PIN, LOW);
+    delay(200);
+    digitalWrite(Buzzer_PIN, LOW);
   }
-  
+    delay(1000);
 }
