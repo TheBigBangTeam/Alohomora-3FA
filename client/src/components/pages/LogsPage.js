@@ -35,23 +35,41 @@ class Logs extends Component {
                         <CardMedia>
                             {this.state.logs.map(log =>
                             log.severity==='info' ?
-                                <p>
-                                    <font color="blue">{log.severity}</font>
-                                </p>
+                                <div>
+                                    <font color="blue"><h2>{log.severity}</h2></font>
+                                    <p style={{paddingLeft: 10}}>
+                                        {log._id ? <font>ID: {log._id}<br /></font> : null}
+                                        {log.user ? <font>User: {log.user}<br /></font> : null}
+                                        {log.device ? <font>Device: {log.device}<br /></font> : null}
+                                        {log.description ? <font>Description: {log.description}</font>: null}
+                                    </p>
+                                </div>
                             :
                             log.severity==='warning' ?
-                                <p>
-                                    <font color="orange">{log.severity}</font>
-                                </p>
+                                <div>
+                                    <font color="orange"><h2>{log.severity}</h2></font>
+                                    <p style={{paddingLeft: 10}}>
+                                        {log._id ? <font>ID: {log._id}<br /></font> : null}
+                                        {log.user ? <font>User: {log.user}<br /></font> : null}
+                                        {log.device ? <font>Device: {log.device}<br /></font> : null}
+                                        {log.description ? <font>Description: {log.description}</font>: null}
+                                    </p>
+                                </div>
                             :
                             log.severity==='fatal' ?
-                                <p>
-                                    <font color="red">{log.severity}</font>
-                                </p>
+                                <div>
+                                    <font color="red"><h1>{log.severity}</h1></font>
+                                    <p style={{paddingLeft: 10}}>
+                                        {log._id ? <font>ID: {log._id}<br /></font> : null}
+                                        {log.user ? <font>User: {log.user}<br /></font> : null}
+                                        {log.device ? <font>Device: {log.device}<br /></font> : null}
+                                        {log.description ? <font>Description: {log.description}</font>: null}
+                                    </p>
+                                </div>
                             :
-                                <p>
+                                <div>
                                     <font>{log.severity}</font>
-                                </p>
+                                </div>
                             )}
                         </CardMedia>
                     </Card>
