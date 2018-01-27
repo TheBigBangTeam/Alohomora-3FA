@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class Logs extends Component {
     constructor (props) {
@@ -27,9 +29,37 @@ class Logs extends Component {
 
     render() {
         return(
-            <div>
-                <h1>Logs Page</h1>
-            </div>
+            <MuiThemeProvider>
+                <div>
+                    <Card>
+                        <CardHeader
+                            title="Logs"
+                        />
+                        <CardMedia>
+                            {this.state.logs.map(log =>
+                            log.severity==='info' ?
+                                <p>
+                                    <font color="blue">{log.severity}</font>
+                                </p>
+                            :
+                            log.severity==='warning' ?
+                                <p>
+                                    <font color="orange">{log.severity}</font>
+                                </p>
+                            :
+                            log.severity==='fatal' ?
+                                <p>
+                                    <font color="red">{log.severity}</font>
+                                </p>
+                            :
+                                <p>
+                                    <font>{log.severity}</font>
+                                </p>
+                            )}
+                        </CardMedia>
+                    </Card>
+                </div>
+            </MuiThemeProvider>
         )
     }
 
