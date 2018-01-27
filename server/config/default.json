@@ -1,11 +1,11 @@
 {
   "Settings": {
     "db": "mongodb://localhost/alohomora-db-devel",
-    "argon2": {
-    "timeCost": "1",
-    "memoryCost": "13",
-    "parallelism": "1",
-    "type": "2"
+    "PBKDF2": {
+      "salt": "passwordsalt",
+      "iterations": "1000",
+      "keylen": "64",
+      "digest": "sha512"
     },
     "JWT": {
       "secret": "This-Should-Be-Changed",
@@ -17,6 +17,14 @@
       "secret": "This-Should-Be-Changed-Too",
       "keyLength": "256",
       "mode": "cbc"
+    },
+    "mail": {
+      "host": "smtp.ethereal.email",
+      "port": "587",
+      "auth": {
+        "user":"vlb3dgrtw5i6m2zq@ethereal.email",
+        "pass":"vpqHHAHNAqshGQRy1R"
+      }
     }
   }
 }
