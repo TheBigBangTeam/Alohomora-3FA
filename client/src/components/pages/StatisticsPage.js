@@ -30,12 +30,14 @@ class Statistics extends Component {
                 <br />
                 <PieChart 
                     data={this.state.stats}
+                    download={true && "stats_test"}
                 />
                 <br />
                 <br />
                 <PieChart 
                     data={this.state.stats} 
                     donut={true}
+                    download={true && "stats_test2"}
                 />
             </div>
         )
