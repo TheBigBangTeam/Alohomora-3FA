@@ -6,6 +6,7 @@ const bearerToken = require('express-bearer-token')
 const User = require('./../models/User')
 const Log = require('./../models/Log')
 const {authenticate} = require('./../middleware/authenticate-device')
+const { notifyMail } = require('./../mailer')
 
 const router = express.Router()
 
@@ -26,7 +27,9 @@ router.get('/:rfid', async (req, res) => {
       description: `!DENIED! PIN unlock at ${req.device.functionality} of ${req.device.description} at ${req.device.building} with RFID:${req.params.rfid}`
     }
     await Log.create(log)
-    return res.sendStatus(404)
+    res.sendStatus(404)
+    notifyMail(log.severity, log.description)
+    
   } else {
     const log = {
       severity: 'info',
@@ -48,7 +51,8 @@ router.get('/:rfid/:pin', async (req, res) => {
       description: `!DENIED! DOOR unlock at ${req.device.functionality} of ${req.device.description} at ${req.device.building} with RFID:${req.params.rfid} and PIN ${req.params.pin}`
     }
     await Log.create(log)
-    return res.sendStatus(401)
+    res.sendStatus(401)
+    notifyMail(log.severity, log.description)
   } else {
     const log = {
       severity: 'info',

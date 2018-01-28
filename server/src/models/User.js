@@ -4,10 +4,9 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
 const _ = require('lodash')
-const argon2 = require('argon2')
 const config = require('config')
 
-const {encryptAES} = require('./../utilities')
+const {encryptAES, hashPBKDF2, verifyPBKDF2} = require('./../utilities')
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -27,7 +26,7 @@ const UserSchema = new mongoose.Schema({
       message: '{VALUE} is not a valid email'
     }]
   },
-  password: { // Stored as a hash value (argon2)
+  password: { // hashed
     type: String,
     required: true,
     minlength: 10
@@ -42,13 +41,13 @@ const UserSchema = new mongoose.Schema({
   },
   privileges: [{
     type: String,
-    enum: ['admin', 'logs', 'stats']
+    enum: ['admin', 'logs', 'stats','security']
   }],
   pin: { // Access pin stored as encrypted value
     type: String,
     required: true
   },
-  rfidTag: { // Stored as a hash value (argon2) to prevent duplication of tag
+  rfidTag: { // Stored as encrypted value
     type: String,
     required: true,
     unique: true
@@ -88,6 +87,11 @@ UserSchema.methods.hasStatsPermission = function () {
   return user.privileges.includes('stats')
 }
 
+UserSchema.methods.hasSecurityPermission = function () {
+  let user = this
+  return user.privileges.includes('security')
+}
+
 UserSchema.statics.findByRfid = async function (rfid) {
   const User = this
 
@@ -113,12 +117,18 @@ UserSchema.statics.findByCredentials = async function (username, password) {
     throw new Error()
   }
 
-  const match = await argon2.verify(user.password, password)
+  const match = await verifyPBKDF2(user.password, password)
   if (!match) {
     throw new Error()
   }
 
   return user
+}
+
+UserSchema.statics.findByPrivileges = async function (privileges) {
+  const User = this
+  const users = await User.find({privileges: {"$in": privileges }})
+  return users
 }
 
 UserSchema.statics.findByToken = async function (token) {
@@ -142,7 +152,7 @@ UserSchema.statics.findByToken = async function (token) {
 UserSchema.pre('save', async function (next) {
   let user = this
 
-  if (user.isModified('password')) user.password = await argon2.hash(user.password, config.get('Settings.argon2'))
+  if (user.isModified('password')) user.password = await hashPBKDF2(user.password)
   if (user.isModified('rfidTag')) user.rfidTag = encryptAES(config.get('Settings.AES.keyLength'), config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), user.rfidTag)
   if (user.isModified('pin')) user.pin = encryptAES(config.get('Settings.AES.keyLength'), config.get('Settings.AES.mode'), config.get('Settings.AES.secret'), user.pin)
 
