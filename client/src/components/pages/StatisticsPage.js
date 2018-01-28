@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {PieChart} from 'react-chartkick'
+import {PieChart, ColumnChart, BarChart} from 'react-chartkick'
 
 class Statistics extends Component {
 
@@ -38,6 +38,14 @@ class Statistics extends Component {
                     data={this.state.stats} 
                     donut={true}
                     download={true && "stats_test2"}
+                />
+                <ColumnChart
+                    data={this.state.stats} 
+                    download={true && "stats_test3"}
+                />
+                <BarChart
+                    data={this.state.stats} 
+                    download={true && "stats_test4"}
                 />
             </div>
         )
