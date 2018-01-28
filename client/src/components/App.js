@@ -12,6 +12,7 @@ import InsertUser from './pages/InsertUserPage'
 import ModifyUser from './pages/ModifyUserPage'
 import DeleteUser from './pages/DeleteUserPage'
 import NotFound from './pages/NotFound'
+window.Chart = require('chart.js')
 
 const App = ({location}) => (
   <div>
