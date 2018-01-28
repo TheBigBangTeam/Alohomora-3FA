@@ -1,6 +1,12 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {PieChart, ColumnChart, BarChart} from 'react-chartkick'
+import {
+    LineChart,
+    PieChart,
+    ColumnChart,
+    BarChart,
+    AreaChart
+} from 'react-chartkick'
 
 class Statistics extends Component {
 
@@ -28,24 +34,40 @@ class Statistics extends Component {
         return(
             <div>
                 <br />
-                <PieChart 
+                <LineChart
                     data={this.state.stats}
                     download={true && "stats_test"}
                 />
                 <br />
                 <br />
                 <PieChart 
-                    data={this.state.stats} 
-                    donut={true}
+                    data={this.state.stats}
                     download={true && "stats_test2"}
                 />
-                <ColumnChart
+                <br />
+                <br />
+                <PieChart 
                     data={this.state.stats} 
+                    donut={true}
                     download={true && "stats_test3"}
                 />
-                <BarChart
+                <br />
+                <br />
+                <ColumnChart
                     data={this.state.stats} 
                     download={true && "stats_test4"}
+                />
+                <br />
+                <br />
+                <BarChart
+                    data={this.state.stats} 
+                    download={true && "stats_test5"}
+                />
+                <br />
+                <br />
+                <AreaChart
+                    data={this.state.stats} 
+                    download={true && "stats_test6"}
                 />
             </div>
         )
