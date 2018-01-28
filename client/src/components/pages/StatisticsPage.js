@@ -27,7 +27,7 @@ class Statistics extends Component {
     render() {
         return(
             <div>
-                
+                <PieChart data={this.state.stats} />
             </div>
         )
     }
