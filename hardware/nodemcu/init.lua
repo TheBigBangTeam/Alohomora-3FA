@@ -38,7 +38,7 @@ wifi_disconnect_event = function(T)
     return 
   end
   -- total_tries: how many times the station will attempt to connect to the AP. Should consider AP reboot duration.
-  local total_tries = 75
+  local total_tries = 20
   print("\nWiFi connection to AP("..T.SSID..") has failed!")
 
   --There are many possible disconnect reasons, the following iterates through 

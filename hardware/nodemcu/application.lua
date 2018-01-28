@@ -1,33 +1,33 @@
 --[[
-Deve aspettare un ricezione in seriale della stringa contente l'rfid uid (è del tipo "'EE-EE-EE-EE'").
-Presa la stringa, senza i delimitatori, la deve immagazzinare fino a fine iterazione ed immediatamente forwardare al server.
-Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e time.
-Ricevuto il feedback lo deve mandare ad Arduino stampando in seriale l'apposita stringa.
-Ora Arduino risponderà, in seriale, la stringa per abilitare il tastierino numerico.
-Deve quindi abilitare il tastierino numerico per l'inserimento da parte dell'utente e aspettare l'input.
-Il pin deve essere immagazzinato fino a fine iterazione e subito forwardarlo al server insieme al precedente Rfid uid.
-Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e pin.
-Deve quindi inviare, in seriale, ad Arduino la stringa per far aprire la porta.
-Alla fine dell'iterazione (sia se va a termine che no) cancellerà i dati rfid e Pin immagazzinati per questa iterazione.]]--
+--Deve aspettare un ricezione in seriale della stringa contente l'rfid uid (è del tipo "'EE-EE-EE-EE'").
+--Presa la stringa, senza i delimitatori, la deve immagazzinare fino a fine iterazione ed immediatamente forwardare al server.
+--Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e time.
+--Ricevuto il feedback lo deve mandare ad Arduino stampando in seriale l'apposita stringa.
+--Ora Arduino risponderà, in seriale, la stringa per abilitare il tastierino numerico.
+--Deve quindi abilitare il tastierino numerico per l'inserimento da parte dell'utente e aspettare l'input.
+--Il pin deve essere immagazzinato fino a fine iterazione e subito forwardarlo al server insieme al precedente Rfid uid.
+--Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e pin.
+--Deve quindi inviare, in seriale, ad Arduino la stringa per far aprire la porta.
+--Alla fine dell'iterazione (sia se va a termine che no) cancellerà i dati rfid e Pin immagazzinati per questa iterazione.]]--
 --]]
 --[[
-    reference:
-    Lua-matrix-library -->
-    wifi code in init.lua --> nodemcu documentation
+--    reference:
+--    Lua-matrix-library -->
+--    wifi code in init.lua --> nodemcu documentation
    
 --]]
 --[[
-Per la trasmissione e ricezione in seriale bisogna usare le porte di default (0) ma viene trasmessa anche
-la seguenza di boot. Per questo motivo si preferisce trasmettere con la seriale 1 e ricevere con la seriale default
-dato che la seriale 1 non può ricevere ma solo trasmettere.
-Utilizzo uart.alt(1) per cambiare la seriale che viene utilizzata di default, quindi posso utilizzare
-uart.write(0, ...) per trasmettere sulla seriale 1. Poi dovrò riutilizzare uart.alt(0) per cambiare porta
-e ricevere sulla seriale 0
-esempio:
-    uart.alt(1)
-    uart.write(0, "CIAO MONDO\n")
-    uart.alt(0)
-    uart.on()
+--Per la trasmissione e ricezione in seriale bisogna usare le porte di default (0) ma viene trasmessa anche
+--la seguenza di boot. Per questo motivo si preferisce trasmettere con la seriale 1 e ricevere con la seriale default
+--dato che la seriale 1 non può ricevere ma solo trasmettere.
+--Utilizzo uart.alt(1) per cambiare la seriale che viene utilizzata di default, quindi posso utilizzare
+--uart.write(0, ...) per trasmettere sulla seriale 1. Poi dovrò riutilizzare uart.alt(0) per cambiare porta
+--e ricevere sulla seriale 0
+--esempio:
+--    uart.alt(1)
+--    uart.write(0, "CIAO MONDO\n")
+--    uart.alt(0)
+--    uart.on()
 --]]
 
 dofile("keypad.lua")
@@ -64,28 +64,35 @@ local response = {
 }
 
 -- TEST 
-tmr.alarm(1, 20000, 1, function ()
-    uart.alt(1)
-    uart.write(0, "CIAO MONDO\n")
-    print ("Numero caratteri: "..string.len(commandFromArduino))
-    uart.alt(0)
-end)
+--tmr.alarm(1, 20000, 1, function ()
+ --   uart.alt(1)
+ --   uart.write(0, "CIAO MONDO\n")
+--    print ("Numero caratteri: "..string.len(commandFromArduino))
+--    uart.alt(0)
+--end)
+
+print("ArchLinux and Fausto Marcantoni are the way")
 
 -- when '\r' is received.
 uart.on("data", "\n",
   function(data)
   if data ~= nil then
-  print ("receive from uart:"..data.."\r\n")
+  print ("receive from uart:"..data.."\r")
         commandFromArduino =  string.match(data, '#%s([%u%w%s%d%-%_]+)%s#')
+      if (commandFromArduino == nil) then
+        print ("Ci stanno Hackerando la seriale.. stacca, stacca")
+       else
+       -- qui va inserito qualcosa che previene il crash dato da nil risposto da match
         print (commandFromArduino)
-        print (string.len(commandFromArduino) 
+        print ("La lunghezza della stringa ricevuta è:"..string.len(commandFromArduino)) 
         -- and string.match(commandFromArduino, "%u%u%-%u%u%-%u%u%-%u%u")
         if string.len(commandFromArduino) == 11 then
     -- RFID: EE-EE-EE-EE
-            temp_rfid = data
+            temp_rfid = commandFromArduino
             print ("Invio rfid al server e lo salvo per il successivo invio")
             SendRfidServer() -- invia rfid dati a http servet
         elseif commandFromArduino == response[4] then
+            temp_pin = commandFromArduino
             --accendi tastierino numerico
             if (arrived_rfid == true) then
                 print " Accendo il tastierino numerico"
@@ -102,6 +109,7 @@ uart.on("data", "\n",
             print " Thank you!"
             print "Program Stop"
         end
+       end
    else
       print " Data is nil"
     end
@@ -110,7 +118,7 @@ end, 0)
 
 function SendRfidServer()
     req = api_url.."/api/authenticate/:"..temp_rfid
-    print (" Invio l'rfid: "..temp_rfid.." al server\r")
+    print (" Invio l'rfid: "..temp_rfid.." al server")
     http.get(req, nil, function(code, data)
         if (code < 0) then
             print("HTTP request failed")
@@ -119,11 +127,11 @@ function SendRfidServer()
             -- qui va chiamata la funzione che torna una stringa ad arduino
             arrived_rfid = true -- mi salvo il fatto che l'rfid è arrivato
             uart.alt(1)
-            uart.write(0, "ok_rfid_and_time\r\n")
+            uart.write(0, "ok_rfid_and_time\n")
             uart.alt(0)
         else
             print ("HTTP request failed with error code "..code)
-            print(req..)
+            print(req)
         end
     end)
 end
@@ -175,7 +183,7 @@ function sendPinServer()
             uart.alt(0)
         else
             print ("HTTP request failed with error code "..code)
-            print(req..)
+            print(req)
         end
     end)
 end

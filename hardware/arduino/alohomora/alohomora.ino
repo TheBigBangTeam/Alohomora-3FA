@@ -66,8 +66,8 @@ Servo myServo;  //tramite questo oggetto controllerò il mio Servo motore
 SoftwareSerial nodeMCU(5, 6); // RX, TX
 
 /*--------------- Definizione variabili globali --------- */
-long serialRfidFeedTime = 2000;
-long serialPinFeedTime = 3000;
+long serialRfidFeedTime = 6000;
+long serialPinFeedTime = 5000;
 
 /*--------------- Metodi ---------------  */
 //metodo per il lampeggio
@@ -145,8 +145,8 @@ void loop() {
   rfidCode.toUpperCase();
   Serial.println("");
   Serial.println("UID tag :");
-  Serial.println("'" + rfidCode + "'");
-  nodeMCU.println("#" +rfidCode+ "#"); //  Stampo nella seriale di nodeMCU l'uid della carta rfid letta
+  Serial.println("# " + rfidCode + " #");
+  nodeMCU.println("# " + rfidCode + " #"); //  Stampo nella seriale di nodeMCU l'uid della carta rfid letta
 
   unsigned long startTime1 = millis(); // Variabile per tenere il tempo
   String nodeMCUfeedRfid = ""; // variabile dove salvare il feedback da nodeMCU per l'rfid
