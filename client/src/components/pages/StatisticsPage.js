@@ -27,7 +27,16 @@ class Statistics extends Component {
     render() {
         return(
             <div>
-                <PieChart data={this.state.stats} />
+                <br />
+                <PieChart 
+                    data={this.state.stats}
+                />
+                <br />
+                <br />
+                <PieChart 
+                    data={this.state.stats} 
+                    donut={true}
+                />
             </div>
         )
     }
