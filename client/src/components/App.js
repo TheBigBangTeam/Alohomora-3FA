@@ -6,12 +6,13 @@ import GuestRoute from '../routes/GuestRoute'
 import Header from './header/Header'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
-import Statistics from './pages/Statistics'
+import Statistics from './pages/StatisticsPage'
 import Logs from './pages/LogsPage'
 import InsertUser from './pages/InsertUserPage'
 import ModifyUser from './pages/ModifyUserPage'
 import DeleteUser from './pages/DeleteUserPage'
 import NotFound from './pages/NotFound'
+window.Chart = require('chart.js')
 
 const App = ({location}) => (
   <div>
