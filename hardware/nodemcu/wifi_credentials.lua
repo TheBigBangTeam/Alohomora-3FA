@@ -1,2 +1,2 @@
-SSID = "Vorresti????"
-PASSWORD = "laficademammeta"
+SSID = "WI-FI"
+PASSWORD = "ma che bravo"
