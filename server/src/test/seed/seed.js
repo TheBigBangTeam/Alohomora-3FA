@@ -44,7 +44,7 @@ const users = [{
   rfidTag: '1377'
 }]
 
-const device0Id = new ObjectId()
+const device0Id = new ObjectId("5a72e67b59ea3d224f3cc35f")
 const device1Id = new ObjectId()
 
 const devices = [{
