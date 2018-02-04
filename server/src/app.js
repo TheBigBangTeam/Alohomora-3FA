@@ -4,7 +4,7 @@ const express = require('express')
 const path = require('path')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
-//const morgan = require('morgan')
+const morgan = require('morgan')
 
 const checkRoute = require('./middleware/check-route')
 const {dbConnect} = require('./db')
@@ -16,7 +16,7 @@ const app = express()
 app.use(helmet())
 
 /* LOGGING */
-//app.use(morgan('combined'))
+app.use(morgan('combined'))
 
 /* MISCELLANEOUS */
 app.use(bodyParser.json())

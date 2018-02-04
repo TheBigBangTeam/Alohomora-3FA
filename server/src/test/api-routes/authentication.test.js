@@ -11,7 +11,7 @@ const {users, devices, logs, populateLogs, populateUsers, populateDevices} = req
 const Log = require('./../../models/Log')
 const authenticationPath = '/api/authenticate'
 
-const token = jwt.sign({_id: devices[0]._id.toHexString()}, config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
+const token = jwt.sign({_id: devices[0]._id.toHexString()}, config.get('Settings.JWT.secret'), {algorithm: config.get('Settings.JWT.algorithm'), issuer: config.get('Settings.JWT.issuer')}
                       ).toString()
 const tokenFake = jwt.sign({_id: devices[0]._id.toHexString()}, 'Fake', {algorithm: config.get('Settings.JWT.algorithm'), expiresIn: config.get('Settings.JWT.expiration'), issuer: config.get('Settings.JWT.issuer')}
                           ).toString()
@@ -22,6 +22,8 @@ describe('[*] AUTHENTICATION ROUTE TEST', () => {
   beforeEach(populateUsers)
   beforeEach(populateDevices)
   beforeEach(populateLogs)
+
+  console.log(token)
 
   describe('- GET /:rfid', () => {
     it('should return 200', (done) => {
