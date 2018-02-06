@@ -40,6 +40,7 @@ DeviceSchema.statics.findByToken = async function (token) {
     
     console.log(JSON.stringify(decoded))
   } catch (error) {
+    console.log(error)
     throw new Error()
   }
   const device = await Device.findById(decoded._id)
