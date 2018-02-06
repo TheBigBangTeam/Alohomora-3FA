@@ -15,9 +15,11 @@ const router = express.Router()
 /* MIDDLEWARE TO FIND BEARER TOKEN */
 router.use(bearerToken())
 
+console.log('BEARER TOKEN PASSATO')
 /* MIDDLEWARE FOR DEVICE AUTHENTICATION */
 router.use(authenticate)
 
+console.log('Authenticate PASSATO')
 router.get('/:rfid', async (req, res) => {
   const user = await User.findByRfid(req.params.rfid)
   if (!user) {
