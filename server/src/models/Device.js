@@ -37,6 +37,8 @@ DeviceSchema.statics.findByToken = async function (token) {
 
   try {
     decoded = jwt.verify(token, config.get('Settings.JWT.secret'))
+    
+    console.log(JSON.stringify(decoded))
   } catch (error) {
     throw new Error()
   }
