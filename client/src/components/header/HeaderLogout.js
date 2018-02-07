@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import LogoutBox from 'material-ui/svg-icons/action/exit-to-app'
+import IconButton from 'material-ui/IconButton'
 import { white } from 'material-ui/styles/colors'
 import * as actions from '../../actions/auth'
 
 class HeaderLogout extends Component {
 
   render() {
-    const { styles } = this.props
+    const { styles, logout } = this.props
 
     const style = {
       button: {
@@ -17,12 +18,18 @@ class HeaderLogout extends Component {
     }
 
     return (
-      <LogoutBox color={white} style={{ ...styles, ...style.button }} onClick={() => logout()} />
+      <IconButton
+        tooltip="Logout"
+        style={{ ...styles, ...style.button }}
+        onClick={() => logout()}
+      >
+        <LogoutBox color={white} />
+      </IconButton>
       )
   }
 }
 
-Dashboard.propTypes = {
+HeaderLogout.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired
 }
