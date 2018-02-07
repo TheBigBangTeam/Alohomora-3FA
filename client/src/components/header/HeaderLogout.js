@@ -6,7 +6,7 @@ class HeaderLogout extends Component {
   render() {
     return (
       <div>
-        <LogoutBox color={white} />
+        <LogoutBox color={white}/>
       </div>
       )
   }
