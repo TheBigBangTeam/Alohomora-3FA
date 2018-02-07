@@ -6,6 +6,7 @@ import AppBar from 'material-ui/AppBar'
 import HeaderButtons from './HeaderButtons'
 import HeaderAvatar from './HeaderAvatar'
 import HeaderUserName from './HeaderUserName'
+import HeaderLogout from './HeaderLogout'
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications'
 import MessagesIcon from 'material-ui/svg-icons/communication/message'
 import {white} from 'material-ui/styles/colors'
@@ -46,6 +47,7 @@ class Header extends Component {
                 <HeaderAvatar />
                 <font> </font>
                 <HeaderUserName />
+                <HeaderLogout />
               </div>
             }
           />
