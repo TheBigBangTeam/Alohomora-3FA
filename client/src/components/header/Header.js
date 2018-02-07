@@ -44,10 +44,10 @@ class Header extends Component {
               <div style={{...styles, ...style.iconsRightContainer}}>
                 <NotificationsIcon color={white} style={{...styles, ...style.icons}} />
                 <MessagesIcon color={white} style={{ ...styles, ...style.icons }} />
-                <HeaderLogout />
                 <HeaderAvatar />
                 <font> </font>
                 <HeaderUserName />
+                <HeaderLogout />
               </div>
             }
           />

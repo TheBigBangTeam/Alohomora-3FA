@@ -5,9 +5,9 @@ import { connect } from 'react-redux'
 class HeaderUserName extends Component {
 
     render() {
-        const name = this.props.name
+      const name = this.props.name
         return(
-            <font color="white">{name}</font>
+          <font color="white">{name}</font>
         )
     }
 }

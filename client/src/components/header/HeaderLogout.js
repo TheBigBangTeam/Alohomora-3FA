@@ -3,11 +3,18 @@ import LogoutBox from 'material-ui/svg-icons/action/exit-to-app'
 import { white } from 'material-ui/styles/colors'
 
 class HeaderLogout extends Component {
+
   render() {
+    const { styles } = this.props
+
+    const style = {
+      button: {
+        marginLeft: 10,
+      }
+    }
+
     return (
-      <div>
-        <LogoutBox color={white}/>
-      </div>
+      <LogoutBox color={white} style={{ ...styles, ...style.button }} />
       )
   }
 }
