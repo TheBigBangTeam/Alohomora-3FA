@@ -154,11 +154,14 @@ void loop() {
 
   /*---- Ciclo per attendere la verifica dell'Rfid e orario per 2 secondi ----------- */
   do { // fino a quando startTime non arriva a 2 secondi trascorsi cicla. QUesto serve per attendere la ricezione del feeedback da parte del nodeMCU
-    if (nodeMCU.available() > 0) { //è arrivato qualche carattere?
-      nodeMCUfeedRfid = nodeMCU.read(); //  Legge la seriale da nodeMCU
-      if ( nodeMCUfeedRfid == 'ok_rfid_and_time') { //  Se arriva la conferma di rfid e orario corretti allora....
+    if (nodeMCU.available()) { //è arrivato qualche carattere?
+      nodeMCUfeedRfid = nodeMCU.readString();//  Legge la seriale da nodeMCU
+      Serial.println("La stringa arriva dalla seriale così: " + nodeMCUfeedRfid);
+      nodeMCUfeedRfid = nodeMCUfeedRfid.substring(1,nodeMCUfeedRfid.length() - 1);
+      Serial.println("La stringa esce dopo essere stata processata: " + nodeMCUfeedRfid);
+      if ( nodeMCUfeedRfid == "ok_R_T") { //  Se arriva la conferma di rfid e orario corretti allora....
+        Serial.println("l'Rfid ed il tempo sono corretti");  //  Stampo la risposta, in questo caso corretta
         nodeMCU.println("# pin_on #");  //  Dato che l'rfid è OK mando il comando per accendere il PIN
-        Serial.println(nodeMCUfeedRfid);  //  Stampo la risposta, in questo caso corretta
         digitalWrite(LedG_PIN, HIGH); //  Accendo il led verde per 2 secondi per dare conferma visiva
         delay(2000);
         digitalWrite(LedG_PIN, LOW);
@@ -166,7 +169,7 @@ void loop() {
         delay(200);
         digitalWrite(Buzzer_PIN, LOW);
       }
-      if ( nodeMCUfeedRfid == 'wrong_rfid_or_time') {
+      if ( nodeMCUfeedRfid == "wrong_R_T") {
         Serial.println(nodeMCUfeedRfid);  //  Stampo la risposta, in questo caso errata
         digitalWrite(LedR_PIN, HIGH);
         delay(2000);  //  Accendo il led Rosso per 2 secondi per dare errore visivo
@@ -198,14 +201,19 @@ void loop() {
 
   nodeMCUfeedPin = nodeMCU.read();
 
-  if (nodeMCUfeedPin == "ok_pin") {
+  if (nodeMCUfeedPin == "ok_P") {
     Serial.println("Authorized access");
     myServo.write( 30 );
     blink(5, LedG_PIN);
     delay(10000);
     myServo.write( 120 );
-  } else {
+  } 
+  if (nodeMCUfeedPin == "wrong_P"){
     Serial.println("Access denied");
+    blink(5, LedR_PIN);
+  }
+  else {
+    Serial.println("serial received error");
     blink(5, LedR_PIN);
   }
 

@@ -53,15 +53,15 @@ local temp_rfid = ""
 local temp_pin = ""
 local arrived_rfid = false
 local commandFromArduino = ""
-local api_url = "http://10.0.8.80:3000"
+local api_url = "http://192.168.43.143:3001"
 local token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTcyZTY3YjU5ZWEzZDIyNGYzY2MzNWYiLCJpYXQiOjE1MTc0ODAxOTgsImlzcyI6IlRoZUJpZ0JhbmdUZWFtIn0.Q9Zq0T6KN6NuUOJg-SxmecrfekWVf35zgfDhcAtBvAVrhAZifzxPllJaVuFEhwaZHb-8g6pQ5TP4zdj1sPk0oQ"
 local response = {
   [1] = "",
-  [2] = "ok_rfid_and_time",
-  [3] = "wrong_rfid_or_time",
+  [2] = "ok_R_F",
+  [3] = "wrong_R_T",
   [4] = "pin_on",
-  [5] = "ok_pin",
-  [6] = "wrong_pin"
+  [5] = "ok_P",
+  [6] = "wrong_P"
 }
 
 -- TEST
@@ -93,7 +93,6 @@ uart.on("data", "\n",
             print ("Invio rfid al server e lo salvo per il successivo invio")
             SendRfidServer() -- invia rfid dati a http servet
         elseif commandFromArduino == response[4] then
-            temp_pin = commandFromArduino
             --accendi tastierino numerico
             if (arrived_rfid == true) then
                 print " Accendo il tastierino numerico"
@@ -127,8 +126,16 @@ function SendRfidServer()
             print("HTTP request OK, status 200")
             -- qui va chiamata la funzione che torna una stringa ad arduino
             arrived_rfid = true -- mi salvo il fatto che l'rfid è arrivato
+            print("l'rfid è arrivato")
+            print("ok_rfid_or_time to Arduino")
             uart.alt(1)
-            uart.write(0, "ok_rfid_and_time\n")
+            uart.write(0, "ok_R_T\r\n")
+            uart.alt(0)
+        elseif (code == 401) then
+            print("l'rfid non è autorizzato")
+            print("wrong_rfid_or_time to Arduino")
+            uart.alt(1)
+            uart.write(0, response[3].."\r\n")
             uart.alt(0)
         else
             print ("HTTP request failed with error code "..code)
@@ -151,7 +158,7 @@ function insertPin ()
         function processKey(key)
             if key then
                 print(string.format("You have pressed '%s'", key))
-                temp_pin = temp_pin .. key
+                temp_pin = temp_pin..key
                 if temp_pin.len == 4 then -- se la lunghezza del pin è 4 allora la lunghezza giusta ed esco
                     print "lunghezza pin raggiunta"
                     end
@@ -178,9 +185,18 @@ function sendPinServer()
         elseif (code == 200) then
             print("HTTP request OK, status 200")
             -- qui va chiamata la funzione che torna una stringa ad arduino
-            arrived_rfid = true -- mi salvo il fatto che l'rfid è arrivato
+            --arrived_rfid = true -- mi salvo il fatto che l'rfid è arrivato
             uart.alt(1)
-            uart.write(0, "ok_rfid_and_time\r\n")
+            print("ok_pin to arduino")
+            uart.write(0, "ok_P\n")
+            uart.alt(0)
+
+            arrived_rfid = false
+        elseif (code == 401) then
+            print("il pin non è autorizzato o errato")
+            print("wrong_pin to Arduino")
+            uart.alt(1)
+            uart.write(0, response[6].."\r\n")
             uart.alt(0)
         else
             print ("HTTP request failed with error code "..code)

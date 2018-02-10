@@ -1,2 +1,2 @@
-SSID = "UNICAM-WIFI"
-PASSWORD = ""
+SSID = "Vorresti????"
+PASSWORD = "laficademammeta"
