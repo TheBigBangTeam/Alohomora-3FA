@@ -3,8 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { List, ListItem } from 'material-ui/List'
+import Dialog from 'material-ui/Dialog'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 import Avatar from 'material-ui/Avatar'
 import { deleteUser } from '../../actions/deletion'
 
@@ -13,7 +15,8 @@ class DeleteUserPage extends Component {
     super(props)
     this.state = {
       users: [],
-      data: {}
+      data: {},
+      open: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -45,7 +48,30 @@ class DeleteUserPage extends Component {
     this.props.deleteUser(this.state.data).then(() => this.props.history.push('/dashboard'))
   }
 
+  handleOpen = () => {
+    this.setState({ open: true });
+  }
+
+  handleClose = () => {
+    this.setState({ open: false });
+  }
+
   render() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleClose}
+      />,
+      <RaisedButton
+        primary
+        type='submit'
+        className='submitButton'
+        label='Delete'
+        onClick={this.handleSubmit}
+      />
+    ];
+
     return (
       <MuiThemeProvider>
         <div>
@@ -69,12 +95,19 @@ class DeleteUserPage extends Component {
           </List>
           <RaisedButton
             primary
-            type='submit'
-            className='submitButton'
+            label="Delete"
+            onClick={this.handleOpen}
             disabled={!this.state.data.id}
-            label='Delete'
-            onClick={this.handleSubmit}
           />
+          <Dialog
+            title="Deletion"
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            onRequestClose={this.handleClose}
+          >
+            Are you sure? The action cannot be undone once it starts. Be careful!
+          </Dialog>
         </div>
       </MuiThemeProvider>
     )
