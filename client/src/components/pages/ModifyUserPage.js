@@ -92,7 +92,7 @@ class ModifyUserPage extends Component {
             <h2>Select a user</h2>
           </font>
           <List>
-            {this.state.users.map(user =>
+            {this.state.users.map((user) =>
               <ListItem
                 key={user._id}
                 primaryText={user.name + " " + user.surname}
@@ -103,9 +103,17 @@ class ModifyUserPage extends Component {
                     data: { ...this.state.data, id: id2 }
                   })
                   this.setState({
-                    info: user
+                    info: {
+                      ...this.state.info,
+                      name: user.name,
+                      surname: user.surname,
+                      email: user.email,
+                      pin: user.pin,
+                      privileges: user.privileges,
+                      rfidTag: user.rfidTag,
+                      username: user.username
+                    }
                   })
-                  console.log(this.state.info)
                 }}
               />
             )}
@@ -116,7 +124,7 @@ class ModifyUserPage extends Component {
             <font face="Roboto">
               <h2>Modify the user</h2>
             </font>
-            <form>
+            <form key={this.state.info.email}>
               <TextField
                 style={styles.textField}
                 floatingLabelText='Name'
@@ -124,6 +132,7 @@ class ModifyUserPage extends Component {
                 name='name'
                 type='text'
                 hintText='Enter the name'
+                defaultValue={this.state.info.name}
                 onChange={this.handleChange} />
               <br />
               <TextField
@@ -133,6 +142,7 @@ class ModifyUserPage extends Component {
                 name='surname'
                 type='text'
                 hintText='Enter the surname'
+                defaultValue={this.state.info.surname}
                 onChange={this.handleChange} />
               <br />
               <TextField
@@ -142,6 +152,7 @@ class ModifyUserPage extends Component {
                 name='email'
                 type='email'
                 hintText='Enter the email'
+                defaultValue={this.state.info.email}
                 onChange={this.handleChange} />
               <br />
               <TextField
@@ -151,6 +162,7 @@ class ModifyUserPage extends Component {
                 name='privileges'
                 type='text'
                 hintText='Enter the privileges'
+                defaultValue={this.state.info.privileges}
                 onChange={this.handleChange} />
               <br />
               <TextField
@@ -160,6 +172,7 @@ class ModifyUserPage extends Component {
                 name='rfidTag'
                 type='text'
                 hintText='Enter the RFID tag'
+                defaultValue={this.state.info.rfidTag}
                 onChange={this.handleChange} />
               <br />
               <TextField
@@ -169,6 +182,7 @@ class ModifyUserPage extends Component {
                 name='pin'
                 type='text'
                 hintText='Enter the PIN'
+                defaultValue={this.state.info.pin}
                 onChange={this.handleChange} />
               <br />
               <TextField
@@ -178,6 +192,7 @@ class ModifyUserPage extends Component {
                 name='username'
                 type='text'
                 hintText='Enter your username'
+                defaultValue={this.state.info.username}
                 onChange={this.handleChange} />
               <br />
               <TextField floatingLabelText='Password'
