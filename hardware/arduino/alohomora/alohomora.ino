@@ -136,6 +136,7 @@ void setup() {
   Serial.println("");
   myServo.attach(Servo_PIN); //  Setto il pin per il Servo e i limiti entro cui deve agire
   myServo.write(120); // Imposto la posizione di partenza del Servo.
+
   /*---------- BUZZER TEST ----- */
   pinMode(Buzzer_PIN, OUTPUT);
   digitalWrite(Buzzer_PIN, HIGH);
