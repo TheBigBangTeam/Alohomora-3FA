@@ -8,6 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Avatar from 'material-ui/Avatar'
+import { white, blue500 } from 'material-ui/styles/colors'
 import { deleteUser } from '../../actions/deletion'
 
 class DeleteUserPage extends Component {
@@ -81,6 +82,7 @@ class DeleteUserPage extends Component {
           <List>
             {this.state.users.map(user =>
               <ListItem
+                style={{ backgroundColor: this.state.data.id === user._id ? blue500 : white }}
                 key={user._id}
                 primaryText={user.name + " " + user.surname}
                 rightAvatar={<Avatar>{user.name[0]}</Avatar>}
