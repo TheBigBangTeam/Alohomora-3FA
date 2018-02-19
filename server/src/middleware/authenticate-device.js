@@ -8,11 +8,14 @@ const authenticate = async (req, res, next) => {
   try {
     const device = await Device.findByToken(req.token)
     if (!device) {
+      console.log(req.token)
+      console.log('Device non trovato')
       return res.sendStatus(401)
     }
     req.device = device
     next()
   } catch (error) {
+    console.log('Errore database')
     return res.sendStatus(401)
   }
 }

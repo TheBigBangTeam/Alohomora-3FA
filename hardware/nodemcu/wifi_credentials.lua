@@ -1,0 +1,2 @@
+SSID = "Vorresti????"
+PASSWORD = "laficademammeta"

@@ -1,0 +1,35 @@
+
+    NodeMCU Lua is a fully featured Lua 5.1 implementation so all standard Lua language constructs and data types work.
+    The main standard Lua libraries -- 'core', 'coroutine', 'string' and 'table' are implemented.
+
+
+the standard 'io' and 'os' libraries don't work, but have been largely replaced by the NodeMCU 'node' and 'file' libraries.
+The debug and math libraries have also been omitted to reduce the runtime footprint (modulo can be done via %, power via ^).
+
+You must therefore use an Event-driven programming style in writing your ESP8266 Lua programs. 
+
+The general recommendation is to keep MEDIUM priority tasks under 2mSec and LOW priority tasks under 15 mSec in duration.
+
+By default, the Lua runtime also 'listens' to UART 0, the serial port, in interactive mode and will execute any Lua commands input
+through this serial port.
+
+Excessively long-running Lua functions (or Lua code chunks executed at the interactive prompt through UART 0) can cause
+other system functions and services to tim12eout, or to allocate scarce RAM resources to buffer queued data, 
+which can then trigger either the watchdog timer or memory exhaustion, both of which will ultimately cause the system to reboot.
+
+------------------------------------------------------------------------------------------------------------------------
+The most robust and efficient approach to coding ESP8266 Lua applications is to embrace this event model paradigm,
+and to decompose your application into atomic tasks that are threaded by events which themselves initiate callback functions.
+Each event task is established by a callback in an API call in an earlier task.
+
+Understanding how the system executes your code can help you structure it better and improve both performance and memory usage.
+
+    If you are not using timers and other callback, then you are using the wrong approach.
+
+    If you are using poll loops, then you are using the wrong approach.
+
+    If you are executing more an a few hundred lines of Lua per callback, then you are using the wrong approach.
+-------------------------------------------------------------------------------------------------------------------------
+
+In the case of a value then it is simply copied into b. In the case of a reference, both a and b now refer to the same 
+object, and no copying of content takes place. 

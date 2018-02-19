@@ -21,7 +21,7 @@ const users = [{
   password: 'longpassword',
   privileges: ['security'],
   pin: '1234',
-  rfidTag: '1'
+  rfidTag: '2C-7D-7F-39'
 }, {
   _id: user1Id,
   username: 'user1',
@@ -44,7 +44,7 @@ const users = [{
   rfidTag: '1377'
 }]
 
-const device0Id = new ObjectId()
+const device0Id = new ObjectId("5a72e67b59ea3d224f3cc35f")
 const device1Id = new ObjectId()
 
 const devices = [{
