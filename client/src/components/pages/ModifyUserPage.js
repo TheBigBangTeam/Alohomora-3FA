@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import RaisedButton from 'material-ui/RaisedButton'
 import Avatar from 'material-ui/Avatar'
 import TextField from 'material-ui/TextField'
+import { white, blue500 } from 'material-ui/styles/colors'
 import { modifyUser } from '../../actions/modification'
 
 class ModifyUserPage extends Component {
@@ -94,6 +95,7 @@ class ModifyUserPage extends Component {
           <List>
             {this.state.users.map((user) =>
               <ListItem
+                style={{backgroundColor: this.state.data.id===user._id ? blue500 : white}}
                 key={user._id}
                 primaryText={user.name + " " + user.surname}
                 rightAvatar={<Avatar>{user.name[0]}</Avatar>}
