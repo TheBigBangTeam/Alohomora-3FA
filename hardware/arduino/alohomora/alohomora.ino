@@ -1,7 +1,7 @@
 /*  Authors: The Big Bang Team
     Project: Alohomora-3FA
-    date: 18/01/2018
-    Version: Alpha 1.1
+    date: 19/02/2018
+    Version: Alpha 1.2
     Link: https://github.com/TheBigBangTeam/Alohomora-3FA
     Arduino version(for prototype): Arduino Nano v3 A000005
 
@@ -43,7 +43,7 @@
 //  Definisco i PIN del RFID reader
 #define SS_PIN 10
 #define RST_PIN 9
-#define delayRead 1000 // Time of delay 
+#define delayRead 1000 // Time of delay
 
 //  Definisco i PIN dei LED
 #define LedG_PIN 7 // Green LED
@@ -66,8 +66,8 @@ Servo myServo;  //tramite questo oggetto controllerò il mio Servo motore
 SoftwareSerial nodeMCU(5, 6); // RX, TX
 
 /*--------------- Definizione variabili globali --------- */
-long serialRfidFeedTime = 6000;
-long serialPinFeedTime = 5000;
+long serialRfidFeedTime = 6000; // 6 sec Tempo massimo di attesa per la risposta da parte di nodeMCU del feedback RFID
+long serialPinFeedTime = 15000; // 15 sec  Tempo massimo di attesa per la risposta da parte di nodeMCU del feedback PIN
 
 String nodeMCUfeedRfid = ""; // variabile dove salvare il feedback da nodeMCU per l'rfid
 String nodeMCUfeedPin = ""; // Stringa per memorizzare il feedback da nodeMCU per il pin
@@ -85,42 +85,42 @@ void blink(int count, int led)
   }
 }
 
-//  Metodo apertura varco. Aspetta una risposta da nodeMCU per la conferma di apertura
-void  waitForPin() {
-    /*---- Ora si aspetta finchè il nodeMCU non manda la risposta del controllo pin giusto o errato */
-    unsigned long startTime2 = millis();  //  Variabile per contare il tempo massimo per aspettare una risposta da nodeMCU per conferma PIN
-    while ( !nodeMCU.available() > 0) { //  Finchè non è disponibile nulla in seriale...
-      if (millis() - startTime2 > serialPinFeedTime) { //  Se il tempo massimo scade allora si ricomincerà tutto da capo
-        Serial.println("nodeMCU impiega troppo tempo per rispondere la conferma pin...");
-        Serial.println("Reset");
-        blink(3, LedR_PIN);
-        return loop();
-      } else {
-        Serial.println("Aspetto...");
+ //  Metodo apertura varco. Aspetta una risposta da nodeMCU per la conferma di apertura
+  void  waitForPin() {
+      /*---- Ora si aspetta finchè il nodeMCU non manda la risposta del controllo pin giusto o errato */
+      unsigned long startTime2 = millis();  //  Variabile per contare il tempo massimo per aspettare una risposta da nodeMCU per conferma PIN
+      while ( nodeMCU.available() <= 0) { //  Finchè non è disponibile nulla in seriale...
+        if (millis() - startTime2 > serialPinFeedTime) { //  Se il tempo massimo scade allora si ricomincerà tutto da capo
+          Serial.println("nodeMCU impiega troppo tempo per feedback PIN...");
+          Serial.println("Reset");
+          break;
+        } else {
+          Serial.println("Aspetto feedback PIN...");
+        }
+      }
+
+      nodeMCUfeedPin = nodeMCU.readString();
+      Serial.println("La stringa arriva dalla seriale così: " +  nodeMCUfeedPin);
+      nodeMCUfeedPin =  nodeMCUfeedPin.substring(1,  nodeMCUfeedPin.length() - 2);
+      Serial.println("La stringa esce dopo essere stata processata: " +  nodeMCUfeedPin);
+
+      if (nodeMCUfeedPin == "okP") {
+        Serial.println("Authorized access");
+        myServo.write( 30 );
+        blink(5, LedG_PIN);
+        delay(7000);
+        myServo.write( 120 );
+      }
+      if (nodeMCUfeedPin == "wP") {
+        Serial.println("Access denied");
+        blink(5, LedR_PIN);
+      }
+      else {
+        Serial.println("serial received error");
+        blink(5, LedR_PIN);
       }
     }
 
-    nodeMCUfeedPin = nodeMCU.readString();
-    Serial.println("La stringa arriva dalla seriale così: " +  nodeMCUfeedPin);
-    nodeMCUfeedPin =  nodeMCUfeedPin.substring(1,  nodeMCUfeedPin.length() - 1);
-    Serial.println("La stringa esce dopo essere stata processata: " +  nodeMCUfeedPin);
-
-    if (nodeMCUfeedPin == "ok_P") {
-      Serial.println("Authorized access");
-      myServo.write( 30 );
-      blink(5, LedG_PIN);
-      delay(10000);
-      myServo.write( 120 );
-    }
-    if (nodeMCUfeedPin == "wrong_P") {
-      Serial.println("Access denied");
-      blink(5, LedR_PIN);
-    }
-    else {
-      Serial.println("serial received error");
-      blink(5, LedR_PIN);
-    }
-  }
 
 /*------------------ SETUP ------------------------*/
 void setup() {
@@ -142,7 +142,6 @@ void setup() {
   delay(200);
   digitalWrite(Buzzer_PIN, LOW);
   Serial.println("Buzzer Tested");
-  Serial.println("");
   /*---------- LED TEST -------- */
   pinMode(LedG_PIN, OUTPUT);
   pinMode(LedR_PIN, OUTPUT);
@@ -153,10 +152,8 @@ void setup() {
   delay(500);
   digitalWrite(LedR_PIN, LOW);
   Serial.println("LED tested");
-  Serial.println("");
 
   Serial.println("Setup OK");
-  Serial.println("");
   Serial.println("");
 }
 
@@ -195,10 +192,13 @@ void loop() {
   do { // fino a quando startTime non arriva a 2 secondi trascorsi cicla. QUesto serve per attendere la ricezione del feeedback da parte del nodeMCU
     if (nodeMCU.available() > 0) { //è arrivato qualche carattere?
       nodeMCUfeedRfid = nodeMCU.readString();//  Legge la seriale da nodeMCU
+
       Serial.println("La stringa arriva dalla seriale così: " + nodeMCUfeedRfid);
-      nodeMCUfeedRfid = nodeMCUfeedRfid.substring(1, nodeMCUfeedRfid.length() - 1);
+      nodeMCUfeedRfid = nodeMCUfeedRfid.substring(1, nodeMCUfeedRfid.length() - 2);
+      Serial.println("La stringa dovrebbe essere di lughezza:" + nodeMCUfeedRfid.length());
       Serial.println("La stringa esce dopo essere stata processata: " + nodeMCUfeedRfid);
-      if ( nodeMCUfeedRfid == "ok_R_T") { //  Se arriva la conferma di rfid e orario corretti allora....
+      Serial.println("Ed è di lunghezza" + String("okRT").length());
+      if ( nodeMCUfeedRfid.equals("okRT")) { //  Se arriva la conferma di rfid e orario corretti allora....
         Serial.println("l'Rfid ed il tempo sono corretti");  //  Stampo la risposta, in questo caso corretta
         nodeMCU.println("# pin_on #");  //  Dato che l'rfid è OK mando il comando per accendere il PIN
         waitForPin();
@@ -208,14 +208,16 @@ void loop() {
         digitalWrite(Buzzer_PIN, HIGH);
         delay(200);
         digitalWrite(Buzzer_PIN, LOW);
-      }
-      if ( nodeMCUfeedRfid == "wrong_R_T") {
+      } else if ( nodeMCUfeedRfid == "wRT") {
         Serial.println(nodeMCUfeedRfid);  //  Stampo la risposta, in questo caso errata
         digitalWrite(LedR_PIN, HIGH);
         delay(2000);  //  Accendo il led Rosso per 2 secondi per dare errore visivo
         digitalWrite(LedR_PIN, LOW);
         Serial.println("Reset");
-        return loop();  //  Ricomincio da capo
+        break;  //  Ricomincio da capo
+      } else {
+        Serial.println("In seriale è arrivato qualcosa di inaspettato");
+
       }
     }
   } while (startTime1 + serialRfidFeedTime > millis());
@@ -223,9 +225,8 @@ void loop() {
   if (startTime1 + serialRfidFeedTime <= millis()) {
     Serial.println("nodeMCU impiega troppo tempo per rispondere la conferma dell'rfid...");
     Serial.println("Reset");
-    return loop();  //commentare per test *********
+    return;
   }
-
 
   delay(1000);
   /* // Con questi cicli if avremmo tutto quello stampato in seriale nella seriale del nodemCU e quello che arriva dal nodeMCU stampato in seriale
