@@ -19,6 +19,16 @@ void waitFeedRfidFromNode();
   Remarks:
   This method is used by "main" for wait a feedback of the PIN from nodeMCU serial
  **********************************************************************************/
-void waitFeedPinFromNode()
+void waitFeedPinFromNode();
+/******************** recvWithStartEndMarkers ********************************
+  Remarks:
+  This method is used for read from nodeMCU serial with start and end marker
+ ****************************************************************************/
+void recvWithStartEndMarkers();
+/******************** showNewData *******************************************
+  Remarks:
+  This method is used for print in serial console the new data from nodeMCU
+ ***************************************************************************/
+void showNewData();
 
 #endif

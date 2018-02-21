@@ -16,6 +16,7 @@ void setup()
 void loop() {
   waitForRfidTag();
   readTag();
-  waitFeedRfidFromNode();
+  writeToNodeMcu(rfidCode);
+  recvWithStartEndMarkers();
 
 }

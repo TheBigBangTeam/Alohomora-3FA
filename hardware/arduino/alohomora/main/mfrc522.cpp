@@ -31,8 +31,12 @@ void readTag()
     if ( i < mfrc522.uid.size - 1 ) rfidCode += "-";
   }
   rfidCode.toUpperCase();
+  showNewDataTag();
+}
+
+void showNewDataTag()
+{
   Serial.println("");
-  Serial.println("UID tag :");
+  Serial.print("UID tag :");
   Serial.println("# " + rfidCode + " #");
-  writeToNodeMcu(rfidCode)                    // See nodeMcu.h  Stampo nella seriale di nodeMCU l'uid della carta rfid letta
 }
