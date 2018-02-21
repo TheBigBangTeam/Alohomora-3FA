@@ -19,13 +19,12 @@ class HeaderLogout extends Component {
 
     return (
       <IconButton
-        tooltip="Logout"
         style={{ ...styles, ...style.button }}
         onClick={() => logout()}
       >
         <LogoutBox color={white} />
       </IconButton>
-      )
+    )
   }
 }
 
