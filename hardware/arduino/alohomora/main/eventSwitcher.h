@@ -8,7 +8,7 @@
  Input: the next step (a byte describes the type of event)
  Remarks:
  Our project is divided into a sequence of steps:
- 1) primo evento      --> (in this phase Arduino communicates with the GPS module, identifying the coordinates);
+ 1) MFRC522_READ_CARD     --> (in this phase Arduino communicates with the GPS module, identifying the coordinates);
  2) secondo evento    --> (we can estimate R0 parameter in clean air);
  3) terzo evento      --> (Arduino receives an identifier from the server);
  4) quarto evento     --> (several gas are detected and their values are sent to the server)

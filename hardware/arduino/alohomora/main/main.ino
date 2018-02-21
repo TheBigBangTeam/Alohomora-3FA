@@ -1,4 +1,5 @@
 #include "const.h"
+#include "eventSwitcher.h"
 #include "init.h"
 #include "mfrc522.h"
 #include "servo.h"
@@ -11,11 +12,11 @@ void setup()
   initApp();
   initialTest();
   finalprint();
+  event(MFRC522_READ_CARD_EVENT);
 }
 
 void loop() {
-  waitForRfidTag();
-  readTag();
+  publishMFRC522_Data();
   writeToNodeMcu(rfidCode);
   recvWithStartEndMarkers();
 

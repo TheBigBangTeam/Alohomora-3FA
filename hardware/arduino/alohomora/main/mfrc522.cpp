@@ -2,15 +2,26 @@
 
 String rfidCode = "";
 byte letter;
+MFRC522_Data mfrc522Stream = NULL;
 
-SPI.begin(); // MFRC522 Hardware uses SPI protocol
-// Creo una istanza della libreria RFID
-MFRC522 mfrc522(SS_PIN, RST_PIN);
-mfrc522.PCD_Init(); // Initialize MFRC522 Hardware
-mfrc522.PCD_SetAntennaGain(mfrc522.RxGain_max); //If you set Antenna Gain to Max it will increase reading distance
+MFRC522 mfrc522(SS_PIN, RST_PIN);                               // Create an istance from mrfc522 library
+mfrc522.PCD_Init();                                             // Initialize MFRC522 Hardware
+mfrc522.PCD_SetAntennaGain(mfrc522.RxGain_max);                 //If you set Antenna Gain to Max it will increase reading distance
+
+void subscribeMFRC522_Data(MFRC522_Data func)
+{
+  mfrc522Stream = func;
+}
+
+void publishMFRC522_Data()
+{
+  if (mfrc522Stream != NULL)
+    mfrc522Stream();
+}
 
 void waitForRfidTag()
 {
+  SPI.begin(); // MFRC522 Hardware uses SPI protocol
   //Look for new cards
   if ( !mfrc522.PICC_IsNewCardPresent() ) {
     return;
@@ -21,6 +32,8 @@ void waitForRfidTag()
   }
   Serial.println("####### Card Detected ########");
   mfrc522.PICC_DumpDetailsToSerial(&(mfrc522.uid));
+
+  readTag();
 }
 
 void readTag()
@@ -39,4 +52,8 @@ void showNewDataTag()
   Serial.println("");
   Serial.print("UID tag :");
   Serial.println("# " + rfidCode + " #");
+
+  subscribeMFRC522_Data(NULL);                                  // the address of the soubroutine "readGPS_Data" has been removed from the pointer
+                                                                // now the function "publishGPS_Data" can't execute the code of the previous subroutine
+  event(nodemcu);
 }

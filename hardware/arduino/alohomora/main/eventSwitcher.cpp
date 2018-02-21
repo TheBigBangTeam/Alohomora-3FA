@@ -3,16 +3,16 @@
 void event(byte typeOfEvent)
 {
   switch (typeOfEvent) {
-    case GPS_LOCALIZATION_EVENT:
-      GPS_localization();
+    case MFRC522_READ_CARD_EVENT:
+      waitForRfidTag();
       break;
-    case CALIBRATION_EVENT:
+    case evento1:
       start_calibration();
       break;
-    case ID_NEGOTIATION_EVENT:
+    case evento2:
       IDnegotiation();
       break;
-    case DETECTIONS_EVENT:
+    case evento3:
       detections();
       break;
   }
