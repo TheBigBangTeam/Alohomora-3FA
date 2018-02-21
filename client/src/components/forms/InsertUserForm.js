@@ -55,6 +55,9 @@ class InsertUserForm extends Component {
     return (
       <MuiThemeProvider>
         <div style={styles.general}>
+          <font face="Roboto" color="red">
+            <h2>{this.props.errorInput}</h2>
+          </font>
           <font face="Roboto">
             <h2>Insert a new user</h2>
           </font>
