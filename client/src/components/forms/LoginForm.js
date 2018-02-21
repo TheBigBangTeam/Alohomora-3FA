@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 class LoginForm extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       data: {},
@@ -17,15 +17,15 @@ class LoginForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange (e) {
+  handleChange(e) {
     let value
     e.target.name === 'username' ? value = e.target.value.trim() : value = e.target.value
     this.setState({
-      data: {...this.state.data, [e.target.name]: value}
+      data: { ...this.state.data, [e.target.name]: value }
     })
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     e.preventDefault()
     const errors = this.validate(this.state.data)
     this.setState({ errors })
@@ -34,17 +34,23 @@ class LoginForm extends Component {
     }
   }
 
-  validate (data) {
+  validate(data) {
     const errors = {}
     if (!data.username) errors.username = 'Missing username'
     if (!data.password) errors.password = 'Missing password'
     return errors
   }
 
-  render () {
+  render() {
     return (
       <MuiThemeProvider>
         <div style={styles.general}>
+          <font face="Roboto" color="red">
+            <h2>{this.props.errorInput}</h2>
+          </font>
+          <font face="Roboto">
+            <h2>Login</h2>
+          </font>
           <form>
             <TextField
               style={styles.textField}
