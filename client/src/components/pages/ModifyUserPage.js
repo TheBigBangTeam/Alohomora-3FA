@@ -7,7 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import RaisedButton from 'material-ui/RaisedButton'
 import Avatar from 'material-ui/Avatar'
 import TextField from 'material-ui/TextField'
-import { white, blue500 } from 'material-ui/styles/colors'
+import { white, blue500, orange500 } from 'material-ui/styles/colors'
 import { modifyUser } from '../../actions/modification'
 
 class ModifyUserPage extends Component {
@@ -134,6 +134,7 @@ class ModifyUserPage extends Component {
                 name='name'
                 type='text'
                 hintText='Enter the name'
+                hintStyle={styles.hintTextColor}
                 defaultValue={this.state.info.name}
                 onChange={this.handleChange} />
               <br />
@@ -144,6 +145,7 @@ class ModifyUserPage extends Component {
                 name='surname'
                 type='text'
                 hintText='Enter the surname'
+                hintStyle={styles.hintTextColor}
                 defaultValue={this.state.info.surname}
                 onChange={this.handleChange} />
               <br />
@@ -153,7 +155,8 @@ class ModifyUserPage extends Component {
                 errorText={this.state.errors.email}
                 name='email'
                 type='email'
-                hintText='Enter the email'
+                hintText='Enter the email. This must be unique'
+                hintStyle={styles.hintTextColor}
                 defaultValue={this.state.info.email}
                 onChange={this.handleChange} />
               <br />
@@ -163,7 +166,6 @@ class ModifyUserPage extends Component {
                 errorText={this.state.errors.privileges}
                 name='privileges'
                 type='text'
-                hintText='Enter the privileges'
                 defaultValue={this.state.info.privileges}
                 onChange={this.handleChange} />
               <br />
@@ -173,7 +175,8 @@ class ModifyUserPage extends Component {
                 errorText={this.state.errors.rfidTag}
                 name='rfidTag'
                 type='text'
-                hintText='Enter the RFID tag'
+                hintText='A1-B2-C3-D4'
+                hintStyle={styles.hintTextColor}
                 defaultValue={this.state.info.rfidTag}
                 onChange={this.handleChange} />
               <br />
@@ -183,7 +186,8 @@ class ModifyUserPage extends Component {
                 errorText={this.state.errors.pin}
                 name='pin'
                 type='text'
-                hintText='Enter the PIN'
+                hintText='123456'
+                hintStyle={styles.hintTextColor}
                 defaultValue={this.state.info.pin}
                 onChange={this.handleChange} />
               <br />
@@ -194,6 +198,7 @@ class ModifyUserPage extends Component {
                 name='username'
                 type='text'
                 hintText='Enter your username'
+                hintStyle={styles.hintTextColor}
                 defaultValue={this.state.info.username}
                 onChange={this.handleChange} />
               <br />
@@ -202,7 +207,8 @@ class ModifyUserPage extends Component {
                 errorText={this.state.errors.password}
                 name='password'
                 type='password'
-                hintText='Enter your password'
+                hintText='Minimum 8 characters required'
+                hintStyle={styles.hintTextColor}
                 onChange={this.handleChange} />
               <br />
               <RaisedButton
@@ -239,6 +245,9 @@ const styles = {
   },
   textField: {
     width: '400px'
+  },
+  hintTextColor: {
+    color: orange500,
   }
 }
 
