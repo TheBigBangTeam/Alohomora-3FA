@@ -6,10 +6,10 @@ void event(byte typeOfEvent)
     case MFRC522_READ_CARD_EVENT:
       waitForRfidTag();
       break;
-    case evento1:
-      start_calibration();
+    case NODEMCU_READ_EVENT:
+      nodeMCUinizialize();
       break;
-    case evento2:
+    case SERVO_OPEN_EVENT:
       IDnegotiation();
       break;
     case evento3:

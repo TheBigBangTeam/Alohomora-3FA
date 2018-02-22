@@ -3,14 +3,8 @@
 /*-----------
   Packet value
   ------------*/
-union packet_value {
-  unsigned int idata;
-  float fdata;
-};
-typedef String* packetParameters;
-typedef void (* onServerResponse)(packet_value *packet);
-typedef void (* onServerTimeout)();
 typedef void (* MFRC522_Data)();
+typedef void (* NODEMCU_Data)();
 typedef void (* calibration )();
 /*----------
   RFID reader Pins

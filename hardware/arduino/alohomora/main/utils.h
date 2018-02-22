@@ -1,6 +1,7 @@
 #ifndef utils_H
 #define utils_H
 #include "const.h"
+#include "eventSwitcher.h"
 
 /****************** blink **********************************************************
 Italian

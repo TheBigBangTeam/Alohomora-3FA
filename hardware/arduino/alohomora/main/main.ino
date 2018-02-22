@@ -17,7 +17,8 @@ void setup()
 
 void loop() {
   publishMFRC522_Data();
-  writeToNodeMcu(rfidCode);
+  publishNODEMCU_Data();
+  
   recvWithStartEndMarkers();
 
 }

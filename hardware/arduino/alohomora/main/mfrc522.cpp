@@ -53,7 +53,7 @@ void showNewDataTag()
   Serial.print("UID tag :");
   Serial.println("# " + rfidCode + " #");
 
-  subscribeMFRC522_Data(NULL);                                  // the address of the soubroutine "readGPS_Data" has been removed from the pointer
-                                                                // now the function "publishGPS_Data" can't execute the code of the previous subroutine
-  event(nodemcu);
+  subscribeMFRC522_Data(NULL);                                  // the address of the soubroutine "MFRC522_Data" has been removed from the pointer
+                                                                // now the function "publishMFRC522_Data" can't execute the code of the previous subroutine
+  event(NODEMCU_READ_EVENT);                                    // Launch the NodeMCU serial read EVENT
 }
