@@ -5,7 +5,7 @@
   ------------*/
 typedef void (* MFRC522_Data)();
 typedef void (* NODEMCU_Data)();
-typedef void (* calibration )();
+typedef void (* SERVO)();
 /*----------
   RFID reader Pins
   -----------*/

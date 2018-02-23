@@ -15,10 +15,9 @@ void setup()
   event(MFRC522_READ_CARD_EVENT);
 }
 
-void loop() {
+void loop()
+{
   publishMFRC522_Data();
   publishNODEMCU_Data();
-  
-  recvWithStartEndMarkers();
-
+  publishSERVO();
 }

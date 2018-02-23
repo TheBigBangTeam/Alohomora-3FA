@@ -2,8 +2,26 @@
 #define servo_H
 #include "const.h"
 #include "utils.h"
+#include "eventSwitcher.h"
 #include <Servo.h>
-
+/****************************************   subscribeSERVO  ***************************************************
+  input: function in SERVO
+  @param *SERVO func:
+  - enabled when -----;
+  - disabled when the previous phase is completed
+ ******************************************************************************************************************/
+void subscribeSERVO(SERVO func);
+/***************************************    publishSERVO   ******************************************************
+  Remarks:
+  This method, as already mentioned, will be inclued in the 'loop' function of Arduino and will check continuosly
+  the pointer content associated with the 'subscribeSERVO(SERVO func)' subroutine.
+ *******************************************************************************************************************/
+void publishSERVO();
+/***************************************    servoInizialize   ***************************************************
+  Remarks:
+  This method is called by eventSwitcher for inizialize Servo object and open the door
+ *******************************************************************************************************************/
+void servoInizialize();
 /************ servoDefaultPosition  ********************
 Italian
   Remarks:

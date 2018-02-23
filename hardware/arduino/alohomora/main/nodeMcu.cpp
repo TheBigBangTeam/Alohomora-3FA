@@ -12,6 +12,7 @@ char receivedChars[numChars];   // an array to store the received data
 boolean newData = false;
 
 NODEMCU_Data NODEMCUStream = NULL;
+SoftwareSerial nodeMCU(NODEMCU_RX_PIN, NODEMCU_TX_PIN);                       // Create SeftwareSerial Object (RX, TX pins)
 
 void subscribeNODEMCU_Data(NODEMCU_Data func)
 {
@@ -26,7 +27,6 @@ void publishNODEMCU_Data()
 
 void nodeMCUinizialize()
 {
-  SoftwareSerial nodeMCU(NODEMCU_RX_PIN, NODEMCU_TX_PIN);                       // Create SeftwareSerial Object (RX, TX pins)
   nodeMCU.begin(NODEMCU_BAUD_RATE);                                             // Inizialize communicatins with nodeMCU
   writeToNodeMcu(rfidCode);                                                     // Write the rfid code, previously captured, in NodeMCU Serial communication
   subscribeNODEMCU_Data(recvWithStartEndMarkers);                               // the address of the subroutine "recvWithStartEndMarkers" has been assigned to the pointer

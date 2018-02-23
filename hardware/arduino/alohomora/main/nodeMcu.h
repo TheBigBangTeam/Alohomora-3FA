@@ -10,13 +10,18 @@
   - enabled when ----;
   - disabled when the previous phase is completed
 *******************************************************/
-void subscribeNODEMCU_Data(NODEMCU_Data func)
+void subscribeNODEMCU_Data(NODEMCU_Data func);
 /***************************************    publishNODEMCU_Data   ***************************************************
   Remarks:
   This method, as already mentioned, will be inclued in the 'loop' function of Arduino and will check continuosly
   the pointer content associated with the 'subscribeNODEMCU_Data(NODEMCU_Data func)' subroutine.
  *******************************************************************************************************************/
-void publishNODEMCU_Data()
+void publishNODEMCU_Data();
+/***************************************    nodeMCUinizialize   ***************************************************
+  Remarks:
+  This method is called by eventSwitcher for inizialize nodeMCU object and start with this event
+ *******************************************************************************************************************/
+void nodeMCUinizialize();
 /******************** recvWithStartEndMarkers ********************************
   Remarks:
   This method is used for read from nodeMCU serial with start and end marker
