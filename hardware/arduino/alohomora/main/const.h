@@ -7,6 +7,12 @@ typedef void (* MFRC522_Data)();
 typedef void (* NODEMCU_Data)();
 typedef void (* SERVO)();
 /*----------
+  String to write
+  -----------*/
+#define Authors "The Big Bang Team"
+#define VersionCode "Alpha 2"
+#define ReleaseDate "28/02/2018"
+/*----------
   RFID reader Pins
   -----------*/
 #define SS_PIN 10
@@ -24,7 +30,11 @@ typedef void (* SERVO)();
 /*----------
   BUZZER Pin
   -----------*/
-#define Buzzer_PIN 2  //Per mancanza di PIN PWM è stato collegato ad uno digitale senza PWM. Verrà attivato come fosse un LED
+#define Buzzer_PIN 2                                                            //Per mancanza di PIN PWM è stato collegato ad uno digitale senza PWM. Verrà attivato come fosse un LED
+/*----------
+  TIMER
+  -----------*/
+#define WaitTime 10000
 /*----------
   Baud rates
   -----------*/
@@ -39,7 +49,7 @@ typedef void (* SERVO)();
   EVENTS
   ------*/
 #define MFRC522_READ_CARD_EVENT 0
-#define evento1 1
-#define evento2 2
-#define evento 3
+#define NODEMCU_READ_EVENT 1
+#define SERVO_OPEN_EVENT 2
+
 #endif

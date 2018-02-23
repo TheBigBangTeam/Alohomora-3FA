@@ -1,8 +1,8 @@
 #include "servo.h"
 
-SERVO servoStream = NULL;                                                        // Pointer to function created in const.h
+SERVO servoStream = NULL;                                                       // Pointer to function created in const.h
 Servo myServo;
-myServo.attach(Servo_PIN); //  Setto il pin per il Servo e i limiti entro cui deve agire
+myServo.attach(Servo_PIN);                                                      // Setto il pin per il Servo e i limiti entro cui deve agire
 
 void subscribeSERVO(SERVO func)
 {

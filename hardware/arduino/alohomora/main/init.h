@@ -1,6 +1,7 @@
 #ifndef init_H
 #define init_H
 #include "const.h"
+#include "servo.h"
 /*****************************************************************
   Remarks:
   Print authors and project name.

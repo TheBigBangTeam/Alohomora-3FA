@@ -11,7 +11,7 @@ void setup()
   initialPrint();
   initApp();
   initialTest();
-  finalprint();
+  finalPrint();
   event(MFRC522_READ_CARD_EVENT);
 }
 

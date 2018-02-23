@@ -35,14 +35,16 @@ void initialTest()
 }
 void finalPrint()
 {
-  Serial.println("Test OK")
+  Serial.println("Test OK");
   Serial.println("Setup OK");
   Serial.println("");
 }
 void initialPrint()
 {
   Serial.println("Alohomora 3FA");
-  Serial.println("A smart IoT based entrance unlock system which comprises full fledged logging, system security alerts and statistics.")
-  Serial.println("Authors: The Big Bang Team " + "Code Version: Alpha 2 " + "Release Date: 28/02/2018")
+  Serial.println("A smart IoT based entrance unlock system which comprises full fledged logging, system security alerts and statistics.");
+  Serial.print(Authors + " ");
+  Serial.print(VersionCode + " ");
+  Serial.print(ReleaseDate);
   Serial.println("");
 }

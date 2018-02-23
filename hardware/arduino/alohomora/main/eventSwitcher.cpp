@@ -10,10 +10,7 @@ void event(byte typeOfEvent)
       nodeMCUinizialize();
       break;
     case SERVO_OPEN_EVENT:
-      IDnegotiation();
-      break;
-    case evento3:
-      detections();
+      servoInizialize();
       break;
   }
 }
