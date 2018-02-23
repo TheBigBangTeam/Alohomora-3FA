@@ -117,7 +117,7 @@ class InsertUserForm extends Component {
               errorText={this.state.errors.pin}
               name='pin'
               type='text'
-              hintText='123456'
+              hintText='1234'
               hintStyle={styles.hintTextColor}
               onChange={this.handleChange} />
             <br />
