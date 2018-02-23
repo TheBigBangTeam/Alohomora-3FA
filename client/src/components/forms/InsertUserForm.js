@@ -98,7 +98,8 @@ class InsertUserForm extends Component {
               errorText={this.state.errors.privileges}
               name='privileges'
               type='text'
-              defaultValue='admin logs stats'
+              hintText='admin logs stats'
+              hintStyle={styles.hintTextColor}
               onChange={this.handleChange} />
             <br />
             <TextField
