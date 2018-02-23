@@ -5,8 +5,7 @@ byte letter;
 MFRC522_Data mfrc522Stream = NULL;
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);                               // Create an istance from mrfc522 library
-mfrc522.PCD_Init();                                             // Initialize MFRC522 Hardware
-mfrc522.PCD_SetAntennaGain(mfrc522.RxGain_max);                 //If you set Antenna Gain to Max it will increase reading distance
+
 
 void subscribeMFRC522_Data(MFRC522_Data func)
 {
@@ -19,9 +18,16 @@ void publishMFRC522_Data()
     mfrc522Stream();
 }
 
+void MFRC522inizialize()
+{
+  SPI.begin();                                                                  // MFRC522 Hardware uses SPI protocol
+  mfrc522.PCD_Init();                                                           // Initialize MFRC522 Hardware
+  mfrc522.PCD_SetAntennaGain(mfrc522.RxGain_max);                 //If you set Antenna Gain to Max it will increase reading distance
+  subscribeMFRC522_Data(waitForRfidTag);
+}
+
 void waitForRfidTag()
 {
-  SPI.begin(); // MFRC522 Hardware uses SPI protocol
   //Look for new cards
   if ( !mfrc522.PICC_IsNewCardPresent() ) {
     return;
@@ -52,7 +58,7 @@ void showNewDataTag()
   Serial.println("");
   Serial.print("UID tag :");
   Serial.println("# " + rfidCode + " #");
-
+  writeToNodeMcu(rfidCode);                                                     // Write the rfid code, previously captured, in NodeMCU Serial communication
   subscribeMFRC522_Data(NULL);                                  // the address of the soubroutine "MFRC522_Data" has been removed from the pointer
                                                                 // now the function "publishMFRC522_Data" can't execute the code of the previous subroutine
   event(NODEMCU_READ_EVENT);                                    // Launch the NodeMCU serial read EVENT

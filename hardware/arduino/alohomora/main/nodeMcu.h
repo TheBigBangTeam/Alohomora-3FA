@@ -22,6 +22,11 @@ void publishNODEMCU_Data();
   This method is called by eventSwitcher for inizialize nodeMCU object and start with this event
  *******************************************************************************************************************/
 void nodeMCUinizialize();
+/******************** selectActionToBePerformed ********************************
+  Remarks:
+  This method is used for ......
+ ****************************************************************************/
+void selectActionToBePerformed(String nodeMCUfeed);
 /******************** recvWithStartEndMarkers ********************************
   Remarks:
   This method is used for read from nodeMCU serial with start and end marker

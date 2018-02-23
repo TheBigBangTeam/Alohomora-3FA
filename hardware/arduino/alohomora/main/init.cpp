@@ -43,8 +43,8 @@ void initialPrint()
 {
   Serial.println("Alohomora 3FA");
   Serial.println("A smart IoT based entrance unlock system which comprises full fledged logging, system security alerts and statistics.");
-  Serial.print(Authors + " ");
-  Serial.print(VersionCode + " ");
+  Serial.print(Authors);
+  Serial.print(VersionCode);
   Serial.print(ReleaseDate);
   Serial.println("");
 }

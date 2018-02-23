@@ -4,7 +4,7 @@ void event(byte typeOfEvent)
 {
   switch (typeOfEvent) {
     case MFRC522_READ_CARD_EVENT:
-      waitForRfidTag();
+      MFRC522inizialize();
       break;
     case NODEMCU_READ_EVENT:
       nodeMCUinizialize();

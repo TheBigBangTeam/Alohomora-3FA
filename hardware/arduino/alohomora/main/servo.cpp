@@ -2,7 +2,6 @@
 
 SERVO servoStream = NULL;                                                       // Pointer to function created in const.h
 Servo myServo;
-myServo.attach(Servo_PIN);                                                      // Setto il pin per il Servo e i limiti entro cui deve agire
 
 void subscribeSERVO(SERVO func)
 {
@@ -17,14 +16,16 @@ void publishSERVO()
 
 void servoInizialize()
 {
+  myServo.attach(Servo_PIN);                                                      // Setto il pin per il Servo e i limiti entro cui deve agire
   subscribeSERVO(openDoor);                                                     // the address of the subroutine "SERVO" has been assigned to the pointer
 }
 
 void openDoor()
 {
   if (getPosition() != 120){
-    Serial.println("The Door is just open!!")
-  } else{
+    Serial.println("The Door is just open!!");
+  } 
+  else{
       myServo.write( 30 );
       blink(5, LedG_PIN);
       blinkBuzzer(5);
@@ -38,8 +39,9 @@ void openDoor()
 
 void servoDefaultPosition()
 {
-  if (myServo.attach() == true){
-    if (getPosition()) == 120){
+  if (myServo.attach(Servo_PIN) == true){
+    if (getPosition() == 120)
+    {
       Serial.println("Servo is in Default Position");
     } else{
       Serial.println("Actual position of the Servo is: " + myServo.read());

@@ -6,6 +6,9 @@
 #include "utils.h"
 #include <SPI.h>
 #include <MFRC522.h>
+#include <MFRC522Extended.h>
+#include <require_cpp11.h>
+#include <deprecated.h>
 /****************************************   subscribeMFRC522_Data  ***************************************************
   input: function in MFRC522_Data
   @param *MFRC522_Data func:
@@ -48,6 +51,11 @@ void subscribeMFRC522_Data(MFRC522_Data func);
   the pointer content associated with the 'subscribeMFRC522_Data(MFRC522_Data func)' subroutine.
  *******************************************************************************************************************/
 void publishMFRC522_Data();
+/***************************** MFRC522inizialize   *********************
+  Remarks:
+  This method is called by eventSwitcher for subscribe MFRC522 function
+ ***********************************************************************/
+void MFRC522inizialize();
 /*********************** waitForRfidTag  ************************
   Remarks:
   This method is called by "main" for wait TAG on mfrc522 module
@@ -58,5 +66,11 @@ void waitForRfidTag();
   This method is called for read unique code from Rfid TAG
  **********************************************************/
 void readTag();
+/******************* showNewDataTag  *****************************
+  Remarks:
+  This is the last method and it is used for print a Rfid.
+  When this method is called the MFRC522 event will be terminated
+ *****************************************************************/
+void showNewDataTag();
 
 #endif
