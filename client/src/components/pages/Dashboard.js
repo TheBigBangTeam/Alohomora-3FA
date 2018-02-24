@@ -57,12 +57,12 @@ class Dashboard extends Component {
             <CardHeader
               titleColor='red'
               titleStyle={{ fontSize: '40px' }}
-              title='Dashboard'
+              title={'Welcome back'+ " "+ name + " " + surname}
             />
             <CardMedia>
               <h3>
                 <font face="Roboto">
-                  Welcome back {name + " " + surname}
+                  
                 </font>
               </h3>
             </CardMedia>
