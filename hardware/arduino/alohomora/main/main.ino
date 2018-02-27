@@ -2,7 +2,7 @@
 #include "eventSwitcher.h"
 #include "init.h"
 #include "mfrc522.h"
-#include "servo.h"
+#include "servoMotor.h"
 #include "nodeMcu.h"
 #include "utils.h"
 

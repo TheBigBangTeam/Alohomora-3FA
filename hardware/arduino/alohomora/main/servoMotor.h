@@ -41,7 +41,7 @@ void servoDefaultPosition();
 /*********  getPosition *************
   output: open door
   Remarks:
-  This function apen the door
+  This function open the door
 **************************************/
 void openDoor();
 /*********  getPosition *************

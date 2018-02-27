@@ -39,7 +39,7 @@ void waitForRfidTag()
   Serial.println("####### Card Detected ########");
   mfrc522.PICC_DumpDetailsToSerial(&(mfrc522.uid));
 
-  readTag();
+  subscribeMFRC522_Data(readTag);
 }
 
 void readTag()
@@ -50,7 +50,7 @@ void readTag()
     if ( i < mfrc522.uid.size - 1 ) rfidCode += "-";
   }
   rfidCode.toUpperCase();
-  showNewDataTag();
+  subscribeMFRC522_Data(showNewDataTag);
 }
 
 void showNewDataTag()

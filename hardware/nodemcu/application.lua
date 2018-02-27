@@ -57,11 +57,11 @@ local api_url = "http://192.168.43.143:3001"
 local token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTcyZTY3YjU5ZWEzZDIyNGYzY2MzNWYiLCJpYXQiOjE1MTc0ODAxOTgsImlzcyI6IlRoZUJpZ0JhbmdUZWFtIn0.Q9Zq0T6KN6NuUOJg-SxmecrfekWVf35zgfDhcAtBvAVrhAZifzxPllJaVuFEhwaZHb-8g6pQ5TP4zdj1sPk0oQ"
 local response = {
   [1] = "",
-  [2] = "okRT",
-  [3] = "wRT",
+  [2] = "<okRT>",
+  [3] = "<wRT>",
   [4] = "pin_on",
-  [5] = "okP",
-  [6] = "wP"
+  [5] = "<okP>",
+  [6] = "<wP>"
 }
 
 -- TEST
@@ -98,14 +98,6 @@ uart.on("data", "\n",
                 temp_pin = ""
                 print "Accendo il tastierino numerico"
                 print "Finchè non passano 10 secondi o i numeri digitati non sono sufficenti cicla"
-                mytimer = tmr.create()
-                mytimer:register(10000, tmr.ALARM_SINGLE, function(t)
-                    print("Tempo di inserimento PIN (10sec) terminato")
-                    uart.alt(1)
-                    uart.write(0, response[6].."\r\n")
-                    uart.alt(0);
-                    tmr:unregister() end)
-                mytimer:start() -- lancio il timer che farà partire l'invio del pin al server
                 insertPin()  -- lancio funzione per l'inserimento del pin
             else
                 print ("Rfid is not arrived, please check")
@@ -161,6 +153,15 @@ function insertPin ()
        -- local key = myKeypad.scan()
          --   if key then print(key) end
        -- end)
+       
+        mytimer = tmr.create()
+        mytimer:register(10000, tmr.ALARM_SINGLE, function(t)
+            print("Tempo di inserimento PIN (10sec) terminato")
+            uart.alt(1)
+            uart.write(0, response[6].."\r\n")
+            uart.alt(0);
+            tmr:unregister() end)
+        mytimer:start() -- lancio il timer che farà partire l'invio del pin al server
 
     -- wait for keys
         function processKey(key)
@@ -181,8 +182,8 @@ function insertPin ()
         end
 
 
-    print("Press keys or wait 10s...\r")
-    myKeypad.waitForKey(0, processKey, 10, 200)
+        print("Press keys or wait 10s...\r")
+        myKeypad.waitForKey(0, processKey, 10, 200)
 
 -- devo capire se ad ogni pressione di un tasto il contatore dei 30 secondi si riavvia
     end

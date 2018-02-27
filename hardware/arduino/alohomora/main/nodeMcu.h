@@ -1,7 +1,7 @@
 #ifndef nodeMcu_H
 #define nodeMcu_H
 #include "const.h"
-#include "servo.h"
+#include "servoMotor.h"
 #include "utils.h"
 #include <SoftwareSerial.h>
 /************** subscribeNODEMCU_Data  *******************

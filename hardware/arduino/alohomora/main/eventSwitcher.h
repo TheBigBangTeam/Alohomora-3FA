@@ -2,7 +2,7 @@
 #define eventSwitcher_H
 #include "const.h"
 #include "mfrc522.h"
-#include "servo.h"
+#include "servoMotor.h"
 #include "nodeMcu.h"
 /*****************************************************************************************************************
  Input: the next step (a byte describes the type of event)
