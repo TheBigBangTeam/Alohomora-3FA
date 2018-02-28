@@ -23,7 +23,7 @@ void servoInizialize()
 
 void openDoor()
 {
-  if (getPosition() != 120){
+  if ((getPosition()) != 120){
     Serial.println("The Door is just open!!");
   } 
   else{
@@ -42,15 +42,19 @@ void openDoor()
 void servoDefaultPosition()
 {
   myServo.attach(Servo_PIN);
+  Serial.println(getPosition());                                                // Ritorna 93 all'accensione
   if (myServo.attached()){
-    if (getPosition() == 120)
+    if ((getPosition()) == 120)                                                 // getPosition() restituisce sempre 93 che dovrebbe essere la posizione metà per il servo. Consultare --> http://bit.ly/2mJYFjd
     {
       Serial.println("Servo is in Default Position");
       myServo.detach();
     } else{
-      //Serial.println("Actual position of the Servo is: " + myServo.read());   // Non funziona in quanto il metodo .read() ritorna l'ultimo valore scritto con il metodo .write()
-      Serial.println("Positioning Servo in default position....");
       myServo.write(120);                                                       // Imposto la posizione di partenza del Servo
+      delay(500);
+      Serial.println("Maybe, Servo isn't in default position");                 // Se i println vengono posizinati prima del .write(120) il servo tenta di tornare in posizione 93 per poi essere riforzato a 120
+      Serial.println("Positioning Servo in default position....");
+      delay(100);
+      Serial.println(getPosition());
     }
   } else
   {
@@ -61,5 +65,5 @@ void servoDefaultPosition()
 
 int getPosition()
 {
-    return myServo.read();
+    return myServo.read();                                                      // see servoMotor.h
 }

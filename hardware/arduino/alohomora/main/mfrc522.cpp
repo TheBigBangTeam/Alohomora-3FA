@@ -10,12 +10,14 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);                               // Create an ist
 void subscribeMFRC522_Data(MFRC522_Data func)
 {
   mfrc522Stream = func;
+  Serial.println("2");
 }
 
 void publishMFRC522_Data()
 {
   if (mfrc522Stream != NULL)
     mfrc522Stream();
+    Serial.println("3");
 }
 
 void MFRC522inizialize()
@@ -23,6 +25,7 @@ void MFRC522inizialize()
   SPI.begin();                                                                  // MFRC522 Hardware uses SPI protocol
   mfrc522.PCD_Init();                                                           // Initialize MFRC522 Hardware
   mfrc522.PCD_SetAntennaGain(mfrc522.RxGain_max);                 //If you set Antenna Gain to Max it will increase reading distance
+  Serial.println("1");
   subscribeMFRC522_Data(waitForRfidTag);
 }
 
@@ -38,19 +41,22 @@ void waitForRfidTag()
   }
   Serial.println("####### Card Detected ########");
   mfrc522.PICC_DumpDetailsToSerial(&(mfrc522.uid));
-
-  subscribeMFRC522_Data(readTag);
+  Serial.println("4");
+  readTag();
 }
 
 void readTag()
 {
+  Serial.println("5_1");
+  Serial.println("READTAG");
   // Viene caricato il codice della tessera diviso in blocchi esadecimali da 2 separati da un "-"(trattino), all'interno di una Stringa
   for ( byte i = 0; i < mfrc522.uid.size; i++ ) {
     rfidCode.concat(String(mfrc522.uid.uidByte[i], HEX));
     if ( i < mfrc522.uid.size - 1 ) rfidCode += "-";
   }
   rfidCode.toUpperCase();
-  subscribeMFRC522_Data(showNewDataTag);
+  Serial.println("5_2");
+  showNewDataTag();
 }
 
 void showNewDataTag()
@@ -58,8 +64,12 @@ void showNewDataTag()
   Serial.println("");
   Serial.print("UID tag :");
   Serial.println("# " + rfidCode + " #");
-  writeToNodeMcu(rfidCode);                                                     // Write the rfid code, previously captured, in NodeMCU Serial communication
+  Serial.println("6_1");
+  writeToNodeMcu(rfidCode);                                     // Write the rfid code, previously captured by MFRC522, in NodeMCU Serial communication
+  Serial.println("6_2");
   subscribeMFRC522_Data(NULL);                                  // the address of the soubroutine "MFRC522_Data" has been removed from the pointer
                                                                 // now the function "publishMFRC522_Data" can't execute the code of the previous subroutine
+  Serial.println("6_3");
   event(NODEMCU_READ_EVENT);                                    // Launch the NodeMCU serial read EVENT
+  Serial.println("6_4");
 }

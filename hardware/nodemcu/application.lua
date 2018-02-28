@@ -79,7 +79,7 @@ uart.on("data", "\n",
   function(data)
   if data ~= nil then
   print ("receive from uart:"..data.."\r")
-        commandFromArduino =  string.match(data, '#%s([%u%w%s%d%-%_]+)%s#')
+  commandFromArduino =  string.match(data, '#%s([%u%w%s%d%-%_]+)%s#')
       if (commandFromArduino == nil) then
         print ("Ci stanno Hackerando la seriale.. stacca, stacca")
        else
@@ -126,10 +126,11 @@ function SendRfidServer()
             -- qui va chiamata la funzione che torna una stringa ad arduino
             arrived_rfid = true -- mi salvo il fatto che l'rfid è arrivato
             print("l'rfid è arrivato")
-            print("ok_rfid_or_time to Arduino")
+            tmr.delay(4000000)
             uart.alt(1)
             uart.write(0, response[2].."\r\n")
             uart.alt(0)
+            print("ok_rfid_or_time to Arduino")
         elseif (code == 401) then
             print("l'rfid non è autorizzato")
             print("wrong_rfid_or_time to Arduino")

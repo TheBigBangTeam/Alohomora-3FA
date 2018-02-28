@@ -128,6 +128,9 @@ void showNewData()
 
 void writeToNodeMcu(String stringForWrite)
 {
-  nodeMCU.print("# " + stringForWrite + " #");
-  Serial.println("  ....Written to nodeMCU");
+  nodeMCU.begin(NODEMCU_BAUD_RATE);                                             // Inizialize communicatins with nodeMCU
+  Serial.println("6_1_1 l'rfid è:");
+  Serial.println(stringForWrite);
+  nodeMCU.println("# " + stringForWrite + " #");                                // Stampo nella seriale di nodeMCU l'uid della carta rfid letta
+  Serial.println("6_1_2");
 }

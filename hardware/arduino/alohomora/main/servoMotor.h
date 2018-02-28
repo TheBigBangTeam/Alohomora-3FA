@@ -4,6 +4,12 @@
 #include "utils.h"
 #include "eventSwitcher.h"
 #include <Servo.h>
+
+/*
+ * REFERENCE: 
+ * In this project is in use a servo for RC car(modellism) --> http://bit.ly/2mJYFjd (italian)
+ */
+
 /****************************************   subscribeSERVO  ***************************************************
   input: function in SERVO
   @param *SERVO func:
@@ -44,11 +50,14 @@ void servoDefaultPosition();
   This function open the door
 **************************************/
 void openDoor();
-/*********  getPosition *************
-  output: Position
+/**************************************  getPosition *********************************************************
+  output: Position(int)
   Remarks:
   This function returns the Position(angle).
-**************************************/
+  Ritorna 93 all'accensione anche se il servo è in posizione 120. 
+  Potrebbe non funzionare in quanto il metodo .read() ritorna l'ultimo valore scritto con il metodo .write() .
+  Nel nostro caso all'accensione non è stato scritto ancora nulla e crede di essere in posizione 93
+**************************************************************************************************************/
 int getPosition();
 
 #endif

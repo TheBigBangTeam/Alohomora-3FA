@@ -7,12 +7,6 @@ typedef void (* MFRC522_Data)();
 typedef void (* NODEMCU_Data)();
 typedef void (* SERVO)();
 /*----------
-  String to write
-  -----------*/
-#define Authors "The Big Bang Team"
-#define VersionCode "Alpha 2"
-#define ReleaseDate "28/02/2018"
-/*----------
   RFID reader Pins
   -----------*/
 #define SS_PIN 10

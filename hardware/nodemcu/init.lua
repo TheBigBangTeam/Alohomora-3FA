@@ -9,8 +9,12 @@ function startup()
         file.close("init.lua")
         -- First launch wifi configuration. Only if wifi.lua runs, then the main program starts
         -- the actual application is stored in 'application.lua'
+        if file.open("application.lua") == nil then
+            print("application.lua deleted or renamed")
+        else
         print("Opening application.lua")
         dofile("application.lua")
+        end
     end
 end
 

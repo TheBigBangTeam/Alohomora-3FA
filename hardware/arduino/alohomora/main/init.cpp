@@ -9,8 +9,6 @@ void initApp()
   pinMode(NODEMCU_RX_PIN, INPUT);
   pinMode(NODEMCU_TX_PIN, OUTPUT);
 
-  Serial.begin(SERIAL_BAUD_RATE);                                               // Initialize serial communications with PC
-
   servoDefaultPosition();                                                       // See servoMotor.h
 }
 
@@ -37,17 +35,15 @@ void initialTest()
 
 void initialPrint()
 {
+  Serial.begin(SERIAL_BAUD_RATE);                                               // Initialize serial communications with PC
+  
   Serial.println("Alohomora 3FA");
   Serial.println("A smart IoT based entrance unlock system");
-  Serial.print(Authors);
-  Serial.print(VersionCode);
-  Serial.print(ReleaseDate);
   Serial.println("");
 }
 
 void finalPrint()
 {
   Serial.println("Test OK");
-  Serial.println("Setup OK");
   Serial.println("");
 }
