@@ -161,7 +161,7 @@ function insertPin ()
             uart.alt(1)
             uart.write(0, response[6].."\r\n")
             uart.alt(0);
-            tmr:unregister() end)
+            t:unregister() end)
         mytimer:start() -- lancio il timer che farà partire l'invio del pin al server
 
     -- wait for keys
@@ -172,13 +172,12 @@ function insertPin ()
                 if (string.len(temp_pin) == 4) then -- se la lunghezza del pin è 4 allora la lunghezza giusta ed esco
                     print "lunghezza pin raggiunta"
                     tmr.unregister(0)
-                    t:unregister()
+                    mytimer:unregister()
                     sendPinServer()
                     end
                 myKeypad.waitForKey(0, processKey, 10, 200)
             else
                 print("Timed out!\r\n")
-                print("Fino ad ora è stato inserito questo pin:".. temp_pin)
             end
         end
 

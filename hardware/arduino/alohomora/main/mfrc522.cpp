@@ -15,9 +15,10 @@ void subscribeMFRC522_Data(MFRC522_Data func)
 
 void publishMFRC522_Data()
 {
-  if (mfrc522Stream != NULL)
+  if (mfrc522Stream != NULL){
     mfrc522Stream();
     Serial.println("3");
+  }
 }
 
 void MFRC522inizialize()
@@ -43,6 +44,11 @@ void waitForRfidTag()
   mfrc522.PICC_DumpDetailsToSerial(&(mfrc522.uid));
   Serial.println("4");
   readTag();
+
+  subscribeMFRC522_Data(NULL);                                  // the address of the soubroutine "MFRC522_Data" has been removed from the pointer
+                                                                // now the function "publishMFRC522_Data" can't execute the code of the previous subroutine
+  Serial.println("7");
+  event(NODEMCU_READ_EVENT);                                    // Launch the NodeMCU serial read EVENT
 }
 
 void readTag()
@@ -64,12 +70,6 @@ void showNewDataTag()
   Serial.println("");
   Serial.print("UID tag :");
   Serial.println("# " + rfidCode + " #");
-  Serial.println("6_1");
   writeToNodeMcu(rfidCode);                                     // Write the rfid code, previously captured by MFRC522, in NodeMCU Serial communication
-  Serial.println("6_2");
-  subscribeMFRC522_Data(NULL);                                  // the address of the soubroutine "MFRC522_Data" has been removed from the pointer
-                                                                // now the function "publishMFRC522_Data" can't execute the code of the previous subroutine
-  Serial.println("6_3");
-  event(NODEMCU_READ_EVENT);                                    // Launch the NodeMCU serial read EVENT
-  Serial.println("6_4");
+  Serial.println("6");
 }

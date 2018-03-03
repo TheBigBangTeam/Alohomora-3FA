@@ -11,8 +11,9 @@ void subscribeSERVO(SERVO func)
 
 void publishSERVO()
 {
-  if (servoStream != NULL)
+  if (servoStream != NULL){
     servoStream();
+  }
 }
 
 void servoInizialize()

@@ -9,6 +9,8 @@
 #include <MFRC522Extended.h>
 #include <require_cpp11.h>
 #include <deprecated.h>
+#include <SoftwareSerial.h>
+#include "MemoryFree.h"
 /****************************************   subscribeMFRC522_Data  ***************************************************
   input: function in MFRC522_Data
   @param *MFRC522_Data func:

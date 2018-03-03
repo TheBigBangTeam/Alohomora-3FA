@@ -4,6 +4,7 @@
 #include "servoMotor.h"
 #include "utils.h"
 #include <SoftwareSerial.h>
+#include "MemoryFree.h"
 /************** subscribeNODEMCU_Data  *******************
   input: function in NODEMCU_Data
   @param *NODEMCU_Data func:

@@ -35,6 +35,7 @@
 #include "servoMotor.h"
 #include "nodeMcu.h"
 #include "utils.h"
+#include "MemoryFree.h"
 
 void setup()
 {
