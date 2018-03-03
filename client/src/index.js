@@ -23,6 +23,11 @@ if (localStorage.alohomoraLog) {
   store.dispatch(userLoggedIn(user))
 }
 
+window.addEventListener("beforeunload", () => {
+  localStorage.removeItem('alohomoraLog')
+  localStorage.removeItem('alohomoraToken')
+})
+
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
