@@ -1,6 +1,6 @@
 /*  Authors: The Big Bang Team
     Project: Alohomora-3FA
-    date: 28/02/2018
+    date: 05/03/2018
     Version: Alpha 1.2
     Link: https://github.com/TheBigBangTeam/Alohomora-3FA
     Arduino version: Arduino Nano v3 A000005

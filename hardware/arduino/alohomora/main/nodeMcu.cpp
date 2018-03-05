@@ -95,6 +95,7 @@ if (nodeMCUfeed.equals("okRT")){
                                                                                   //l'evento di attesa ricezione */
     // setTimeWaitRecvSecondCall = millis();                                       // Variabile per contare il tempo massimo per aspettare una risposta da nodeMCU per conferma PIN
     //publishNODEMCU_Data();
+    newData = false;
 }
 else if (nodeMCUfeed.equals("wRT")){
     Serial.println(nodeMCUfeed);                                                // Stampo la risposta, in questo caso errata

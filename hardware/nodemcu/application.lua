@@ -207,6 +207,7 @@ function sendPinServer()
             uart.write(0, response[5].."\r\n")
             uart.alt(0)
             arrived_rfid = false
+            temp_rfid = ""
             temp_pin = ""
         elseif (code == 401) then
             print("il pin non è autorizzato o errato")
