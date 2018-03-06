@@ -63,6 +63,7 @@ void readTag()
   rfidCode.toUpperCase();
   Serial.println("5_2");
   showNewDataTag();
+  rfidCode = "";
 }
 
 void showNewDataTag()

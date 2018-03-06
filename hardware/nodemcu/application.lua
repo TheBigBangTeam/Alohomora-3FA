@@ -61,18 +61,12 @@ local response = {
   [3] = "<wRT>",
   [4] = "pin_on",
   [5] = "<okP>",
-  [6] = "<wP>"
+  [6] = "<wP>",
+  [7] = "<err>"
 }
 
--- TEST
---tmr.alarm(1, 20000, 1, function ()
- --   uart.alt(1)
- --   uart.write(0, "CIAO MONDO\n")
---    print ("Numero caratteri: "..string.len(commandFromArduino))
---    uart.alt(0)
---end)
 
-print("ArchLinux and Fausto Marcantoni are the way")
+print("The System is ready")
 
 -- when '\r' is received.
 uart.on("data", "\n",
@@ -107,6 +101,7 @@ uart.on("data", "\n",
             print "Data in Serial are wrong"
             print "Thank you!"
             print "Program Stop"
+            writeToArduino(response[7])
         end
        end
    else
@@ -121,25 +116,25 @@ function SendRfidServer()
     http.get(req, "Authorization: Bearer "..token.."\r\n", function(code, data)
         if (code < 0) then
             print("HTTP request failed")
+            writeToArduino(response[7])
+            temp_rfid = ""
         elseif (code == 200) then
             print("HTTP request OK, status 200")
             -- qui va chiamata la funzione che torna una stringa ad arduino
             arrived_rfid = true -- mi salvo il fatto che l'rfid è arrivato
             print("l'rfid è arrivato")
-            tmr.delay(4000000)
-            uart.alt(1)
-            uart.write(0, response[2].."\r\n")
-            uart.alt(0)
+            tmr.delay(2000000)
+            writeToArduino(response[2])
             print("ok_rfid_or_time to Arduino")
         elseif (code == 401) then
             print("l'rfid non è autorizzato")
             print("wrong_rfid_or_time to Arduino")
-            uart.alt(1)
-            uart.write(0, response[3].."\r\n")
-            uart.alt(0)
+            writeToArduino(response[3])
+            temp_rfid = ""
         else
             print (string.format("HTTP request failed with error code "..code))
             print(req)
+            temp_rfid = ""
         end
     end)
 end
@@ -148,19 +143,13 @@ function insertPin ()
     if (temp_rfid == "") then
     print " Non si può chiamare l'inserimento del pin se ancora non è transitato un rfid"
     else
-
-    -- use a timer to scan keys every 800ms and print them
-       -- tmr.alarm(1, 800, tmr.ALARM_SINGLE, function()
-       -- local key = myKeypad.scan()
-         --   if key then print(key) end
-       -- end)
        
         mytimer = tmr.create()
         mytimer:register(10000, tmr.ALARM_SINGLE, function(t)
             print("Tempo di inserimento PIN (10sec) terminato")
-            uart.alt(1)
-            uart.write(0, response[6].."\r\n")
-            uart.alt(0);
+            writeToArduino(response[6])
+            temp_rfid = ""
+            temp_pin = ""
             t:unregister() end)
         mytimer:start() -- lancio il timer che farà partire l'invio del pin al server
 
@@ -181,43 +170,48 @@ function insertPin ()
             end
         end
 
-
         print("Press keys or wait 10s...\r")
         myKeypad.waitForKey(0, processKey, 10, 200)
 
--- devo capire se ad ogni pressione di un tasto il contatore dei 30 secondi si riavvia
     end
 end
 
 
 function sendPinServer()
     req = api_url.."/api/authenticate/"..temp_rfid.."/"..temp_pin
-    print("La richiesta alla API è:"..req)
-    print "Invio rfid + pin al server\r\n"
-    print ("Invio il pin: "..temp_pin.." al server: "..api_url.."\r")
+    print("La richiesta alla API è: "..req)
+    print("Invio rfid + pin al server\r\n")
+    print("Invio il pin: "..temp_pin.." al server: "..api_url.."\r")
     http.get(req, "Authorization: Bearer "..token.."\r\n", function(code, data)
         if (code < 0) then
-            print("HTTP request failed")
+            print("HTTP pin request failed")
+            writeToArduino(response[7])
+            temp_rfid = ""
+            temp_pin = ""
         elseif (code == 200) then
             print("HTTP request OK, status 200")
-            -- qui va chiamata la funzione che torna una stringa ad arduino
-            --arrived_rfid = true -- mi salvo il fatto che l'rfid è arrivato
             print("ok_pin to arduino")
-            uart.alt(1)
-            uart.write(0, response[5].."\r\n")
-            uart.alt(0)
+            writeToArduino(response[5])
             arrived_rfid = false
             temp_rfid = ""
             temp_pin = ""
         elseif (code == 401) then
             print("il pin non è autorizzato o errato")
             print("wrong_pin to Arduino")
-            uart.alt(1)
-            uart.write(0, response[6].."\r\n")
-            uart.alt(0)
+            writeToArduino(response[6])
+            temp_rfid = ""
+            temp_pin = ""
         else
             print ("HTTP request failed with error code "..code)
             print(req)
+            temp_rfid = ""
+            temp_pin = ""
         end
     end)
+end
+
+function writeToArduino(dataToWrite)
+            uart.alt(1)
+            uart.write(0, dataToWrite.."\r\n")
+            uart.alt(0)
 end
