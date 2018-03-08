@@ -36,6 +36,7 @@
 #include "nodeMcu.h"
 #include "utils.h"
 #include "MemoryFree.h"
+#include "SimpleTimer.h"
 
 void setup()
 {

@@ -3,6 +3,7 @@
 #include "const.h"
 #include "servoMotor.h"
 #include "utils.h"
+#include "SimpleTimer.h"
 #include <SoftwareSerial.h>
 #include "MemoryFree.h"
 /************** subscribeNODEMCU_Data  *******************
@@ -38,5 +39,10 @@ void recvWithStartEndMarkers();
   This method is used for write strings on nodeMCU serial
  *********************************************************/
 void writeToNodeMcu(String stringforwrite);
+/****************************** restartEvent  ******************************
+  Remarks:
+  This method is used to set the maximum time for recvWithStartEndMarkers()
+ ***************************************************************************/
+void restartEvent();
 
 #endif
