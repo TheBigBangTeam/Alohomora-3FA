@@ -5,7 +5,6 @@
 #include "utils.h"
 #include "SimpleTimer.h"
 #include <SoftwareSerial.h>
-#include "MemoryFree.h"
 /************** subscribeNODEMCU_Data  *******************
   input: function in NODEMCU_Data
   @param *NODEMCU_Data func:
@@ -26,7 +25,7 @@ void publishNODEMCU_Data();
 void nodeMCUinizialize();
 /******************** selectActionToBePerformed ********************************
   Remarks:
-  This method is used for ......
+  This method is used for select action based on the feedback from NodeMCU
  ****************************************************************************/
 void selectActionToBePerformed(String nodeMCUfeed);
 /******************** recvWithStartEndMarkers ********************************
@@ -34,15 +33,21 @@ void selectActionToBePerformed(String nodeMCUfeed);
   This method is used for read from nodeMCU serial with start and end marker
  ****************************************************************************/
 void recvWithStartEndMarkers();
-/******************** writeToNodeMcu  ********************
+/***************************** writeToNodeMcu  **************************************
   Remarks:
-  This method is used for write strings on nodeMCU serial
- *********************************************************/
+  This method is used for write strings on nodeMCU serial.
+  http://forum.arduino.cc/index.php?topic=396450.msg2727727#msg2727727 for reference
+ ***********************************************************************************/
 void writeToNodeMcu(String stringforwrite);
 /****************************** restartEvent  ******************************
   Remarks:
-  This method is used to set the maximum time for recvWithStartEndMarkers()
+  This method is used to restart Arduino to the First event, in case of error
  ***************************************************************************/
 void restartEvent();
+/****************************** showNewData  ******************************
+  Remarks:
+  This method isn't in use. For debugging
+ ***************************************************************************/
+void showNewData();
 
 #endif

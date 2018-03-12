@@ -1,15 +1,12 @@
 #include "nodeMcu.h"
 
-static boolean recvInProgress = false;
-
-const byte numChars = 32;
+const byte numChars = 7;
 char receivedChars[numChars];                                                 // an array to store the received data
 
 boolean newData = false;
-boolean recvSecondCall = false;
 
-SimpleTimer timer;                                                            // Timer object
-int wd_timer_id;                                                              // timer ID
+SimpleTimer timer;                                                            // object timer to callback resetEvent(), in case of serial error from nodeMCU
+int timerId;                                                                  // timer ID
 
 NODEMCU_Data NODEMCUStream = NULL;
 SoftwareSerial nodeMCU(NODEMCU_RX_PIN, NODEMCU_TX_PIN);                       // Create SeftwareSerial Object (RX, TX pins)
@@ -17,23 +14,32 @@ SoftwareSerial nodeMCU(NODEMCU_RX_PIN, NODEMCU_TX_PIN);                       //
 void subscribeNODEMCU_Data(NODEMCU_Data func)
 {
   NODEMCUStream = func;
-  Serial.println("8");
 }
 
 void publishNODEMCU_Data()
 {
   if (NODEMCUStream != NULL){
     NODEMCUStream();
-    Serial.println("10");
   }
 }
 
+void restartEvent()
+{
+  subscribeNODEMCU_Data(NULL);                                                /** the address of the soubroutine "NODEMCU_Data" has been removed from the pointer
+                                                                              now the function "publishNODEMCU_Data" can't execute the code of the previous subroutine **/
+  Serial.println("Restart EVENT");
+  event(MFRC522_READ_CARD_EVENT);                                            // Reset event and Launch MFRC522_READ_CARD_EVENT
+}
+
+
 void nodeMCUinizialize()
 {
-  wd_timer_id = timer.setInterval(10000, restartEvent);
+  timerId = timer.setTimeout(10000, restartEvent);
   timer.run();
+  if(timer.isEnabled(timerId)){
+    Serial.println("Timer started");
+  }
   subscribeNODEMCU_Data(recvWithStartEndMarkers);                               // the address of the subroutine "recvWithStartEndMarkers" has been assigned to the pointer
-  Serial.println("9");
 }
 
 void writeToNodeMcu(String stringForWrite)
@@ -46,16 +52,17 @@ void writeToNodeMcu(String stringForWrite)
 
 void recvWithStartEndMarkers()
 {
+  static boolean recvInProgress = false;
   static byte ndx = 0;                                                          // Serve per posizionare il carattere arrivato nella giusta posizione nell'array
   char startMarker = '<';
   char endMarker = '>';
   char rc;                                                                      // Carattere letto dalla seriale
-  Serial.println("11");
   
-  while (nodeMCU.available() > 0 && newData == false) {
+
+  while (nodeMCU.available() && newData == false) {
     timer.restartTimer(restartEvent);
-    Serial.println("12");
     rc = nodeMCU.read();
+    Serial.println(rc);                                                         // For debugging. Print each char in serial
 
     if (recvInProgress == true) {
       if (rc != endMarker) {
@@ -69,14 +76,14 @@ void recvWithStartEndMarkers()
           recvInProgress = false;
           ndx = 0;
           newData = true;
-          timer.deleteTimer(wd_timer_id);
+          timer.deleteTimer(timerId);                                           // delete previous set timer
           selectActionToBePerformed(receivedChars);
         }
     } else if (rc == startMarker) {
       recvInProgress = true;
     }
   }
-  
+
 }
 
 void selectActionToBePerformed(String nodeMCUfeed)
@@ -86,8 +93,9 @@ if (nodeMCUfeed.equals("okrt")){                                                
     Serial.println("l'Rfid ed il tempo sono corretti");                         // Stampo la risposta, in questo caso corretta
     blink(2, LedG_PIN);                                                         // Accendo il led verde per 2 secondi per dare conferma visiva
     writeToNodeMcu("pin_on");                                                   // Dato che l'rfid è OK mando il comando per accendere il PIN
-    wd_timer_id = timer.setInterval(10000, restartEvent);
+    timerId = timer.setTimeout(10000, restartEvent);
     timer.run();
+    Serial.println("Timer started");
 }
 else if (nodeMCUfeed.equals("wrt")){                                            // wrt is Wrong Rfid and Time
     newData = false;
@@ -127,14 +135,7 @@ else {
   }
 }
 
-void restartEvent()
-{
-  subscribeNODEMCU_Data(NULL);                                                /** the address of the soubroutine "NODEMCU_Data" has been removed from the pointer
-                                                                              now the function "publishNODEMCU_Data" can't execute the code of the previous subroutine **/
-  event(MFRC522_READ_CARD_EVENT);                                             // Reset event and Launch MFRC522_READ_CARD_EVENT
-}
-
-void showNewData()
+void showNewData()                                                              // Not in use, for debugging
 {
   if (newData == true) {
     Serial.print("This just in ... ");

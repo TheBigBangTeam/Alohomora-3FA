@@ -17,6 +17,8 @@
 
 --]]
 --[[
+--Non si possono usare le 2 seriali in contemporanea. Ovvero la default(0) per il debug e la supplementare(1) per trasmettere.
+--Purtroppo il metodo uart.alt() non spegne la seriale che si stava utilizzando... Forse per questo nodeMcu invia casulamente i dati ad Arduino
 --Per la trasmissione e ricezione in seriale bisogna usare le porte di default (0) ma viene trasmessa anche
 --la seguenza di boot. Per questo motivo si preferisce trasmettere con la seriale 1 e ricevere con la seriale default
 --dato che la seriale 1 non può ricevere ma solo trasmettere.
@@ -45,7 +47,7 @@ myKeypad.init(KEYPAD_ROW_PINS, KEYPAD_COL_PINS, KEYPAD_LABELS)
 
 -- setup
     -- UART1 i.e. pin GPIO2
-uart.setup(0, 115200, 8, 0, 1, 0)
+uart.setup(0, 115200, 8, 0, 1, 1)
 uart.setup(1, 115200, 8, 0, 1, 1)
 
 ---------------------------------------------------------------------------------------------------
@@ -210,7 +212,7 @@ function sendPinServer()
 end
 
 function writeToArduino(dataToWrite)
-            -- uart.alt(1)
-            uart.write(1, dataToWrite .. "\r\n")
-            -- uart.alt(0)
+            uart.alt(1)
+            uart.write(0, dataToWrite .. "\r\n")
+            uart.alt(0)
 end

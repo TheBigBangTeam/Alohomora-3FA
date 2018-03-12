@@ -30,9 +30,10 @@ void openDoor()
   else{
       myServo.write(30);
       blink(5, LedG_PIN);
-      blinkBuzzer(5);
-      delay(5000);
+      blinkBuzzer(2);
+      delay(3000);
       myServo.write(120);
+      Serial.println("Hey Dude, your door opened :)\n");
       //myServo.detach();
       subscribeSERVO(NULL);                                                     // the address of the soubroutine "SERVO" has been removed from the pointer
                                                                                 // now the function "publishSERVO" can't execute the code of the previous subroutine
