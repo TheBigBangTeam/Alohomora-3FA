@@ -10,6 +10,10 @@
 #include <require_cpp11.h>
 #include <deprecated.h>
 #include <SoftwareSerial.h>
+
+/************** Declaration of global variables **********/
+extern String rfidCode;
+
 /****************************************   subscribeMFRC522_Data  ***************************************************
   input: function in MFRC522_Data
   @param *MFRC522_Data func:

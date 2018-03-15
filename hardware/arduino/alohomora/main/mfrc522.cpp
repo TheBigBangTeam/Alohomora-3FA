@@ -1,10 +1,10 @@
 #include "mfrc522.h"
 
-String rfidCode = "";
+String rfidCode = "";                                                          // definition of global variable rfidCode
 byte letter;
 MFRC522_Data mfrc522Stream = NULL;
 
-MFRC522 mfrc522(SS_PIN, RST_PIN);                               // Create an istance from mrfc522 library
+MFRC522 mfrc522(SS_PIN, RST_PIN);                                              // Create an istance from mrfc522 library
 
 
 void subscribeMFRC522_Data(MFRC522_Data func)
@@ -23,7 +23,7 @@ void MFRC522inizialize()
 {
   SPI.begin();                                                                  // MFRC522 Hardware uses SPI protocol
   mfrc522.PCD_Init();                                                           // Initialize MFRC522 Hardware
-  mfrc522.PCD_SetAntennaGain(mfrc522.RxGain_max);                 //If you set Antenna Gain to Max it will increase reading distance
+  mfrc522.PCD_SetAntennaGain(mfrc522.RxGain_max);                               //If you set Antenna Gain to Max it will increase reading distance
   subscribeMFRC522_Data(waitForRfidTag);
   Serial.println("Waiting for Rfid TAG");
 }
@@ -57,7 +57,6 @@ void readTag()
   }
   rfidCode.toUpperCase();
   showNewDataTag();
-  rfidCode = "";
 }
 
 void showNewDataTag()

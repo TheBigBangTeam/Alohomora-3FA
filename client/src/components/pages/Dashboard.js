@@ -57,12 +57,12 @@ class Dashboard extends Component {
             <CardHeader
               titleColor='red'
               titleStyle={{ fontSize: '40px' }}
-              title={'Welcome back'+ " "+ name + " " + surname}
+              title={"Welcome back " + name + "" + surname}
             />
             <CardMedia>
               <h3>
                 <font face="Roboto">
-                  
+
                 </font>
               </h3>
             </CardMedia>
@@ -70,7 +70,8 @@ class Dashboard extends Component {
               <font face="Roboto">
                 <h2>Last Log</h2>
               </font>
-              {this.state.log.map(log =>
+              {
+              this.state.log.map(log =>
                 log.severity === 'info' ?
                   <div>
                     <Paper zDepth={2}>
