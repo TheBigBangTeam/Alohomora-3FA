@@ -1,7 +1,7 @@
 /*  Authors: The Big Bang Team
     Project: Alohomora-3FA
-    date: 12/03/2018
-    Version: Alpha 1.3
+    date: 14/03/2018
+    Version: Alpha 1.4
     Link: https://github.com/TheBigBangTeam/Alohomora-3FA
     Arduino version: Arduino Nano v3 A000005
 
@@ -35,7 +35,6 @@
 #include "servoMotor.h"
 #include "nodeMcu.h"
 #include "utils.h"
-#include "SimpleTimer.h"
 
 void setup()
 {

@@ -3,8 +3,10 @@
 #include "const.h"
 #include "servoMotor.h"
 #include "utils.h"
+#include "mfrc522.h"
 #include "SimpleTimer.h"
 #include <SoftwareSerial.h>
+
 /************** subscribeNODEMCU_Data  *******************
   input: function in NODEMCU_Data
   @param *NODEMCU_Data func:

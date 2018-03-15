@@ -5,8 +5,8 @@ char receivedChars[numChars];                                                 //
 
 boolean newData = false;
 
-SimpleTimer timer;                                                            // object timer to callback resetEvent(), in case of serial error from nodeMCU
-int timerId;                                                                  // timer ID
+SimpleTimer timer;                                                            // the timer object
+int timer_id;
 
 NODEMCU_Data NODEMCUStream = NULL;
 SoftwareSerial nodeMCU(NODEMCU_RX_PIN, NODEMCU_TX_PIN);                       // Create SeftwareSerial Object (RX, TX pins)
@@ -34,11 +34,8 @@ void restartEvent()
 
 void nodeMCUinizialize()
 {
-  timerId = timer.setTimeout(10000, restartEvent);
+  timer_id = timer.setInterval(10000, restartEvent);
   timer.run();
-  if(timer.isEnabled(timerId)){
-    Serial.println("Timer started");
-  }
   subscribeNODEMCU_Data(recvWithStartEndMarkers);                               // the address of the subroutine "recvWithStartEndMarkers" has been assigned to the pointer
 }
 
@@ -57,10 +54,8 @@ void recvWithStartEndMarkers()
   char startMarker = '<';
   char endMarker = '>';
   char rc;                                                                      // Carattere letto dalla seriale
-  
 
   while (nodeMCU.available() && newData == false) {
-    timer.restartTimer(restartEvent);
     rc = nodeMCU.read();
     Serial.println(rc);                                                         // For debugging. Print each char in serial
 
@@ -76,7 +71,6 @@ void recvWithStartEndMarkers()
           recvInProgress = false;
           ndx = 0;
           newData = true;
-          timer.deleteTimer(timerId);                                           // delete previous set timer
           selectActionToBePerformed(receivedChars);
         }
     } else if (rc == startMarker) {
@@ -92,14 +86,16 @@ if (nodeMCUfeed.equals("okrt")){                                                
     newData = false;
     Serial.println("l'Rfid ed il tempo sono corretti");                         // Stampo la risposta, in questo caso corretta
     blink(2, LedG_PIN);                                                         // Accendo il led verde per 2 secondi per dare conferma visiva
+    rfidCode = "";                                                              // Ripulisco la variabile globale dove era salvato l'rfid
     writeToNodeMcu("pin_on");                                                   // Dato che l'rfid è OK mando il comando per accendere il PIN
-    timerId = timer.setTimeout(10000, restartEvent);
-    timer.run();
-    Serial.println("Timer started");
+    timer.restartTimer(timer_id);
 }
 else if (nodeMCUfeed.equals("wrt")){                                            // wrt is Wrong Rfid and Time
     newData = false;
+    timer.deleteTimer(timer_id);
     Serial.println(nodeMCUfeed);                                                // Stampo la risposta, in questo caso errata
+    Serial.println("L'Rfid\t" + rfidCode + "\tè errato o non in database");     //Stampo quale code rfid non è corretto
+    rfidCode = "";                                                              // Ripulisco la variabile globale dove era salvato l'rfid
     digitalWrite(LedR_PIN, HIGH);
     delay(2000);                                                                // Accendo il led Rosso per 2 secondi per dare errore visivo
     digitalWrite(LedR_PIN, LOW);
@@ -108,6 +104,7 @@ else if (nodeMCUfeed.equals("wrt")){                                            
 }
 else if (nodeMCUfeed.equals("okp")){                                            // okp is OK PIN
     newData = false;
+    timer.deleteTimer(timer_id);
     Serial.println("Authorized access");
     subscribeNODEMCU_Data(NULL);                                               // the address of the soubroutine "NODEMCU_Data" has been removed from the pointer
                                                                                 // now the function "publishNODEMCU_Data" can't execute the code of the previous subroutine
@@ -115,18 +112,22 @@ else if (nodeMCUfeed.equals("okp")){                                            
 }
 else if (nodeMCUfeed.equals("wp")){                                             // wp is Wrong PIN
     newData = false;
+    timer.deleteTimer(timer_id);
     Serial.println("Access denied");
     blink(3, LedR_PIN);
     restartEvent();
 }
 else if (nodeMCUfeed.equals("err")){
     newData = false;
+    timer.deleteTimer(timer_id);
     Serial.println("Server request error");
+    rfidCode = "";                                                              // Ripulisco la variabile globale dove era salvato l'rfid
     blink(3, LedR_PIN);
     restartEvent();
 }
 else {
     newData = false;
+    timer.deleteTimer(timer_id);
     Serial.println("serial received error");
     blink(5, LedR_PIN);
     Serial.print("Il dato errato è:");

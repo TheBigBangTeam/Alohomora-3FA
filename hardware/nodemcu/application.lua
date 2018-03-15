@@ -1,35 +1,41 @@
+--[[ Authors: The Big Bang Team
+    Project: Alohomora-3FA
+    date: 14/03/2018
+    Version: Alpha 1
+    Link: https://github.com/TheBigBangTeam/Alohomora-3FA
+    NodeMCU version: Lolin(v2)
+--]]
 --[[
---Deve aspettare un ricezione in seriale della stringa contente l'rfid uid (è del tipo "'EE-EE-EE-EE'").
---Presa la stringa, senza i delimitatori, la deve immagazzinare fino a fine iterazione ed immediatamente forwardare al server.
---Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e time.
---Ricevuto il feedback lo deve mandare ad Arduino stampando in seriale l'apposita stringa.
---Ora Arduino risponderà, in seriale, la stringa per abilitare il tastierino numerico.
---Deve quindi abilitare il tastierino numerico per l'inserimento da parte dell'utente e aspettare l'input.
---Il pin deve essere immagazzinato fino a fine iterazione e subito forwardarlo al server insieme al precedente Rfid uid.
---Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e pin.
---Deve quindi inviare, in seriale, ad Arduino la stringa per far aprire la porta.
---Alla fine dell'iterazione (sia se va a termine che no) cancellerà i dati rfid e Pin immagazzinati per questa iterazione.]]--
+Deve aspettare un ricezione in seriale della stringa contente l'rfid uid (è del tipo "'EE-EE-EE-EE'").
+Presa la stringa, senza i delimitatori, la deve immagazzinare fino a fine iterazione ed immediatamente forwardare al server.
+Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e time.
+Ricevuto il feedback lo deve mandare ad Arduino stampando in seriale l'apposita stringa.
+Ora Arduino risponderà, in seriale, la stringa per abilitare il tastierino numerico.
+Deve quindi abilitare il tastierino numerico per l'inserimento da parte dell'utente e aspettare l'input.
+Il pin deve essere immagazzinato fino a fine iterazione e subito forwardarlo al server insieme al precedente Rfid uid.
+Attenderà dunque che si verifichi l'evento di ritorno, tramite http, del feedback rfid e pin.
+Deve quindi inviare, in seriale, ad Arduino la stringa per far aprire la porta.
+Alla fine dell'iterazione (sia se va a termine che no) cancellerà i dati rfid e Pin immagazzinati per questa iterazione.]]--
 --]]
 --[[
 --    reference:
---    Lua-matrix-library -->
---    wifi code in init.lua --> nodemcu documentation
-
+--    Lua-matrix-library    --> https://github.com/rafacouto/lua-matrix-keypad
+--    wifi code in init.lua --> https://nodemcu.readthedocs.io/en/master/en/upload/
 --]]
 --[[
---Non si possono usare le 2 seriali in contemporanea. Ovvero la default(0) per il debug e la supplementare(1) per trasmettere.
---Purtroppo il metodo uart.alt() non spegne la seriale che si stava utilizzando... Forse per questo nodeMcu invia casulamente i dati ad Arduino
---Per la trasmissione e ricezione in seriale bisogna usare le porte di default (0) ma viene trasmessa anche
---la seguenza di boot. Per questo motivo si preferisce trasmettere con la seriale 1 e ricevere con la seriale default
---dato che la seriale 1 non può ricevere ma solo trasmettere.
---Utilizzo uart.alt(1) per cambiare la seriale che viene utilizzata di default, quindi posso utilizzare
---uart.write(0, ...) per trasmettere sulla seriale 1. Poi dovrò riutilizzare uart.alt(0) per cambiare porta
---e ricevere sulla seriale 0
---esempio:
---    uart.alt(1)
---    uart.write(0, "CIAO MONDO\n")
---    uart.alt(0)
---    uart.on()
+Non si possono usare le 2 seriali in contemporanea. Ovvero la default(0) per il debug e la supplementare(1) per trasmettere.
+Purtroppo il metodo uart.alt() non spegne la seriale che si stava utilizzando.
+Per la trasmissione e ricezione in seriale bisogna usare le porte di default (0) ma viene trasmessa anche
+la seguenza di boot. Per questo motivo si preferisce trasmettere con la seriale 1 e ricevere con la seriale default
+dato che la seriale 1 non può ricevere ma solo trasmettere.
+Utilizzare uart.alt(1) per cambiare la seriale che viene utilizzata di default, quindi posso utilizzare
+uart.write(0, ...) per trasmettere sulla seriale 1. Poi dovrò riutilizzare uart.alt(0) per cambiare porta
+e ricevere sulla seriale 0
+esempio:
+    uart.alt(1)
+    uart.write(0, "CIAO MONDO\n")
+    uart.alt(0)
+    uart.on()
 --]]
 
 dofile("keypad.lua")
@@ -47,8 +53,8 @@ myKeypad.init(KEYPAD_ROW_PINS, KEYPAD_COL_PINS, KEYPAD_LABELS)
 
 -- setup
     -- UART1 i.e. pin GPIO2
-uart.setup(0, 115200, 8, 0, 1, 1)
-uart.setup(1, 115200, 8, 0, 1, 1)
+uart.setup(0, 115200, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
+uart.setup(1, 115200, 8, uart.PARITY_EVEN, uart.STOPBITS_1_5, 1)
 
 ---------------------------------------------------------------------------------------------------
 local temp_rfid = ""
@@ -70,7 +76,12 @@ local response = {
 
 print("The System is ready")
 
--- when '\r' is received.
+--[[
+Questa funzione attende che si verifichi l'evento seriale(Presenza di tramissioni seriali in ingresso, RX).
+Accetta solo stringhe formate nel modo: # stringa #. Scarta eventuali disturbi nella seriale.
+In base alla stringa ricevuta interpresa se si tratta di un tag rfid, un feedback o un comando da eseguire.
+Confronta la stringa
+--]]
 uart.on("data", "\n",
   function(data)
   if data ~= nil then
@@ -93,7 +104,7 @@ uart.on("data", "\n",
             --accendi tastierino numerico
             if (arrived_rfid == true) then
                 print "Accendo il tastierino numerico"
-                print "Finchè non passano 10 secondi o i numeri digitati non sono sufficenti, attendo il pin"
+                print "Finchè non passano 10 secondi o i numeri digitati non sono sufficenti(4), attendo il pin"
                 insertPin()  -- lancio funzione per l'inserimento del pin
             else
                 print ("Rfid is not arrived, please check")
@@ -111,7 +122,11 @@ uart.on("data", "\n",
     end
 end, 0)
 
-
+--[[
+Questa funzione invia l'rfid al server per il controllo dell'utente che si vuole loggare.
+In base alla risposta del server eseguo le diverse azioni.
+Nel caso positivo invio ad Arduino questo feedback. Arduino rispondera con il consenso per accendere il keypad
+--]]
 function SendRfidServer()
     req = api_url.."/api/authenticate/" .. temp_rfid
     print ("Invio l'rfid: " .. temp_rfid .. " al server" .. api_url .. "")
@@ -132,14 +147,24 @@ function SendRfidServer()
             print("wrong_rfid_or_time to Arduino")
             writeToArduino(response[3])
             temp_rfid = ""
+        elseif (code == 404) then
+            print("l'rfid non esiste nel database")
+            print("wrong_rfid_or_time to Arduino")
+            writeToArduino(response[3])
+            temp_rfid = ""
         else
             print (string.format("HTTP request failed with error code "..code))
-            print(req)
+            writeToArduino(response[3])
             temp_rfid = ""
         end
     end)
 end
 
+--[[
+Questa funzione rende possibile l'inserimento del pin nel Keypad.
+Inserito il pin di 4 cifre, lo passa alla funzione sendPinServer().
+Il timer permette di interrompere il processo di attessa pin dopo 10 secondi.
+--]]
 function insertPin ()
     if (temp_rfid == "" and arrived_rfid == false) then
     print " Non si può chiamare l'inserimento del pin se ancora non è transitato un rfid"
@@ -177,7 +202,10 @@ function insertPin ()
     end
 end
 
-
+--[[
+Questa funzione invia rfid e pin al server per il controllo combinato finale.
+In base alla risposta del server eseguo le diverse azioni. Nel caso positivo invio il consenso per l'apertura della porta
+--]]
 function sendPinServer()
     req = api_url.."/api/authenticate/" .. temp_rfid .. "/" .. temp_pin
     print("La richiesta alla API è: " .. req)
@@ -204,13 +232,17 @@ function sendPinServer()
             temp_pin = ""
         else
             print ("HTTP request failed with error code " .. code)
-            print(req)
+            writeToArduino(response[6])
             temp_rfid = ""
             temp_pin = ""
         end
     end)
 end
 
+--[[
+Questa funzione ci permette di scrivere(TX) in seriale ad Arduino.
+Usiamo per prima cosa
+--]]
 function writeToArduino(dataToWrite)
             uart.alt(1)
             uart.write(0, dataToWrite .. "\r\n")
