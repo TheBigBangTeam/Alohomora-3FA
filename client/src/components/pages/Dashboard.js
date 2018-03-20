@@ -70,8 +70,7 @@ class Dashboard extends Component {
               <font face="Roboto">
                 <h2>Last Log</h2>
               </font>
-              {
-              this.state.log.map(log =>
+              {this.state.log.map(log =>
                 log.severity === 'info' ?
                   <div>
                     <Paper zDepth={2}>

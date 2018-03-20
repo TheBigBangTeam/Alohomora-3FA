@@ -25,6 +25,7 @@ class Logs extends Component {
       if (start > 0) {
         for (var i = start; i > stop; i--) {
           array.push(data.logs[i])
+          if(!data.logs[i - 1]) break;
         }
       }
       this.setState({
