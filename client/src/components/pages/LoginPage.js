@@ -14,13 +14,13 @@ class LoginPage extends Component {
   }
   submit(data) {
     this.setState({
-      inputError: 'Invio dati al server....'
+      inputError: 'Logging in...'
     })
     this.props.login(data)
       .then(() => this.props.history.push('/dashboard'))
       .catch((error) =>
         this.setState({
-          inputError: 'Nome utente o password errati.'
+          inputError: 'Wrong username or password'
         }))
   }
 

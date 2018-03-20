@@ -4,12 +4,7 @@ import { connect } from 'react-redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
 import HeaderButtons from './HeaderButtons'
-import HeaderAvatar from './HeaderAvatar'
-import HeaderUserName from './HeaderUserName'
 import HeaderLogout from './HeaderLogout'
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications'
-import MessagesIcon from 'material-ui/svg-icons/communication/message'
-import { white } from 'material-ui/styles/colors'
 
 class Header extends Component {
 
@@ -35,18 +30,14 @@ class Header extends Component {
         <MuiThemeProvider>
           {this.props.isAuthenticated ?
             <div>
-              <AppBar
+              <AppBar showMenuIconButton={false}
                 style={{ ...styles, ...style.appBar }}
                 title={
                   <HeaderButtons />
                 }
                 iconElementRight={
                   <div style={{ ...styles, ...style.iconsRightContainer }}>
-                    <NotificationsIcon color={white} style={{ ...styles, ...style.icons }} />
-                    <MessagesIcon color={white} style={{ ...styles, ...style.icons }} />
-                    <HeaderAvatar />
                     <font> </font>
-                    <HeaderUserName />
                     <HeaderLogout />
                   </div>
                 }
@@ -55,6 +46,7 @@ class Header extends Component {
             :
             <div>
               <AppBar
+                showMenuIconButton={false}
                 style={{ ...styles, ...style.appBar }}
                 title="Alohomora3FA"
               />
