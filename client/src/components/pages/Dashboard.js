@@ -35,13 +35,8 @@ class Dashboard extends Component {
         'Authorization': 'Bearer ' + localStorage.alohomoraToken
       }
     }).then(({ data }) => {
-      var array = []
-      var lastLog = data.logs.length - 1
-      if (lastLog) {
-        array.push(lastLog)
-      }
       this.setState({
-        log: array
+        log: [data.logs[data.logs.length -1]]
       })
     })
   }
