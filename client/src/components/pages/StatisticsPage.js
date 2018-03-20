@@ -33,41 +33,17 @@ class Statistics extends Component {
   render() {
     return (
       <div>
+
         <br />
-        <LineChart
+        <AreaChart
           data={this.state.stats}
-          download={true && "stats_test"}
+          download={true && "stats_test6"}
         />
         <br />
         <br />
         <PieChart
           data={this.state.stats}
           download={true && "stats_test2"}
-        />
-        <br />
-        <br />
-        <PieChart
-          data={this.state.stats}
-          donut={true}
-          download={true && "stats_test3"}
-        />
-        <br />
-        <br />
-        <ColumnChart
-          data={this.state.stats}
-          download={true && "stats_test4"}
-        />
-        <br />
-        <br />
-        <BarChart
-          data={this.state.stats}
-          download={true && "stats_test5"}
-        />
-        <br />
-        <br />
-        <AreaChart
-          data={this.state.stats}
-          download={true && "stats_test6"}
         />
       </div>
     )
