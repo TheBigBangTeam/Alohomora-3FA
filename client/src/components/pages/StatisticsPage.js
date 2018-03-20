@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import {
-  LineChart,
   PieChart,
-  ColumnChart,
-  BarChart,
   AreaChart
 } from 'react-chartkick'
 
