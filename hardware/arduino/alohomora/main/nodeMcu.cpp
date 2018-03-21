@@ -127,6 +127,7 @@ else if (nodeMCUfeed.equals("err")){
 }
 else {
     newData = false;
+    rfidCode = "";                                                              // Ripulisco la variabile globale dove era salvato l'rfid
     timer.deleteTimer(timer_id);
     Serial.println("serial received error");
     blink(5, LedR_PIN);
