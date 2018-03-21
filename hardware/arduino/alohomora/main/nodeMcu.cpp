@@ -52,7 +52,7 @@ void recvWithStartEndMarkers()
   static boolean recvInProgress = false;
   static byte ndx = 0;                                                          // Serve per posizionare il carattere arrivato nella giusta posizione nell'array
   char startMarker = '<';
-  char endMarker = '>';
+  char endMarker = ';';
   char rc;                                                                      // Carattere letto dalla seriale
 
   while (nodeMCU.available() && newData == false) {
