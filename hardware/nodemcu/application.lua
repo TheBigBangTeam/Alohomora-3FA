@@ -65,12 +65,12 @@ local api_url = "http://192.168.43.143:3001"
 local token = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTcyZTY3YjU5ZWEzZDIyNGYzY2MzNWYiLCJpYXQiOjE1MTc0ODAxOTgsImlzcyI6IlRoZUJpZ0JhbmdUZWFtIn0.Q9Zq0T6KN6NuUOJg-SxmecrfekWVf35zgfDhcAtBvAVrhAZifzxPllJaVuFEhwaZHb-8g6pQ5TP4zdj1sPk0oQ"
 local response = {
   [1] = "",
-  [2] = "<okrt;",
-  [3] = "<wrt;",
+  [2] = "<okrt>",
+  [3] = "<wrt>",
   [4] = "pin_on",
-  [5] = "<okp;",
-  [6] = "<wp;",
-  [7] = "<err;"
+  [5] = "<okp>",
+  [6] = "<wp>",
+  [7] = "<err>"
 }
 
 
