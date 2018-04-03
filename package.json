@@ -42,7 +42,7 @@
     "start": "concurrently \"npm run server\" \"npm run client\" ",
     "build": "cd client && npm run build",
     "test": "export NODE_CONFIG_DIR=./server/config && nyc --reporter=html --reporter=text mocha server/src/**/* --exit",
-    "test-vuln": "snyk test",
+    "test-vuln": "snyk auth; snyk test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "standard | snazzy",
     "lint-fix": "standard --fix | snazzy"
