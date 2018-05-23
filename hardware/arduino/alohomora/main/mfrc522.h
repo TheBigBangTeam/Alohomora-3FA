@@ -6,7 +6,6 @@
 #include "utils.h"
 #include <SPI.h>
 #include <MFRC522.h>
-#include <MFRC522Extended.h>
 #include <require_cpp11.h>
 #include <deprecated.h>
 #include <SoftwareSerial.h>
